@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <config
+        linePaint.color="#00000000"
+        vertexPaint.color="#6666FF"
+        vertexPaint.strokeWidth="10dp"
+        fillPaint.color="#00000000"/>
+
+</PreferenceScreen>

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:text="@string/device_mode"
+                android:textColor="@color/text_view_color"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+
+            <TextView
+                android:id="@+id/config_Devicemode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:entries="@array/DeviceMode_arrays"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:text="@string/country"
+                android:textColor="@color/text_view_color"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+
+            <Spinner
+                android:id="@+id/config_countrycode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/CountryCode_arrays"
+                android:textColor="@color/colorPrimary"
+                android:textColorLink="@color/btn_login"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:text="SSID"
+                android:textColor="@color/text_view_color"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+
+            <EditText
+                android:id="@+id/config_ssid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/CustomTheme"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:textColor="@color/colorPrimary"
+                android:textColorLink="@color/btn_login"
+                android:textSize="15sp"
+                android:descendantFocusability="beforeDescendants"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                app:fontFamily="@font/calibril"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:text="Mode"
+                android:textColor="@color/text_view_color"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+
+            <Spinner
+                android:id="@+id/config_cmode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/mode_arrays"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:text="@string/channel"
+                android:textColor="@color/text_view_color"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+
+            <Spinner
+                android:id="@+id/config_CBW"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/bandwidth_arrays"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:text="Channel"
+                android:textColor="@color/text_view_color"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+
+            <EditText
+                android:id="@+id/config_channelNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:background="@android:color/transparent"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                app:fontFamily="@font/calibril" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:textColor="@color/text_view_color"
+                android:textSize="15sp"
+                android:text="IP Address Type"
+                app:fontFamily="@font/calibril" />
+
+            <Spinner
+                android:id="@+id/config_ipaddressType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/ipAddress_arrays"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/config_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:text="IP Address"
+                android:textColor="@color/text_view_color"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+
+            <TextView
+                android:id="@+id/config_ipaddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:focusable="false"
+                app:fontFamily="@font/calibril"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:text="Gateway"
+                android:textColor="@color/text_view_color"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+
+            <TextView
+                android:id="@+id/config_gateway"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                app:fontFamily="@font/calibril" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:text="NetMask"
+                android:textColor="@color/text_view_color"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+
+            <TextView
+                android:id="@+id/config_netmask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                app:fontFamily="@font/calibril" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:text="LinkId"
+                android:textColor="@color/text_view_color"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+
+            <EditText
+                android:id="@+id/config_LinkId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:maxLines="1"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                app:fontFamily="@font/calibril" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:text="Customer Name"
+                android:textColor="@color/text_view_color"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+
+            <EditText
+                android:id="@+id/config_custName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:background="@android:color/transparent"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                app:fontFamily="@font/calibril" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color" />
+
+        <Button
+            android:id="@+id/config_setRequestButton"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@color/text_view_color"
+            android:text="APPLY"
+            android:textColor="@color/white"
+            app:fontFamily="@font/calibril" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

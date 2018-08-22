@@ -1,0 +1,51 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:fontFamily">@font/calibril</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
+    </style>
+    <!-- Style to replace actionbar overflow icon. set item 'android:actionOverflowButtonStyle' in AppTheme -->
+    <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/menu_icon</item>
+    </style>
+
+    <style name="NoTitleDialog" parent="@style/Theme.AppCompat.Dialog">
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="NavigationTheme" parent="AppTheme">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:listPreferredItemHeightSmall">40dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+    </style>
+
+   <style name="TextAppearance.TabsFont" parent="android:TextAppearance">
+    <item name="android:fontFamily">@font/arial</item>
+    <item name="android:textSize">16sp</item>
+</style>
+    <style name="CustomTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:textSelectHandleLeft">@drawable/zero_px_transparent</item>
+        <item name="android:textSelectHandleRight">@drawable/zero_px_transparent</item>
+        <item name="android:textSelectHandle">@drawable/zero_px_transparent</item>
+    </style>
+
+</resources>

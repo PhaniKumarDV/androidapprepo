@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#f2f2f2</color>
+    <color name="colorPrimary">#663399</color>
+    <color name="colorBlue">#01a3c0</color>
+    <color name="colorRed">#CC0000</color>
+    <color name="bg_login">#26ae90</color>
+    <color name="bg_register">#666666</color>
+    <color name="bg_textcolor">#a9a9a9</color>
+    <color name="bg_main">#428bca</color>
+    <color name="black">#000000</color>
+    <color name="menu_color">#b01d5b</color>
+    <color name="white">#ffffff</color>
+    <color name="input_login">#222222</color>
+    <color name="input_login_hint">#999999</color>
+    <color name="input_register">#888888</color>
+    <color name="input_register_bg">#3b4148</color>
+    <color name="input_register_hint">#5e6266</color>
+    <color name="btn_login">#26ae90</color>
+    <color name="btn_login_bg">#eceef1</color>
+    <color name="lbl_name">#333333</color>
+    <color name="view_color">#444444</color>
+    <color name="btn_logut_bg">#ff6861</color>
+    <color name="text_view_color">#666</color>
+    <color name="text_view">#422551</color>
+    <color name="text_view1">#f1d7ff</color>
+    <color name="icon_bg">#f2f2f2</color>
+    <color name="progress_background">#f2f2f2</color>
+    <color name="progress_bar">#33f259</color>
+    <color name="green">#56b643</color>
+
+    <color name="bgBottomNavigation">#fe485a</color>
+
+</resources>

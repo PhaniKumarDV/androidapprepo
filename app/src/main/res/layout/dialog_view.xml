@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingTop="15sp"
+            app:fontFamily="@font/arial"
+            android:textSize="@dimen/text_medium_size"
+            android:textColor="@color/colorPrimary"
+            android:text="SSID" />
+
+        <TextView
+            android:id="@+id/dialog_wifi_ssid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15sp"
+            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            app:fontFamily="@font/arial"
+            android:textColor="@color/text_view_color"
+            android:textSize="@dimen/text_large_size" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingTop="15sp"
+            app:fontFamily="@font/arial"
+            android:textSize="@dimen/text_medium_size"
+            android:textColor="@color/colorPrimary"
+            android:text="BSSID" />
+
+        <TextView
+            android:id="@+id/dialog_wifi_bssid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            app:fontFamily="@font/arial"
+            android:textColor="@color/text_view_color"
+            android:textSize="@dimen/text_large_size"  />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingTop="15sp"
+            app:fontFamily="@font/arial"
+            android:textSize="@dimen/text_medium_size"
+            android:textColor="@color/colorPrimary"
+            android:text="Capabilities" />
+
+        <TextView
+            android:id="@+id/dialog_wifi_capabilities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            app:fontFamily="@font/arial"
+            android:textColor="@color/text_view_color"
+            android:textSize="@dimen/text_large_size"  />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            app:fontFamily="@font/arial"
+            android:paddingTop="15sp"
+            android:textSize="@dimen/text_medium_size"
+            android:textColor="@color/colorPrimary"
+            android:text="Frequency and channel" />
+
+        <TextView
+            android:id="@+id/dialog_wifi_frequecy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingBottom="15dp"
+            app:fontFamily="@font/arial"
+            android:textColor="@color/text_view_color"
+            android:textSize="@dimen/text_large_size" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            android:paddingTop="15sp"
+            android:textSize="@dimen/text_medium_size"
+            app:fontFamily="@font/arial"
+            android:textColor="@color/colorPrimary"
+            android:text="Channel width" />
+
+        <TextView
+            android:id="@+id/dialog_wifi_channelwidth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:paddingLeft="20dp"
+            android:paddingStart="20dp"
+            app:fontFamily="@font/arial"
+            android:textColor="@color/text_view_color"
+            android:textSize="@dimen/text_large_size"  />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color"/>
+
+        <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
+            android:id="@+id/simplePassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:textSize="14sp"
+            android:paddingStart="20dp"
+            app:fontFamily="@font/arial"
+            tools:ignore="HardcodedText"
+            android:paddingLeft="20dp" />
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/wifi_cancle_button"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/wifi_forgot_button"
+            android:textColor="@color/colorPrimary"
+            android:text="Cancel"
+            android:textStyle="bold"
+            app:fontFamily="@font/calibril" />
+
+        <Button
+            android:id="@+id/wifi_forgot_button"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_centerHorizontal="true"
+            android:text="FORGET"
+            android:textStyle="bold"
+            android:enabled="false"
+            app:fontFamily="@font/calibril" />
+
+        <Button
+            android:id="@+id/wifi_connect_button"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/wifi_forgot_button"
+            android:text="Connect"
+            android:textStyle="bold"
+            android:enabled="false"
+            app:fontFamily="@font/calibril" />
+
+        </RelativeLayout>
+
+
+        <!--<TextView
+            android:id="@+id/tx_dialog_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="270dp"
+            android:layout_marginStart="270dp"
+            android:paddingBottom="8dp"
+            android:text="Close"
+            android:textColor="@color/bg_login"
+            android:textSize="18sp" />-->
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

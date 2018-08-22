@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "146794100433",
+    "firebase_url": "https://falcontech-4be01.firebaseio.com",
+    "project_id": "falcontech-4be01",
+    "storage_bucket": "falcontech-4be01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146794100433:android:377f45fcbeae5d5e",
+        "android_client_info": {
+          "package_name": "com.hitsquadtechnologies.sifyconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146794100433-i6jjii7ks1adv0jhntieffr15oslt00s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_9wLPG0JuqGnq_wS4Sy5LpfFPsNXQ1vg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

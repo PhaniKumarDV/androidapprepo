@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:gauge="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/relativelay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/wifi_security"
+            android:layout_width="31dp"
+            android:layout_height="25dp"
+            android:layout_gravity="start"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/wifi"
+            gauge:ignore="RtlSymmetry" />
+
+        <TextView
+            android:id="@+id/wifi_name"
+            android:layout_width="120dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_toEndOf="@+id/wifi_security"
+            android:layout_toRightOf="@+id/wifi_security"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="text"
+            android:textColor="@color/text_view_color"
+            android:textSize="20sp"
+            app:fontFamily="@font/calibri" />
+
+        <TextView
+            android:id="@+id/Tx_channel"
+            android:layout_width="100dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_toEndOf="@+id/wifi_name"
+            android:layout_toRightOf="@+id/wifi_name"
+            android:gravity="center"
+            android:text="2442"
+            android:textColor="@color/text_view_color"
+            android:textSize="@dimen/text_large_size"
+            app:fontFamily="@font/calibri"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/signal_strength"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/calibri"
+            android:gravity="center"
+            android:text="-10"
+            android:textColor="@color/green"
+            android:textSize="24sp" />
+
+        <!--<LinearLayout
+            android:orientation="vertical"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_toEndOf="@+id/Tx_channel"
+            android:layout_toRightOf="@+id/Tx_channel"
+            >
+
+            <TextView
+                android:id="@+id/signal_strength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:fontFamily="@font/calibri"
+                android:text="-10"
+                android:textColor="@color/input_login"
+                android:textSize="12dp" />
+
+            <ImageView
+                android:id="@+id/Tx_wifi_rssi"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginTop="-8dp"
+                android:src="@drawable/full_signal1" />
+
+        </LinearLayout>-->
+
+        <TextView
+            android:id="@+id/connectedText"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_below="@+id/wifi_name"
+            android:layout_marginStart="57dp"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp"
+            android:textColor="@color/green"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="15dp"
+            android:progress="-95"
+            android:max="0"
+            android:min="-100"
+            android:maxHeight="10dp"
+            android:layout_marginBottom="15dp"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:progressTint="@color/green"
+            android:layout_below="@+id/connectedText"/>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

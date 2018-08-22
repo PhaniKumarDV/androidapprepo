@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_summary"
+            android:layout_width="wrap_content"
+            android:icon="@drawable/summary"
+            android:title="Summary" />
+
+        <item
+            android:id="@+id/nav_discovery"
+            android:layout_width="wrap_content"
+            android:icon="@drawable/discovery"
+            android:title="Discovery" />
+        <item
+            android:id="@+id/nav_configuration"
+            android:layout_width="wrap_content"
+            android:icon="@drawable/configuration"
+            android:title="Configuration" />
+
+        <item
+            android:id="@+id/nav_Alignment"
+            android:layout_width="wrap_content"
+            android:title="Alignment"
+            android:icon="@drawable/alingnment"/>
+
+        <item
+            android:layout_width="wrap_content"
+            android:id="@+id/nav_linktest"
+            android:title="Link Test"
+            android:icon="@drawable/bargraph"/>
+
+        <item
+            android:layout_width="wrap_content"
+            android:id="@+id/nav_wireless"
+            android:title="Statistics"
+            android:icon="@drawable/bargraph"/>
+
+        <item
+            android:layout_width="wrap_content"
+            android:id="@+id/nav_logout"
+            android:title="Logout"
+            android:icon="@drawable/bargraph"/>
+
+
+    </group>
+
+</menu>
