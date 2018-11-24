@@ -41,7 +41,8 @@
             android:layout_width="wrap_content"
             android:id="@+id/nav_logout"
             android:title="Logout"
-            android:icon="@drawable/bargraph"/>
+            android:icon="@drawable/bargraph"
+            android:visible="false"/>
 
 
     </group>

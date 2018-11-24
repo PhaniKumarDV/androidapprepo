@@ -22,7 +22,13 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".View.DiscoveryActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".View.signinActivity"
             android:screenOrientation="portrait" />
@@ -44,11 +50,6 @@
             android:exported="false" />
 
         <activity android:name=".View.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".View.StaticsActivity"></activity>
     </application>

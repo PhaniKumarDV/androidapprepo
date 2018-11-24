@@ -134,7 +134,7 @@ public class AlignmentActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_menu, menu);
+        //getMenuInflater().inflate(R.menu.menu_menu, menu);
         return true;
     }
     @Override
