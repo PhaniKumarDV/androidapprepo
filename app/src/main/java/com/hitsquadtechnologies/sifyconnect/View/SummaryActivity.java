@@ -40,8 +40,7 @@ import com.hsq.kw.packet.vo.KWWirelessLinkStats;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class SummaryActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+public class SummaryActivity extends BaseActivity {
     private XYPlot plot;
     ArrayList<Integer> series1Numbers1 = new ArrayList<>();
     ArrayList<Integer> series1Numbers2 = new ArrayList<>();
@@ -66,26 +65,13 @@ public class SummaryActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_link_alinger);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Summary");
+        this.onCreate("Summary", R.id.toolbar, R.id.drawer_layout, R.id.nav_view);
 
         plot = (XYPlot) findViewById(R.id.plot);
         addvaluesToarray();
         initialization();
-        navigationView();
     }
-    private void navigationView() {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.link_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
     private void initialization() {
 
         mLocalIPAddress     = (TextView)findViewById(R.id.WLink_LocalIpNetwork);
@@ -190,77 +176,6 @@ public class SummaryActivity extends AppCompatActivity
         series1Format.getPointLabelFormatter().getTextPaint().setColor(Color.RED);
         series2Format.getPointLabelFormatter().getTextPaint().setColor(Color.RED);
         plot.redraw();
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_menu, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.nav_discovery) {
-
-            Intent intent = new Intent(SummaryActivity.this,DiscoveryActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_configuration) {
-
-            Intent intent = new Intent(SummaryActivity.this,ConfigurationActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_summary) {
-
-            Intent intent = new Intent(SummaryActivity.this,SummaryActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_Alignment) {
-
-            Intent intent = new Intent(SummaryActivity.this,AlignmentActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_linktest) {
-
-            Intent intent = new Intent(SummaryActivity.this,LinkTestActivity.class);
-            startActivity(intent);
-        }else if (id == R.id.nav_wireless)
-        {
-            Intent intent = new Intent(SummaryActivity.this,StaticsActivity.class);
-            startActivity(intent);
-        }else if (id == R.id.nav_logout)
-        {
-            logout();
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.link_drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private void logout() {
-
-        Intent intent = new Intent(SummaryActivity.this,LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.link_drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     class ResponseListener implements TaskCompleted {

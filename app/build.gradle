@@ -35,6 +35,7 @@ dependencies {
     implementation 'com.androidplot:androidplot-core:1.5.5'
     implementation 'com.nhaarman.supertooltips:library:3.0.+'
     implementation 'com.venmo.view.tooltip:tooltip:0.1.2@aar'
+    implementation 'com.synnapps:carouselview:0.1.5'
     implementation files('lib/KLib.jar')
 }
 apply plugin: 'com.google.gms.google-services'

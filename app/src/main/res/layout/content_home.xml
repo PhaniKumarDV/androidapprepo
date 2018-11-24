@@ -4,52 +4,38 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/line1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:paddingStart="15dp"
-        android:paddingLeft="15dp">
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:background="#8a52b1">
 
         <TextView
             android:id="@+id/wifi_name"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="18sp"
-            app:fontFamily="@font/calibril"
-            android:textColor="@color/text_view_color"
-            android:text="SSID" />
+            android:text="@string/Dashboard.SSID.header"
+            android:layout_weight="4"
+            android:paddingLeft="8dp"
+            style="@style/DashboardHeader"/>
 
         <TextView
             android:id="@+id/Tx_channel"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/wifi_name"
-            android:layout_marginStart="10dp"
-            android:gravity="start"
-            android:textSize="18sp"
-            android:text="Freq (MHz)"
-            android:textColor="@color/text_view_color"
-            app:fontFamily="@font/calibril"
-            android:visibility="gone"/>
+            style="@style/DashboardHeader"
+            android:layout_weight="3"
+            android:text="@string/Dashboard.frequency.header" />
 
         <TextView
             android:id="@+id/Tx_wifi_rssi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="20dp"
-            android:gravity="center"
-            android:textSize="18sp"
-            app:fontFamily="@font/calibril"
-            android:textColor="@color/text_view_color"
-            android:text="RSSI(dBm)"/>
+            style="@style/DashboardHeader"
+            android:text="@string/Dashboard.RSSI.header"
+            android:layout_weight="3"
+            android:textAlignment="textEnd"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="wrap_content"

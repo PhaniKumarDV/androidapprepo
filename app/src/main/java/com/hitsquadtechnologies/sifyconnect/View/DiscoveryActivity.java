@@ -1,5 +1,6 @@
 package com.hitsquadtechnologies.sifyconnect.View;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -44,8 +45,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-public class DiscoveryActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class DiscoveryActivity extends BaseActivity {
 
     WifiManager wifiManager;
     WifiScanReceiver receiverWifi;
@@ -67,19 +67,8 @@ public class DiscoveryActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Discovery");
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
+        this.onCreate("Discovery", R.id.toolbar, R.id.drawer_layout, R.id.nav_view);
         initialization();
-        navigationview();
-
     }
 
     private void initialization()
@@ -93,24 +82,28 @@ public class DiscoveryActivity extends AppCompatActivity
             Toast.makeText(this, "WiFi is disabled ... We need to enable it", Toast.LENGTH_LONG).show();
             wifiManager.setWifiEnabled(true);
         }
+        if (mSharedPreference.showTour()) {
+            this.startActivity(new Intent(this, TourActivity.class));
+        }
         scaningForWifiList();
         listViewOnItemclickListner();
     }
 
-    private void navigationview()
-    {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
     private void scaningForWifiList()
     {
-        Toast.makeText(this, "Scanning....", Toast.LENGTH_LONG).show();
-        receiverWifi = new WifiScanReceiver();
-        registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        wifiManager.startScan();
-        connectWifiState = new WifiConnectionReceiver();
-        registerReceiver(connectWifiState, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+        requestPermission(Manifest.permission.ACCESS_COARSE_LOCATION,
+                new PermissionCallback() {
+                    @Override
+                    public void onGrant() {
+                        Toast.makeText(DiscoveryActivity.this, "Scanning....", Toast.LENGTH_LONG).show();
+                        receiverWifi = new WifiScanReceiver();
+                        registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+                        wifiManager.startScan();
+                        connectWifiState = new WifiConnectionReceiver();
+                        registerReceiver(connectWifiState, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+                    }
+                }
+        );
     }
 
     @Override
@@ -206,65 +199,6 @@ public class DiscoveryActivity extends AppCompatActivity
             mListViwProvider.setAdapter(adapter);
 
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.nav_discovery) {
-
-            Intent intent = new Intent(DiscoveryActivity.this,DiscoveryActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_configuration) {
-
-            Intent intent = new Intent(DiscoveryActivity.this,ConfigurationActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_summary) {
-
-            Intent intent = new Intent(DiscoveryActivity.this,SummaryActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_Alignment) {
-
-            Intent intent = new Intent(DiscoveryActivity.this,AlignmentActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_linktest) {
-
-            Intent intent = new Intent(DiscoveryActivity.this,LinkTestActivity.class);
-            startActivity(intent);
-        }else if (id == R.id.nav_wireless)
-        {
-            Intent intent = new Intent(DiscoveryActivity.this,StaticsActivity.class);
-            startActivity(intent);
-        }else if (id == R.id.nav_logout)
-        {
-            logout();
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private void logout() {
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(DiscoveryActivity.this,LoginActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     private void dialogView(final int position){

@@ -22,6 +22,7 @@ public class SharedPreference {
     private static final String KEY_DIRECTION = "Direction";
     private static final String KEY_ISTRUE = "StartorStop";
     private static final String KEY_WIFIMAC = "WifiMac";
+    private static final String KEY_TOUR = "Tour";
 
     public SharedPreference(Context context)
     {
@@ -107,5 +108,13 @@ public class SharedPreference {
         return pref.getBoolean(KEY_ISTRUE,false);
     }
 
+    public boolean showTour() {
+        return pref.getBoolean(KEY_TOUR, true);
+    }
+
+    public void setTour(boolean flag) {
+        editor.putBoolean(KEY_TOUR, flag);
+        editor.commit();
+    }
 
 }

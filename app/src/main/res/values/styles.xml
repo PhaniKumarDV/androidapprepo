@@ -48,4 +48,33 @@
         <item name="android:textSelectHandle">@drawable/zero_px_transparent</item>
     </style>
 
+    <style name="PoweredBy" parent="TextAppearance.AppCompat">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:background">@color/ap_charcoal</item>
+        <item name="android:paddingBottom">2sp</item>
+        <item name="android:paddingTop">2sp</item>
+    </style>
+    <style name="DashboardHeader" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">@font/calibril</item>
+    </style>
+    <style name="WifiDetails" parent="AppTheme">
+        <item name="android:background">@color/colorRed</item>
+    </style>
+
+    <style name="WifiDetails.Text" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 </resources>
