@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -186,10 +187,107 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="150dp"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/summary_bg2">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/guideline6"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.60" />
+
+            <com.sdsmdg.harjot.crollerTest.Croller
+                android:id="@+id/croller1"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                app:back_circle_color="@color/ap_transparent"
+                app:indicator_color="@color/ap_transparent"
+                app:indicator_width="10"
+                app:is_continuous="true"
+                app:label_color="@color/ap_transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintTop_toTopOf="parent"
+                app:main_circle_color="@color/ap_transparent"
+                app:max="100"
+                app:progress_primary_color="#FFFFFF"
+                app:progress_secondary_color="#33FFFFFF"
+                app:progress_primary_stroke_width="16"
+                app:progress_secondary_stroke_width="16"
+                app:progress="40"
+                app:start_offset="45" />
+
+            <com.sdsmdg.harjot.crollerTest.Croller
+                android:id="@+id/croller2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="8dp"
+                app:back_circle_color="@color/ap_transparent"
+                app:indicator_color="@color/ap_transparent"
+                app:indicator_width="10"
+                app:is_continuous="true"
+                app:label_color="@color/ap_transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline6"
+                app:layout_constraintTop_toTopOf="parent"
+                app:main_circle_color="@color/ap_transparent"
+                app:max="100"
+                app:progress="60"
+                app:progress_primary_color="#1facc5"
+                app:progress_primary_stroke_width="16"
+                app:progress_secondary_color="#33FFFFFF"
+                app:progress_secondary_stroke_width="16"
+                app:start_offset="45" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="GOOD"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/croller2"
+                app:layout_constraintEnd_toEndOf="@+id/croller2"
+                app:layout_constraintStart_toStartOf="@+id/croller2"
+                app:layout_constraintTop_toTopOf="@+id/croller2" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="100Mbps"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:text="7Mbps"
+                android:textColor="#1facc5"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         </android.support.constraint.ConstraintLayout>
 
