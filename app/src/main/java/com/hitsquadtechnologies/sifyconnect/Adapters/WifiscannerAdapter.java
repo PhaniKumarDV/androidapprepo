@@ -66,7 +66,7 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
             newViewHolder.frequencyLabel = convertView.findViewById(R.id.frequency);
 
             convertView.setTag(newViewHolder);
-            convertView.setOnClickListener(new View.OnClickListener() {
+            convertView.findViewById(R.id.wifi_list_item).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (newViewHolder.detailsLayout.getVisibility() == View.GONE) {
@@ -75,6 +75,8 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
                         }
                         newViewHolder.detailsLayout.setVisibility(View.VISIBLE);
                         lastShownWifiDetails = newViewHolder.detailsLayout;
+                    } else {
+                        newViewHolder.detailsLayout.setVisibility(View.GONE);
                     }
                 }
             });

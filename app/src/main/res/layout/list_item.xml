@@ -9,7 +9,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="88dp">
+        android:layout_height="64dp"
+        android:id="@+id/wifi_list_item">
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline"
@@ -35,14 +36,15 @@
         <TextView
             android:id="@+id/wifi_name"
             android:layout_width="0dp"
-            android:layout_height="24dp"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:ellipsize="end"
             android:maxLines="1"
+            android:paddingTop="4dp"
             android:text="wifi"
             android:textColor="@color/text_view_color"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:fontFamily="@font/calibri"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
@@ -55,14 +57,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/wifi_name"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="4dp"
             android:text="connected"
-            android:textColor="@color/green"
-            android:textSize="16sp"
+            android:textColor="@color/colorBlue"
+            android:textSize="10sp"
             android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/wifi_security"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@+id/wifi_name"
             app:layout_constraintTop_toBottomOf="@+id/wifi_name" />
 
         <TextView
