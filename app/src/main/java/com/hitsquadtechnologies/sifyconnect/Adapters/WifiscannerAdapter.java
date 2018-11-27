@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.wifi.ScanResult;
 import android.support.annotation.NonNull;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hitsquadtechnologies.sifyconnect.Model.wifiDetailsdata;
@@ -110,17 +107,17 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
 
         if(wifiData.getCapabilities().contains("WPA2"))
         {
-            viewHolder.wifisecurity.setImageResource(R.drawable.wl);
+            viewHolder.wifisecurity.setImageResource(R.drawable.discovery_secure_wifi);
             viewHolder.security.setText("WPA2");
             viewHolder.passwordInput.setVisibility(View.VISIBLE);
 
         }else if(!wifiData.getCapabilities().contains("WPA2") && wifiData.getCapabilities().contains("WPA"))
         {
-            viewHolder.wifisecurity.setImageResource(R.drawable.wl);
+            viewHolder.wifisecurity.setImageResource(R.drawable.discovery_insecure_wifi);
             viewHolder.security.setText("WPA");
             viewHolder.passwordInput.setVisibility(View.GONE);
         }else {
-            viewHolder.wifisecurity.setImageResource(R.drawable.w);
+            viewHolder.wifisecurity.setImageResource(R.drawable.discovery_insecure_wifi);
             viewHolder.security.setText("NONE");
             viewHolder.passwordInput.setVisibility(View.GONE);
         }

@@ -26,8 +26,7 @@ import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
 import com.hsq.kw.packet.vo.KWWirelessLinkStats;
 
-public class AlignmentActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class AlignmentActivity extends BaseActivity {
 
     UDPConnection mUDPConnection;
     ProgressBar mProgressBar01,mProgressBar02,mProgressBar03,mProgressBar04,mProgressBar05;
@@ -42,16 +41,8 @@ public class AlignmentActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagonise);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Alignment");
+        this.onCreate("Alignment", R.id.toolbar, R.id.diagonise_drawer_layout, R.id.nav_view);
         AlignInit();
-        navigationView();
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.diagonise_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
     }
 
     private void applyFontToMenuItem(MenuItem mi) {
@@ -91,11 +82,6 @@ public class AlignmentActivity extends AppCompatActivity
 
         mSharedPreference = new SharedPreference(AlignmentActivity.this);
         requestToServer();
-    }
-
-    private void navigationView() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void requestToServer() {
@@ -144,43 +130,6 @@ public class AlignmentActivity extends AppCompatActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-        if (id == R.id.nav_discovery) {
-            Intent intent = new Intent(AlignmentActivity.this,DiscoveryActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_configuration) {
-            Intent intent = new Intent(AlignmentActivity.this,ConfigurationActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_summary) {
-            Intent intent = new Intent(AlignmentActivity.this,SummaryActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_Alignment) {
-            Intent intent = new Intent(AlignmentActivity.this,AlignmentActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_linktest) {
-            Intent intent = new Intent(AlignmentActivity.this,LinkTestActivity.class);
-            startActivity(intent);
-        }else if (id == R.id.nav_wireless)
-        {
-            Intent intent = new Intent(AlignmentActivity.this,StaticsActivity.class);
-            startActivity(intent);
-        }else if (id == R.id.nav_logout)
-        {
-            logout();
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.diagonise_drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-    private void logout() {
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(AlignmentActivity.this,LoginActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     @SuppressLint("SetTextI18n")

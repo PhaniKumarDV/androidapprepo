@@ -36,6 +36,12 @@ import com.hitsquadtechnologies.sifyconnect.ServerPrograms.UDPConnection;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
 import com.hsq.kw.packet.vo.KWWirelessLinkStats;
+import com.jjoe64.graphview.DefaultLabelFormatter;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +66,9 @@ public class SummaryActivity extends BaseActivity {
     ProgressBar mProgressBar21,mProgressBar22,mProgressBar23,mProgressBar24,mProgressBar25;
     ProgressBar mProgressBar31,mProgressBar32,mProgressBar33,mProgressBar34,mProgressBar35;
     SharedPreference mSharedPreference;
+    GraphView areaGraph;
+    LineGraphSeries<DataPoint> localSeries;
+    LineGraphSeries<DataPoint> remoteSeries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +119,9 @@ public class SummaryActivity extends BaseActivity {
         mLocalRadio         = (TextView)findViewById(R.id.Local_radio);
         mRemoteRadio        = (TextView)findViewById(R.id.Remote_radio);
         mSharedPreference   = new SharedPreference(SummaryActivity.this);
+        areaGraph           = findViewById(R.id.area_graph);
+        initAreaGraph();
+        renderAreaGraph();
         requestToServer();
     }
 
@@ -321,5 +333,68 @@ public class SummaryActivity extends BaseActivity {
             if( i == 3 ){ p4.setProgress(20); }
             if( i == 4 ){ p5.setProgress(20); }
         }
+    }
+
+    private void initAreaGraph() {
+        areaGraph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+        localSeries = new LineGraphSeries<>(new DataPoint[] {});
+        int localSeriesColor = getResources().getColor(R.color.su_line_graph_color);
+        localSeries.setTitle("Local");
+        localSeries.setColor(localSeriesColor);
+        localSeries.setDrawBackground(true);
+        localSeries.setBackgroundColor(Color.argb(64, Color.red(localSeriesColor), Color.green(localSeriesColor), Color.blue(localSeriesColor)));
+        localSeries.setDrawDataPoints(false);
+        remoteSeries = new LineGraphSeries<>(new DataPoint[] {});
+        areaGraph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                return null;
+            }
+        });
+        int remoteSeriesColor = getResources().getColor(R.color.bsu_line_graph_color);
+        remoteSeries.setColor(remoteSeriesColor);
+        remoteSeries.setDrawBackground(true);
+        remoteSeries.setBackgroundColor(Color.argb(64, Color.red(remoteSeriesColor), Color.green(remoteSeriesColor), Color.blue(remoteSeriesColor)));
+        remoteSeries.setTitle("Remote");
+        remoteSeries.setDrawDataPoints(false);
+        LegendRenderer legendRenderer = areaGraph.getLegendRenderer();
+        legendRenderer.setVisible(true);
+        legendRenderer.setFixedPosition(0, 0);
+        legendRenderer.setTextSize(32);
+        legendRenderer.setTextColor(Color.parseColor("#000000"));
+        legendRenderer.setBackgroundColor(Color.argb(0, 0, 0, 0));
+        areaGraph.getViewport().setMaxY(10);
+        areaGraph.getViewport().setYAxisBoundsManual(true);
+        areaGraph.addSeries(localSeries);
+        areaGraph.addSeries(remoteSeries);
+    }
+
+    private void renderAreaGraph() {
+        localSeries.resetData(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 2),
+                new DataPoint(4, 3),
+                new DataPoint(5, 6),
+                new DataPoint(6, 7),
+                new DataPoint(7, 5),
+                new DataPoint(8, 2),
+                new DataPoint(9, 3),
+                new DataPoint(10, 8)
+        });
+        remoteSeries.resetData(new DataPoint[] {
+                new DataPoint(0, 5),
+                new DataPoint(1, 3),
+                new DataPoint(2, 4),
+                new DataPoint(3, 9),
+                new DataPoint(4, 7),
+                new DataPoint(5, 6),
+                new DataPoint(6, 5),
+                new DataPoint(7, 8),
+                new DataPoint(8, 3),
+                new DataPoint(9, 10),
+                new DataPoint(10, 8)
+        });
     }
 }

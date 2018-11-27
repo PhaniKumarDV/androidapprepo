@@ -1,10 +1,377 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:ap="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/summary_bg1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SU"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    app:srcCompat="@drawable/pic_holder" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/summary_bg6"
+                    android:gravity="center|bottom">
+
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guideline2"
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.33" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guideline3"
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.67" />
+
+
+                    <TextView
+                        android:id="@+id/WLink_LocalIpNetwork"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="4"
+                        android:gravity="bottom"
+                        android:text="192.168.1.5"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="10sp"
+                        app:fontFamily="@font/calibril"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/pic_holder" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="#ffffff"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/guideline2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/WLess_LocalMacAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="4"
+                        android:gravity="center"
+                        android:text="00:da.ab.23.56"
+                        android:textAlignment="center"
+                        android:textColor="#ffffff"
+                        android:textSize="10sp"
+                        app:fontFamily="@font/calibril"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                        app:layout_constraintStart_toEndOf="@+id/guideline2"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                        app:layout_constraintStart_toEndOf="@+id/guideline2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/pic_holder" />
+
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="#ffffff"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/guideline3"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/WLess_LocalGPS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="4"
+                        android:gravity="center"
+                        android:text="@string/BSU_GPS"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="10sp"
+                        app:fontFamily="@font/calibril"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline3"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline3"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/pic_holder" />
+
+                </android.support.constraint.ConstraintLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/summary_bg2">
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/summary_bg3"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BSU"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    app:srcCompat="@drawable/pic_holder" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/summary_bg5"
+                    android:gravity="center|bottom">
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guideline4"
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.33" />
+
+                    <android.support.constraint.Guideline
+                        android:id="@+id/guideline5"
+                        android:layout_width="1dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.67" />
+
+
+                    <TextView
+                        android:id="@+id/WLink_RemoteIpNetwork"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="4"
+                        android:gravity="bottom"
+                        android:text="192.168.1.5"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="10sp"
+                        app:fontFamily="@font/calibril"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/pic_holder" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="#ffffff"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/guideline4"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/WLess_RemoteMacAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="4"
+                        android:gravity="center"
+                        android:text="00:da.ab.23.56"
+                        android:textAlignment="center"
+                        android:textColor="#ffffff"
+                        android:textSize="10sp"
+                        app:fontFamily="@font/calibril"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                        app:layout_constraintStart_toEndOf="@+id/guideline4"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+
+
+                    <ImageView
+                        android:id="@+id/imageView6"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+                        app:layout_constraintStart_toEndOf="@+id/guideline4"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/pic_holder" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+                        android:background="#ffffff"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/guideline5"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/WLess_RemoteGPS"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="4"
+                        android:gravity="center"
+                        android:text="@string/BSU_GPS"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFF"
+                        android:textSize="10sp"
+                        app:fontFamily="@font/calibril"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline5"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+
+                    <ImageView
+                        android:id="@+id/imageView7"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/guideline5"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/pic_holder" />
+
+                </android.support.constraint.ConstraintLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/area_graph"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="0dp"/>
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -12,16 +379,16 @@
         android:layout_height="match_parent"
         android:background="#fff"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
             android:layout_marginStart="60dp"
+            android:paddingBottom="10dp"
             android:paddingTop="10dp">
 
             <ImageView
@@ -66,9 +433,9 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="BSU"
-                app:fontFamily="@font/calibril"
                 android:textColor="@color/text_view_color"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:fontFamily="@font/calibril" />
 
             <TextView
                 android:id="@+id/Remote_radio"
@@ -76,16 +443,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                app:fontFamily="@font/calibril"
                 android:text="SU"
                 android:textColor="@color/text_view_color"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:fontFamily="@font/calibril" />
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.25dp"
-            android:background="@color/text_view_color"/>
+            android:background="@color/text_view_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,35 +466,16 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                app:fontFamily="@font/calibril"
+                android:text="IP"
                 android:textColor="@color/text_view_color"
-                android:text="IP" />
-
-            <TextView
-                android:id="@+id/WLink_LocalIpNetwork"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                app:fontFamily="@font/calibril"
-                android:textColor="@color/text_view_color"
-                android:text="-" />
-
-            <TextView
-                android:id="@+id/WLink_RemoteIpNetwork"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                app:fontFamily="@font/calibril"
-                android:textColor="@color/text_view_color"
-                android:text="-" />
+                app:fontFamily="@font/calibril" />
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.25dp"
-            android:background="@color/text_view_color"/>
+            android:background="@color/text_view_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -139,76 +488,16 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                app:fontFamily="@font/calibril"
+                android:text="Mac"
                 android:textColor="@color/text_view_color"
-                android:text="Mac" />
-
-            <TextView
-                android:id="@+id/WLess_LocalMacAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/text_view_color"
-                android:gravity="center"
-                app:fontFamily="@font/calibril"
-                android:text="-" />
-
-            <TextView
-                android:id="@+id/WLess_RemoteMacAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                app:fontFamily="@font/calibril"
-                android:textColor="@color/text_view_color"
-                android:text="-" />
-
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.25dp"
-            android:background="@color/text_view_color"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp">
-
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                app:fontFamily="@font/calibril"
-                android:textColor="@color/text_view_color"
-                android:text="GPS" />
-
-            <TextView
-                android:id="@+id/WLess_LocalGPS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                app:fontFamily="@font/calibril"
-                android:textColor="@color/text_view_color"
-                android:text="@string/BSU_GPS" />
-
-            <TextView
-                android:id="@+id/WLess_RemoteGPS"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                app:fontFamily="@font/calibril"
-                android:textColor="@color/text_view_color"
-                android:text="@string/SU_GPS" />
+                app:fontFamily="@font/calibril" />
 
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.25dp"
-            android:background="@color/text_view_color"/>
+            android:background="@color/text_view_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -221,9 +510,32 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                app:fontFamily="@font/calibril"
+                android:text="GPS"
                 android:textColor="@color/text_view_color"
-                android:text="Rate" />
+                app:fontFamily="@font/calibril" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Rate"
+                android:textColor="@color/text_view_color"
+                app:fontFamily="@font/calibril" />
 
             <TextView
                 android:id="@+id/WLess_LocalRate"
@@ -231,25 +543,26 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                app:fontFamily="@font/calibril"
+                android:text="300Mbps"
                 android:textColor="@color/text_view_color"
-                android:text="300Mbps" />
+                app:fontFamily="@font/calibril" />
 
             <TextView
                 android:id="@+id/WLess_RemoteRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:fontFamily="@font/calibril"
                 android:gravity="center"
+                android:text="300Mbps"
                 android:textColor="@color/text_view_color"
-                android:text="300Mbps" />
+                app:fontFamily="@font/calibril" />
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.25dp"
-            android:background="@color/text_view_color"/>
+            android:background="@color/text_view_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -260,8 +573,8 @@
                 android:id="@+id/LocalSNR1"
                 android:layout_width="match_parent"
                 android:layout_height="15dp"
-                android:layout_weight="1"
                 android:layout_marginStart="30dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:text="500"
                 android:textColor="@color/text_view_color" />
@@ -287,87 +600,91 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="10dp"
                 android:paddingLeft="10dp"
+                android:paddingStart="10dp"
                 android:text="A1 " />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingStart="3dp"
-                android:paddingLeft="3dp"
                 android:layout_marginTop="6dp"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:paddingLeft="3dp"
+                android:paddingStart="3dp">
 
                 <ProgressBar
                     android:id="@+id/progressBar01"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar02"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:progressDrawable="@drawable/myprogressbar"/>
+                    android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar03"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar04"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
                     android:progress="0"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar05"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
                     android:progress="0"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="A1"/>
+                android:text="A1" />
 
             <LinearLayout
                 android:id="@+id/line2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingStart="3dp"
-                android:paddingLeft="3dp"
                 android:layout_marginTop="6dp"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:paddingLeft="3dp"
+                android:paddingStart="3dp">
 
                 <ProgressBar
                     android:id="@+id/progressBar11"
@@ -379,47 +696,51 @@
                     android:layout_weight="1"
                     android:max="20"
                     android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar12"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar13"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:progressDrawable="@drawable/myprogressbar"/>
+                    android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar14"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
                     android:progress="0"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar15"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
                     android:progress="0"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
             </LinearLayout>
 
@@ -444,9 +765,9 @@
                 android:id="@+id/RemoteSNR2"
                 android:layout_width="match_parent"
                 android:layout_height="15dp"
+                android:layout_marginStart="25dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_marginStart="25dp"
                 android:text="100"
                 android:textColor="@color/text_view_color" />
         </LinearLayout>
@@ -461,135 +782,142 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="10dp"
                 android:paddingLeft="10dp"
-                android:text="A2 "/>
+                android:paddingStart="10dp"
+                android:text="A2 " />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingStart="3dp"
-                android:paddingLeft="3dp"
                 android:layout_marginTop="4dp"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:paddingLeft="3dp"
+                android:paddingStart="3dp">
 
                 <ProgressBar
                     android:id="@+id/progressBar21"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar22"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar23"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar24"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:progressDrawable="@drawable/myprogressbar"/>
+                    android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar25"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="A2 "/>
+                android:text="A2 " />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingStart="3dp"
                 android:layout_marginTop="4dp"
+                android:layout_weight="1"
                 android:orientation="horizontal"
-                android:paddingLeft="3dp">
+                android:paddingLeft="3dp"
+                android:paddingStart="3dp">
 
                 <ProgressBar
                     android:id="@+id/progressBar31"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:progressDrawable="@drawable/myprogressbar"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="10dp"/>
+                    android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar32"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:progressDrawable="@drawable/myprogressbar"/>
+                    android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar33"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
+
                 <ProgressBar
                     android:id="@+id/progressBar34"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
 
                 <ProgressBar
                     android:id="@+id/progressBar35"
+                    style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="10dp"
                     android:layout_height="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:max="20"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginEnd="5dp"
-                    style="?android:attr/progressBarStyleHorizontal"
                     android:progressDrawable="@drawable/myprogressbar" />
 
             </LinearLayout>
@@ -622,12 +950,12 @@
             </LinearLayout>
 
             <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:orientation="horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -637,15 +965,15 @@
                 <Button
                     android:layout_width="20dp"
                     android:layout_height="7dp"
-                    android:layout_marginTop="6dp"
-                    android:background="#b01d5b"
+                    android:layout_marginLeft="4dp"
                     android:layout_marginStart="4dp"
-                    android:layout_marginLeft="4dp"/>
+                    android:layout_marginTop="6dp"
+                    android:background="#b01d5b" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="15dp"
-                    android:text="(in Mbps)"/>
+                    android:text="(in Mbps)" />
             </LinearLayout>
 
         </LinearLayout>
@@ -662,7 +990,7 @@
 
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
 
 
 

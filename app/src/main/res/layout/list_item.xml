@@ -125,6 +125,45 @@
             android:paddingBottom="8dp"
             android:paddingRight="8dp">
 
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="32dp"
+                android:rotation="180"
+                android:src="@drawable/discovery_expan_indicator"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/discovery_bssid"
+                app:layout_constraintEnd_toStartOf="@+id/bssidLabel"
+                app:layout_constraintTop_toBottomOf="@+id/imageView11" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/discovery_security"
+                app:layout_constraintEnd_toStartOf="@+id/securityLabel"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/discovery_channel_width"
+                app:layout_constraintEnd_toStartOf="@+id/channelWidthLabel"
+                app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
             <android.support.constraint.Guideline
                 android:id="@+id/firstGuide"
