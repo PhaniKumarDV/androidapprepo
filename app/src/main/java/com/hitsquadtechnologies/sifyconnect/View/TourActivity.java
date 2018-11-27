@@ -1,8 +1,10 @@
 package com.hitsquadtechnologies.sifyconnect.View;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,11 +45,13 @@ public class TourActivity extends AppCompatActivity {
         });
         carouselView.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             private int i = 0;
+            private boolean reachedEnd = false;
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position == sampleImages.length - 1) {
-                    endTourBtn.setText(R.string.end_tour);
+                if (position == sampleImages.length - 1 && reachedEnd) {
+                    TourActivity.this.endTour(null);
                 }
+                reachedEnd = position == sampleImages.length - 1;
             }
 
             @Override
@@ -59,6 +63,7 @@ public class TourActivity extends AppCompatActivity {
     }
 
     public void endTour(View view) {
+        this.startActivity(new Intent(TourActivity.this, DiscoveryActivity.class));
         this.finish();
     }
 }

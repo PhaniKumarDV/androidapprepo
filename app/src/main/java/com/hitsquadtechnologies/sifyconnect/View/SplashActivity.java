@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.hitsquadtechnologies.sifyconnect.R;
+import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -24,8 +25,12 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 /* Create an Intent that will start the Menu-Activity. */
-                Intent mainIntent = new Intent(SplashActivity.this,LoginActivity.class);
-                SplashActivity.this.startActivity(mainIntent);
+                SharedPreference sharedPreference = new SharedPreference(SplashActivity.this);
+                if (sharedPreference.showTour()) {
+                    SplashActivity.this.startActivity(new Intent(SplashActivity.this, TourActivity.class));
+                } else {
+                    SplashActivity.this.startActivity(new Intent(SplashActivity.this, DiscoveryActivity.class));
+                }
                 SplashActivity.this.finish();
             }
         }, SPLASH_DISPLAY_LENGTH);

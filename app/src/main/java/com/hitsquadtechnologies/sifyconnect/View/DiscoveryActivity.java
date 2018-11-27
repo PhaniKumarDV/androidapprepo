@@ -11,18 +11,10 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Messenger;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.SparseArray;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -31,7 +23,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.hitsquadtechnologies.sifyconnect.Adapters.WifiscannerAdapter;
 import com.hitsquadtechnologies.sifyconnect.BroadcostReceivers.WifiConnectionReceiver;
 import com.hitsquadtechnologies.sifyconnect.Model.wifiDetailsdata;
@@ -43,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 public class DiscoveryActivity extends BaseActivity {
 
@@ -66,8 +56,8 @@ public class DiscoveryActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        this.onCreate("Discovery", R.id.toolbar, R.id.drawer_layout, R.id.nav_view);
+        setContentView(R.layout.activity_discovery);
+        this.onCreate("Discovery", R.id.toolbar, true);
         initialization();
     }
 

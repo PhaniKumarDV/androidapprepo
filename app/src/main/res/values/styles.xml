@@ -38,10 +38,11 @@
         <item name="android:layout_marginBottom">0dp</item>
     </style>
 
-   <style name="TextAppearance.TabsFont" parent="android:TextAppearance">
-    <item name="android:fontFamily">@font/arial</item>
-    <item name="android:textSize">16sp</item>
-</style>
+    <style name="TextAppearance.TabsFont" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/arial</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="CustomTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:textSelectHandleLeft">@drawable/zero_px_transparent</item>
         <item name="android:textSelectHandleRight">@drawable/zero_px_transparent</item>
@@ -56,6 +57,7 @@
         <item name="android:paddingBottom">2sp</item>
         <item name="android:paddingTop">2sp</item>
     </style>
+
     <style name="DashboardHeader" parent="TextAppearance.AppCompat">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
@@ -64,6 +66,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:fontFamily">@font/calibril</item>
     </style>
+
     <style name="WifiDetails" parent="AppTheme">
         <item name="android:background">@color/colorRed</item>
     </style>

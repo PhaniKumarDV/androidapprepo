@@ -36,8 +36,7 @@ import com.hsq.kw.packet.vo.Configuration;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigurationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+public class ConfigurationActivity extends BaseActivity {
 
     Configuration  mConfiguration;
     UDPConnection  mUdpClientThread;
@@ -59,25 +58,8 @@ public class ConfigurationActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuration);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Configuration");
+        this.onCreate("Configuration", R.id.toolbar, true);
         ConfigInit();
-
-        DrawerLayout drawer      = (DrawerLayout) findViewById(R.id.configuration_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer,toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        navigationView();
-    }
-
-    private void applyFontToMenuItem(MenuItem mi) {
-        Typeface font = Typeface.createFromAsset(getAssets(), "font/calibri.ttf");
-        SpannableString mNewTitle = new SpannableString(mi.getTitle());
-        mNewTitle.setSpan(new CustomTypefaceSpan("" , font), 0 , mNewTitle.length(),  Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        mi.setTitle(mNewTitle);
     }
 
     private void ConfigInit() {
@@ -109,80 +91,12 @@ public class ConfigurationActivity extends AppCompatActivity
         progress.show();
     }
 
-    private void navigationView()
-    {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-    }
-
         private void requestToServer()
         {
             mConfiguration    = new Configuration();
             mUdpClientThread = new UDPConnection(mSharedPreference.getIPAddress(), 9181,mConfiguration.getPacket(),new ResponseListener());
             mUdpClientThread.start();
        }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if ( id == R.id.action_settings ) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if ( id == R.id.nav_discovery ) {
-            Intent intent = new Intent(ConfigurationActivity.this,DiscoveryActivity.class);
-            startActivity(intent);
-        } else if ( id == R.id.nav_configuration ) {
-            Intent intent = new Intent(ConfigurationActivity.this,ConfigurationActivity.class);
-            startActivity(intent);
-        } else if ( id == R.id.nav_summary ) {
-            Intent intent = new Intent(ConfigurationActivity.this,SummaryActivity.class);
-            startActivity(intent);
-        } else if ( id == R.id.nav_Alignment ) {
-            Intent intent = new Intent(ConfigurationActivity.this,AlignmentActivity.class);
-            startActivity(intent);
-        } else if ( id == R.id.nav_linktest ) {
-            Intent intent = new Intent(ConfigurationActivity.this,LinkTestActivity.class);
-            startActivity(intent);
-        }else if (id == R.id.nav_wireless)
-        {
-            Intent intent = new Intent(ConfigurationActivity.this,StaticsActivity.class);
-            startActivity(intent);
-        }else if (id == R.id.nav_logout)
-        {
-            logout();
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.configuration_drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-    private void logout() {
-        Intent intent = new Intent(ConfigurationActivity.this,LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.configuration_drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
 
     class ResponseListener implements TaskCompleted {

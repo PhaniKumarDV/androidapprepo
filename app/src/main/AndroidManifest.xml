@@ -22,13 +22,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".View.DiscoveryActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".View.signinActivity"
             android:screenOrientation="portrait" />
@@ -49,10 +43,21 @@
             android:name=".BroadcostReceivers.WifiConnectionReceiver"
             android:exported="false" />
 
-        <activity android:name=".View.SplashActivity"></activity>
-        <activity android:name=".View.StaticsActivity" />
-        <activity android:name=".View.TourActivity">
+        <activity
+            android:name=".View.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity android:name=".View.StaticsActivity" />
+        <activity android:name=".View.TourActivity" />
+        <activity
+            android:name=".View.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

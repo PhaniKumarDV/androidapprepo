@@ -1,53 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".View.HomeActivity"
+    tools:showIn="@layout/activity_home">
 
-    <LinearLayout
-        android:id="@+id/line1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="4dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="4dp"
-        android:background="#8a52b1">
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/wifi_name"
-            android:text="@string/Dashboard.SSID.header"
-            android:layout_weight="4"
-            android:paddingLeft="8dp"
-            style="@style/DashboardHeader"/>
+    <ImageView
+        android:id="@+id/summaryIcon"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/summary"
+        android:onClick="goToSummary"/>
 
-        <TextView
-            android:id="@+id/Tx_channel"
-            style="@style/DashboardHeader"
-            android:layout_weight="3"
-            android:text="@string/Dashboard.frequency.header" />
+    <ImageView
+        android:id="@+id/configurationIcon"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/summaryIcon"
+        app:srcCompat="@drawable/configuration"
+        android:onClick="goToConfiguration" />
 
-        <TextView
-            android:id="@+id/Tx_wifi_rssi"
-            style="@style/DashboardHeader"
-            android:text="@string/Dashboard.RSSI.header"
-            android:layout_weight="3"
-            android:textAlignment="textEnd"/>
+    <ImageView
+        android:id="@+id/linkTestIcon"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintHorizontal_bias="0.64"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/configurationIcon"
+        app:srcCompat="@drawable/linktest"
+        android:onClick="goToLinkTest" />
 
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/discoveryIcon"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.34"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/discovery"
+        android:onClick="goToDiscovery" />
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="0.7dp"
-        android:layout_gravity="center"
-        android:layout_below="@+id/line1"
-        android:background="@color/view_color" />
-
-    <ListView
-        android:id="@+id/list_view_wifi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/line1"/>
-
-</RelativeLayout>
+    <ImageView
+        android:id="@+id/alignmentIcon"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.34"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/discoveryIcon"
+        app:srcCompat="@drawable/alignment"
+        android:onClick="goToAlignment" />
+</android.support.constraint.ConstraintLayout>

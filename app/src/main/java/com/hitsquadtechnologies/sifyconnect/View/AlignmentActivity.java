@@ -1,6 +1,7 @@
 package com.hitsquadtechnologies.sifyconnect.View;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.design.widget.NavigationView;
@@ -12,8 +13,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -35,14 +40,30 @@ public class AlignmentActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagonise);
-        this.onCreate("Alignment", R.id.toolbar, R.id.diagonise_drawer_layout, R.id.nav_view);
+        this.onCreate("Alignment", R.id.toolbar, true);
         AlignInit();
     }
 
 
     private void AlignInit() {
         mSharedPreference = new SharedPreference(AlignmentActivity.this);
+        renderSignal(this, (LinearLayout) findViewById(R.id.signalLinesLayout), 3);
         requestToServer();
+    }
+
+    public void renderSignal(Activity a, LinearLayout v, int strength) {
+        int height = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                8,
+                getResources().getDisplayMetrics()
+        );
+        v.removeAllViews();
+        for(int i = 0; i < strength; i++) {
+            ImageView imageView = new ImageView(a);
+            imageView.setImageDrawable(a.getResources().getDrawable(R.drawable.signal_line));
+            imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
+            v.addView(imageView);
+        }
     }
 
     private void requestToServer() {

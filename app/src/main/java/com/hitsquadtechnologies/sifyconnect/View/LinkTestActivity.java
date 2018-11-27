@@ -47,7 +47,7 @@ public class LinkTestActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tool);
-        this.onCreate("Link Test", R.id.toolbar, R.id.tools_drawer_layout, R.id.nav_view);
+        this.onCreate("Link Test", R.id.toolbar, true);
         initi();
     }
 

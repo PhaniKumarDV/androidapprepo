@@ -1,5 +1,6 @@
 package com.hitsquadtechnologies.sifyconnect.View;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -10,8 +11,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.hitsquadtechnologies.sifyconnect.R;
@@ -35,23 +38,41 @@ public class BaseActivity extends AppCompatActivity
     private DrawerLayout mDrawerLayout;
 
     protected void onCreate(String title, int toolBarId) {
-        this.mToolbar = findViewById(toolBarId);
-        setSupportActionBar(this.mToolbar);
-        getSupportActionBar().setTitle(title);
+        this.onCreate(title, toolBarId, false, -1, -1);
     }
 
-    protected void onCreate(int drawerLayoutId, int drawerNavId) {
-        this.mDrawerLayout = findViewById(drawerLayoutId);
-        NavigationView navigationView = findViewById(drawerNavId);
-        navigationView.setNavigationItemSelectedListener(this);
+    protected void onCreate(String title, int toolBarId, boolean isNavEnabled) {
+        this.onCreate(title, toolBarId, isNavEnabled, -1, -1);
     }
 
     protected void onCreate(String title, int toolBarId, int drawerLayoutId, int drawerNavId) {
-        this.onCreate(title, toolBarId);
-        this.onCreate(drawerLayoutId, drawerNavId);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, this.mDrawerLayout, this.mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        mDrawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+        onCreate(title, toolBarId, false, drawerLayoutId, drawerNavId);
+    }
+
+    protected void onCreate(String title, int toolBarId, boolean isNavEnabled, int drawerLayoutId, int drawerNavId) {
+        final Activity self = this;
+        this.mToolbar = findViewById(toolBarId);
+        setSupportActionBar(this.mToolbar);
+        getSupportActionBar().setTitle(title);
+        if (isNavEnabled) {
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    self.startActivity(new Intent(self, HomeActivity.class));
+                }
+            });
+            mToolbar.setNavigationIcon(R.drawable.menu_icon);
+        }
+        if (!isNavEnabled && drawerLayoutId >= 0 && drawerNavId >= 0) {
+            this.mDrawerLayout = findViewById(drawerLayoutId);
+            NavigationView navigationView = findViewById(drawerNavId);
+            navigationView.setNavigationItemSelectedListener(this);
+        }
+        if (mDrawerLayout != null) {
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, this.mDrawerLayout, this.mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            mDrawerLayout.addDrawerListener(toggle);
+            toggle.syncState();
+        }
     }
 
     public void requestPermission(String permissionCode, @NonNull PermissionCallback callback) {
@@ -153,7 +174,7 @@ public class BaseActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+        if (this.mDrawerLayout != null && this.mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();

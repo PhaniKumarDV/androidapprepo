@@ -1,7 +1,7 @@
 package com.hitsquadtechnologies.sifyconnect.View;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
@@ -10,16 +10,14 @@ import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -74,7 +72,7 @@ public class SummaryActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_link_alinger);
-        this.onCreate("Summary", R.id.toolbar, R.id.drawer_layout, R.id.nav_view);
+        this.onCreate("Summary", R.id.toolbar, true);
 
         plot = (XYPlot) findViewById(R.id.plot);
         addvaluesToarray();
@@ -120,9 +118,27 @@ public class SummaryActivity extends BaseActivity {
         mRemoteRadio        = (TextView)findViewById(R.id.Remote_radio);
         mSharedPreference   = new SharedPreference(SummaryActivity.this);
         areaGraph           = findViewById(R.id.area_graph);
+        renderSNR(this, (LinearLayout) findViewById(R.id.suA1Rating), 4, 10);
+        renderSNR(this, (LinearLayout) findViewById(R.id.suA2Rating), 6, 10);
+        renderSNR(this, (LinearLayout) findViewById(R.id.bsuA1Rating), 5, 10);
+        renderSNR(this, (LinearLayout) findViewById(R.id.bsuA2Rating), 8, 10);
         initAreaGraph();
         renderAreaGraph();
         requestToServer();
+    }
+
+    public void renderSNR(Activity a, LinearLayout v, int strength, int max) {
+        v.removeAllViews();
+        int w = v.getLayoutParams().width;
+        for(int i = 0; i < max; i++) {
+            int imageId = i < strength ? R.drawable.signal_bar_active : R.drawable.signal_bar;
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (0.07 * w), ViewGroup.LayoutParams.MATCH_PARENT);
+            ImageView imageView = new ImageView(a);
+            imageView.setImageDrawable(a.getResources().getDrawable(imageId));
+            layoutParams.rightMargin = (int) (0.03 * w);
+            imageView.setLayoutParams(layoutParams);
+            v.addView(imageView);
+        }
     }
 
 
