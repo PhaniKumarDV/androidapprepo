@@ -10,12 +10,12 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 
 
 public class WifiConnectionReceiver extends BroadcastReceiver {
 
-    private boolean isReceiverRegistered = false;
     SharedPreference mSharedPreference;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -33,8 +33,9 @@ public class WifiConnectionReceiver extends BroadcastReceiver {
                 Log.e("ssid", ssid);
 
                 String bssid = wifiInfo.getBSSID();
-                int IPAddress = wifiManager.getDhcpInfo().gateway;
-                mSharedPreference.saveIPAddress(intToIp(IPAddress),method(ssid),bssid);
+                String iPAddress = intToIp(wifiManager.getDhcpInfo().gateway);
+                mSharedPreference.saveIPAddress(iPAddress,method(ssid),bssid);
+                RouterService.INSTANCE.connectTo(iPAddress);
                 Log.e("ipaddress", method(ssid) + "XXXXXXXX");
                 //Log.e("INFO", " -- Wifi XXXXXXXXXXXXXXXconnected --- " + " SSID " + ssid );
 

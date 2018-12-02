@@ -5,12 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/tools_drawer_layout"
+    android:id="@+id/diagonise_drawer_layout"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
+
     <include
-        layout="@layout/app_bar_tools"
+        layout="@layout/app_bar_alignment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -19,9 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
         app:itemIconTint="@color/text_view"
         app:itemTextColor="@color/text_view"
+        android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         android:theme="@style/NavigationTheme"
         app:menu="@menu/drawer_menu" />

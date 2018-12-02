@@ -104,7 +104,7 @@
     <string name="title_cart">Cart</string>
     <string name="title_profile">Profile</string>
 
-    <string name="toast">Mac address is empty</string>
+    <string name="mac_address_is_empty_toast">Mac address is empty</string>
 
 
     <string name="Dashboard.SSID.header">SSID</string>

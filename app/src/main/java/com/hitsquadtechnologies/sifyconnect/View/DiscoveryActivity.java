@@ -1,7 +1,6 @@
 package com.hitsquadtechnologies.sifyconnect.View;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,13 +11,9 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,13 +38,12 @@ public class DiscoveryActivity extends BaseActivity {
     WifiConnectionReceiver connectWifiState;
     ArrayList<wifiDetailsdata> scannedWifisDetailsArrayList;
     ListView mListViwProvider;
-    String txpassword;
-    TextView mSignalstength;
     boolean isConnected = false;
     WifiscannerAdapter  adapter;
     SharedPreference mSharedPreference;
     ShowHidePasswordEditText password;
     WifiManager mConnectwifiManager;
+    boolean mScanStopped;
 
 
 
@@ -77,6 +71,7 @@ public class DiscoveryActivity extends BaseActivity {
         }
         scaningForWifiList();
         listViewOnItemclickListner();
+        mConnectwifiManager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
     private void scaningForWifiList()
@@ -122,16 +117,13 @@ public class DiscoveryActivity extends BaseActivity {
     {
         isConnected = false;
         TextView ssid = (TextView) view.findViewById(R.id.wifi_name);
-        if(ssid.getText().toString().equalsIgnoreCase(mSharedPreference.getSsid()))
-         {
+        if(ssid.getText().toString().equalsIgnoreCase(mSharedPreference.getSsid())) {
            isConnected = true;
-         }
-         dialogView(position);
+        }
     }
 
-    private void connectToWifi(int position,String pass)
+    public void connectToWifi(String networkSSID,String pass)
     {
-        String networkSSID     = scannedWifisDetailsArrayList.get(position).getSSID();
         WifiConfiguration conf = new WifiConfiguration();
                      conf.SSID = "\"" + networkSSID + "\"";
              conf.preSharedKey = "\""+ pass +"\"";
@@ -164,9 +156,20 @@ public class DiscoveryActivity extends BaseActivity {
         super.onResume();
     }
 
+    public void stopScan() {
+        mScanStopped = true;
+    }
+
+    public void startScan() {
+        mScanStopped = false;
+    }
+
     class WifiScanReceiver extends BroadcastReceiver {
         @RequiresApi(api = Build.VERSION_CODES.M)
         public void onReceive(Context c, Intent intent) {
+            if (DiscoveryActivity.this.mScanStopped) {
+                return;
+            }
             wifiList = wifiManager.getScanResults();
             Collections.sort(wifiList, new Comparator<ScanResult>() {
                 @Override
@@ -191,104 +194,10 @@ public class DiscoveryActivity extends BaseActivity {
         }
     }
 
-    private void dialogView(final int position){
-
-        final Dialog dialog = new Dialog(DiscoveryActivity.this);
-        dialog.setContentView(R.layout.dialog_view);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        TextView txSsid = (TextView) dialog.findViewById(R.id.dialog_wifi_ssid);
-        TextView textbssia = (TextView) dialog.findViewById(R.id.dialog_wifi_bssid);
-        TextView textcapabilites = (TextView) dialog.findViewById(R.id.dialog_wifi_capabilities);
-        TextView textFrequency = (TextView) dialog.findViewById(R.id.dialog_wifi_frequecy);
-        TextView txchannelwidth = (TextView) dialog.findViewById(R.id.dialog_wifi_channelwidth);
-        Button closeButton = (Button) dialog.findViewById(R.id.wifi_cancle_button);
-        Button forgotButton = (Button) dialog.findViewById(R.id.wifi_forgot_button);
-        Button connectbutton = (Button) dialog.findViewById(R.id.wifi_connect_button);
-        password = (ShowHidePasswordEditText) dialog.findViewById(R.id.simplePassword);
-
-        txSsid.setText(scannedWifisDetailsArrayList.get(position).getSSID());
-        textbssia.setText(String.format("%s", scannedWifisDetailsArrayList.get(position).getBSSID()));
-        textcapabilites.setText(String.format("%s", scannedWifisDetailsArrayList.get(position).getCapabilities()));
-        textFrequency.setText(new StringBuilder().append(scannedWifisDetailsArrayList.get(position).getFrequency()).append(" MHz").toString());
-        mConnectwifiManager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-
-        if(isConnected)
-        {
-            forgotButton.setEnabled(true);
-            forgotButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-            connectbutton.setEnabled(false);
-            password.setVisibility(View.GONE);
-
-        } else {
-            connectbutton.setEnabled(true);
-            forgotButton.setEnabled(false);
-            connectbutton.setTextColor(getResources().getColor(R.color.colorPrimary));
-            password.setVisibility(View.VISIBLE);
-        }
-
-        if(scannedWifisDetailsArrayList.get(position).getChannelWidth() == 0) {
-            txchannelwidth.setText("20 MHz");
-        } else if(scannedWifisDetailsArrayList.get(position).getChannelWidth() == 1) {
-            txchannelwidth.setText("40 MHz");
-        } else if(scannedWifisDetailsArrayList.get(position).getChannelWidth() == 2) {
-            txchannelwidth.setText("  MHz");
-        }
-
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                dialog.dismiss();
-            }
-        });
-        connectbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                txpassword = password.getText().toString();
-                String ssid = ((TextView) view).getText().toString();
-                connectToWifi(position,txpassword);
-               // String mSsid = mSharedPreference.getSsid();
-                String bssid = mSharedPreference.getWifiMac();
-                if(bssid != null){
-                    adapter = new WifiscannerAdapter(DiscoveryActivity.this, scannedWifisDetailsArrayList,bssid);
-                    mListViwProvider.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                }
-                dialog.dismiss();
-            }
-        });
-
-        forgotButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                forgetPassword();
-
-                adapter = new WifiscannerAdapter(DiscoveryActivity.this, scannedWifisDetailsArrayList,mSharedPreference.getWifiMac());
-                mListViwProvider.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
-
     private void forgetPassword(){
             int networkId = mConnectwifiManager.getConnectionInfo().getNetworkId();
             Log.d("networkId", String.valueOf(networkId));
             mConnectwifiManager.removeNetwork(networkId);
             mConnectwifiManager.saveConfiguration();
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 }

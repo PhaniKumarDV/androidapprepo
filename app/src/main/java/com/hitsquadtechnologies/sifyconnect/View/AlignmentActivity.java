@@ -2,30 +2,16 @@ package com.hitsquadtechnologies.sifyconnect.View;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.hitsquadtechnologies.sifyconnect.Interfaces.TaskCompleted;
 import com.hitsquadtechnologies.sifyconnect.R;
-import com.hitsquadtechnologies.sifyconnect.utils.CustomTypefaceSpan;
 import com.hitsquadtechnologies.sifyconnect.ServerPrograms.UDPConnection;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
@@ -39,7 +25,7 @@ public class AlignmentActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diagonise);
+        setContentView(R.layout.activity_alignment);
         this.onCreate("Alignment", R.id.toolbar, true);
         AlignInit();
     }

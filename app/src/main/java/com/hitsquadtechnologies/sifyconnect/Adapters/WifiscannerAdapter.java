@@ -1,6 +1,5 @@
 package com.hitsquadtechnologies.sifyconnect.Adapters;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.wifi.ScanResult;
@@ -17,19 +16,20 @@ import android.widget.TextView;
 
 import com.hitsquadtechnologies.sifyconnect.Model.wifiDetailsdata;
 import com.hitsquadtechnologies.sifyconnect.R;
+import com.hitsquadtechnologies.sifyconnect.View.DiscoveryActivity;
 
 import java.util.List;
 
 
 public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
 
-    private Context mContext;
+    private DiscoveryActivity mContext;
     private List<wifiDetailsdata> wifiDetailsarrayList;
     private String mConnectedWifiSSID;
     private LayoutInflater inflater;
     private View lastShownWifiDetails;
 
-    public WifiscannerAdapter(Context context, List<wifiDetailsdata> wifiDetailsList, String ConnectedWifissid) {
+    public WifiscannerAdapter(DiscoveryActivity context, List<wifiDetailsdata> wifiDetailsList, String ConnectedWifissid) {
         super(context, R.layout.list_item, wifiDetailsList);
         mContext = context;
         this.mConnectedWifiSSID = ConnectedWifissid;
@@ -78,11 +78,20 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
                     } else {
                         newViewHolder.detailsLayout.setVisibility(View.GONE);
                     }
+                    WifiscannerAdapter.this.mContext.stopScan();
+                }
+            });
+            newViewHolder.connectBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    WifiscannerAdapter.this.mContext.startScan();
+                    WifiscannerAdapter.this.mContext.connectToWifi(newViewHolder.wifiProvider.getText().toString(), newViewHolder.passwordInput.getText().toString());
                 }
             });
             newViewHolder.cancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    WifiscannerAdapter.this.mContext.startScan();
                     newViewHolder.detailsLayout.setVisibility(View.GONE);
                 }
             });

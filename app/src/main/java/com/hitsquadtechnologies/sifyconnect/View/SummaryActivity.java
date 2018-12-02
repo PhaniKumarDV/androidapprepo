@@ -3,34 +3,14 @@ package com.hitsquadtechnologies.sifyconnect.View;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Paint;
-import android.graphics.Shader;
-import android.graphics.Typeface;
-import android.location.Location;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.androidplot.xy.BoundaryMode;
-
-import com.androidplot.xy.LineAndPointFormatter;
-import com.androidplot.xy.SimpleXYSeries;
-import com.androidplot.xy.XYPlot;
-import com.androidplot.xy.XYSeries;
-import com.hitsquadtechnologies.sifyconnect.Interfaces.TaskCompleted;
 import com.hitsquadtechnologies.sifyconnect.R;
-import com.hitsquadtechnologies.sifyconnect.utils.CustomTypefaceSpan;
-import com.hitsquadtechnologies.sifyconnect.ServerPrograms.UDPConnection;
+import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
 import com.hsq.kw.packet.vo.KWWirelessLinkStats;
@@ -40,42 +20,37 @@ import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.sdsmdg.harjot.crollerTest.Croller;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 
 public class SummaryActivity extends BaseActivity {
-    private XYPlot plot;
-    ArrayList<Integer> series1Numbers1 = new ArrayList<>();
-    ArrayList<Integer> series1Numbers2 = new ArrayList<>();
-    XYSeries series1;
-    XYSeries series2;
-    UDPConnection mUDPConnection;
+
+    private static final int MAX_DATA_POINTS = 10;
+
+    RouterService.Subscription mSubscription;
     TextView mLocalIPAddress,mRemoteIPaddress;
     TextView mLocalMacAddress,mRemoteMacaddress;
     TextView mLocalGPSAddress,mRemoteGPSaddress;
     TextView mLocalRate,mRemoteRate;
-    TextView mLocalSNR1,mLocalSNR2;
-    TextView mRemoteSNR1,mRemoteSNR2;
     TextView mLocalRadio,mRemoteRadio;
-    Toolbar toolbar;
-    ProgressBar mProgressBar01,mProgressBar02,mProgressBar03,mProgressBar04,mProgressBar05;
-    ProgressBar mProgressBar11,mProgressBar12,mProgressBar13,mProgressBar14,mProgressBar15;
-    ProgressBar mProgressBar21,mProgressBar22,mProgressBar23,mProgressBar24,mProgressBar25;
-    ProgressBar mProgressBar31,mProgressBar32,mProgressBar33,mProgressBar34,mProgressBar35;
     SharedPreference mSharedPreference;
     GraphView areaGraph;
     LineGraphSeries<DataPoint> localSeries;
     LineGraphSeries<DataPoint> remoteSeries;
+    Croller localRateGraph;
+    Croller remoteRateGraph;
+    TextView mLocalSNRLabel;
+    TextView mRemoteSNRLabel;
+    List<Integer> localSeriesData = new ArrayList<>();
+    List<Integer> remoteSeriesData = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_link_alinger);
+        setContentView(R.layout.activity_summary);
         this.onCreate("Summary", R.id.toolbar, true);
-
-        plot = (XYPlot) findViewById(R.id.plot);
-        addvaluesToarray();
         initialization();
     }
 
@@ -90,45 +65,48 @@ public class SummaryActivity extends BaseActivity {
         mLocalRate          = (TextView)findViewById(R.id.WLess_LocalRate);
         mRemoteRate         = (TextView)findViewById(R.id.WLess_RemoteRate);
 
-        mProgressBar01      = (ProgressBar)findViewById(R.id.progressBar01);
-        mProgressBar02      = (ProgressBar)findViewById(R.id.progressBar02);
-        mProgressBar03      = (ProgressBar)findViewById(R.id.progressBar03);
-        mProgressBar04      = (ProgressBar)findViewById(R.id.progressBar04);
-        mProgressBar05      = (ProgressBar)findViewById(R.id.progressBar05);
-        mProgressBar11      = (ProgressBar)findViewById(R.id.progressBar11);
-        mProgressBar12      = (ProgressBar)findViewById(R.id.progressBar12);
-        mProgressBar13      = (ProgressBar)findViewById(R.id.progressBar13);
-        mProgressBar14      = (ProgressBar)findViewById(R.id.progressBar14);
-        mProgressBar15      = (ProgressBar)findViewById(R.id.progressBar15);
-        mProgressBar21      = (ProgressBar)findViewById(R.id.progressBar21);
-        mProgressBar22      = (ProgressBar)findViewById(R.id.progressBar22);
-        mProgressBar23      = (ProgressBar)findViewById(R.id.progressBar23);
-        mProgressBar24      = (ProgressBar)findViewById(R.id.progressBar24);
-        mProgressBar25      = (ProgressBar)findViewById(R.id.progressBar25);
-        mProgressBar31      = (ProgressBar)findViewById(R.id.progressBar31);
-        mProgressBar32      = (ProgressBar)findViewById(R.id.progressBar32);
-        mProgressBar33      = (ProgressBar)findViewById(R.id.progressBar33);
-        mProgressBar34      = (ProgressBar)findViewById(R.id.progressBar34);
-        mProgressBar35      = (ProgressBar)findViewById(R.id.progressBar35);
-        mLocalSNR1          = (TextView)findViewById(R.id.LocalSNR1);
-        mLocalSNR2          = (TextView)findViewById(R.id.LocalSNR2);
-        mRemoteSNR1         = (TextView)findViewById(R.id.RemoteSNR1);
-        mRemoteSNR2         = (TextView)findViewById(R.id.RemoteSNR2);
+        localRateGraph      = findViewById(R.id.localRateGraph);
+        remoteRateGraph     = findViewById(R.id.remoteRateGraph);
         mLocalRadio         = (TextView)findViewById(R.id.Local_radio);
         mRemoteRadio        = (TextView)findViewById(R.id.Remote_radio);
         mSharedPreference   = new SharedPreference(SummaryActivity.this);
         areaGraph           = findViewById(R.id.area_graph);
-        renderSNR(this, (LinearLayout) findViewById(R.id.suA1Rating), 4, 10);
-        renderSNR(this, (LinearLayout) findViewById(R.id.suA2Rating), 6, 10);
-        renderSNR(this, (LinearLayout) findViewById(R.id.bsuA1Rating), 5, 10);
-        renderSNR(this, (LinearLayout) findViewById(R.id.bsuA2Rating), 8, 10);
+        mLocalSNRLabel      = findViewById(R.id.localSNRLabel);
+        mRemoteSNRLabel     = findViewById(R.id.remoteSNRLabel);
         initAreaGraph();
-        renderAreaGraph();
-        requestToServer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
+        mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
+            @Override
+            public void onSuccess(final KeywestPacket packet) {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        updateUI(packet);
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (this.mSubscription != null) {
+            this.mSubscription.cancel();
+        }
     }
 
     public void renderSNR(Activity a, LinearLayout v, int strength, int max) {
         v.removeAllViews();
+        int noOfIndicators = 10;
+        strength = (strength * noOfIndicators) / max;
         int w = v.getLayoutParams().width;
         for(int i = 0; i < max; i++) {
             int imageId = i < strength ? R.drawable.signal_bar_active : R.drawable.signal_bar;
@@ -141,153 +119,74 @@ public class SummaryActivity extends BaseActivity {
         }
     }
 
-
-    private void requestToServer() {
-
-        KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
-        mUDPConnection   = new UDPConnection(mSharedPreference.getIPAddress(), 9181,wirelessLinkPacket,new ResponseListener());
-        mUDPConnection.start();
-    }
-
-    private void addvaluesToarray() {
-        for(int i =0; i < 10 ; i++ ) {
-           int  n =0;
-           series1Numbers1.add(n);
-           int  m = 0;
-           series1Numbers2.add(m);
+    private List<Integer> addData(List<Integer> seriesData, int value) {
+        if (seriesData.size() > MAX_DATA_POINTS) {
+            seriesData = seriesData.subList(seriesData.size() - MAX_DATA_POINTS, seriesData.size());
         }
-        addvaluesToGraph();
-    }
-
-    private void applyFontToMenuItem(MenuItem mi) {
-
-        Typeface font = Typeface.createFromAsset(getAssets(), "font/calibri.ttf");
-        SpannableString mNewTitle = new SpannableString(mi.getTitle());
-        mNewTitle.setSpan(new CustomTypefaceSpan("" , font), 0 , mNewTitle.length(),  Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        mi.setTitle(mNewTitle);
-    }
-    private void addvaluesToGraph() {
-
-        series1 = new SimpleXYSeries(series1Numbers1, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series1");
-        series2 = new SimpleXYSeries(series1Numbers2, SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Series2");
-
-        Paint lineFill = new Paint();
-        lineFill.setAlpha(200);
-        lineFill.setShader(new LinearGradient(0, 0, 0, 250, Color.parseColor("#422551"),Color.parseColor("#422551"), Shader.TileMode.MIRROR));
-
-        Paint lineFill2 = new Paint();
-        lineFill2.setAlpha(200);
-        lineFill2.setShader(new LinearGradient(0, 0, 0, 250, Color.parseColor("#8BF412"),Color.parseColor("#8BF412"), Shader.TileMode.MIRROR));
-
-         LineAndPointFormatter series1Format = new LineAndPointFormatter(this, R.xml.line_point_formatter);
-         series1Format.getLinePaint().setColor(Color.parseColor("#422551"));
-        //series1Format.setFillPaint(lineFill);
-
-         LineAndPointFormatter series2Format = new LineAndPointFormatter(this, R.xml.line_point_formatter);
-         series2Format.getLinePaint().setColor(Color.parseColor("#b01d5b"));
-        //series2Format.setFillPaint(lineFill2);
-
-        int upperBoundery = 15;
-        int x = Collections.max(series1Numbers1);
-        int y = Collections.max(series1Numbers2);
-        if( x > y ) {
-            upperBoundery = upperBoundery+x;
-        } else {
-            upperBoundery = upperBoundery+y;
-        }
-
-        plot.setRangeBoundaries(0, upperBoundery, BoundaryMode.FIXED);
-        plot.setDomainBoundaries(0, 9, BoundaryMode.FIXED);
-        plot.addSeries(series1, series1Format);
-        plot.addSeries(series2, series2Format);
-
-        series1Format.getPointLabelFormatter().getTextPaint().setColor(Color.RED);
-        series2Format.getPointLabelFormatter().getTextPaint().setColor(Color.RED);
-        plot.redraw();
-    }
-
-    class ResponseListener implements TaskCompleted {
-
-        @Override
-        public void onTaskComplete(final KeywestPacket result) {
-            runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    updateUI(result);
-                }
-            });
-        }
-
-        @Override
-        public void endServer(String result) {
-
-        }
-
-        @Override
-        public void responce(KeywestPacket responce) {
-
-        }
+        seriesData.add(value);
+        return seriesData;
     }
 
 
-    private void sendGetRequest() {
+    private String seriesData(List<Integer> seriesData) {
+        String str = "";
+        for (int i = 0; i < seriesData.size(); i++) {
+            str += seriesData.get(i) + ",";
+        }
+        return  str;
+    }
 
-        new CountDownTimer(1000, 1000) {
-            public void onTick(long millisUntilFinished) {
-            }
-            public  void onFinish()
-            {
-                requestToServer();
-            }
-        }.start();
+    private DataPoint[] toDataPontArray(List<Integer> seriesData) {
+        int len = seriesData.size();
+        DataPoint[] dataPoints = new DataPoint[len];
+        for (int i = 0; i < len; i++) {
+            dataPoints[i] = new DataPoint(i, seriesData.get(i));
+        }
+        return dataPoints;
     }
 
     @SuppressLint("SetTextI18n")
     private void updateUI(KeywestPacket testPacket) {
-
-        sendGetRequest();
         KWWirelessLinkStats wirelessLinkStats = new KWWirelessLinkStats(testPacket);
 
         mRemoteIPaddress.setText(wirelessLinkStats.getRemoteIP());
         mRemoteMacaddress.setText(wirelessLinkStats.getMacAddress());
 
-        if( series1Numbers1.size() > 0 ) {
-            series1Numbers1.remove(0);
-            series1Numbers2.remove(0);
-            plot.clear();
-        }
-        series1Numbers1.add(wirelessLinkStats.getTxInput());
-        series1Numbers2.add(wirelessLinkStats.getRxInput());
-        addvaluesToGraph();
+        localSeriesData = addData(localSeriesData, wirelessLinkStats.getTxInput());
+        remoteSeriesData = addData(remoteSeriesData, wirelessLinkStats.getRxInput());
+        localSeries.resetData(toDataPontArray(localSeriesData));
+        remoteSeries.resetData(toDataPontArray(remoteSeriesData));
         //String strLocalGPS = convertTODegress(Double.parseDouble(wirelessLinkStats.getLocalLat()),Double.parseDouble(wirelessLinkStats.getLocalLong()));
         //String strRemoteGPS = convertTODegress(Double.parseDouble(wirelessLinkStats.getRemoteLat()),Double.parseDouble(wirelessLinkStats.getRemoteLong()));
         mLocalGPSAddress.setText(wirelessLinkStats.getLocalLat() +"\n" + wirelessLinkStats.getLocalLong());
         mRemoteGPSaddress.setText(wirelessLinkStats.getRemoteLat()+"\n" +wirelessLinkStats.getRemoteLong());
         mLocalRate.setText(Integer.toString(wirelessLinkStats.getLocalRate())+ " Mbps");
         mRemoteRate.setText(Integer.toString(wirelessLinkStats.getRemoteRate())+ " Mbps");
-        mLocalSNR1.setText(Integer.toString(wirelessLinkStats.getLocalSNRA1()));
-        mLocalSNR2.setText(Integer.toString(wirelessLinkStats.getLocalSNRA2()));
-        mRemoteSNR1.setText(Integer.toString(wirelessLinkStats.getRemoteSNRA1()));
-        mRemoteSNR2.setText(Integer.toString(wirelessLinkStats.getRemoteSNRA2()));
+        localRateGraph.setProgress(wirelessLinkStats.getLocalRate());
+        remoteRateGraph.setProgress(wirelessLinkStats.getRemoteRate());
 
-        setSNRToProgressbars(wirelessLinkStats.getLocalSNRA1(),mProgressBar01,mProgressBar02,mProgressBar03,mProgressBar04,mProgressBar05);
-        setSNRToProgressbars(wirelessLinkStats.getRemoteSNRA1(),mProgressBar11,mProgressBar12,mProgressBar13,mProgressBar14,mProgressBar15);
-        setSNRToProgressbars(wirelessLinkStats.getLocalSNRA2(),mProgressBar21,mProgressBar22,mProgressBar23,mProgressBar24,mProgressBar25);
-        setSNRToProgressbars(wirelessLinkStats.getRemoteSNRA2(),mProgressBar31,mProgressBar32,mProgressBar33,mProgressBar34,mProgressBar35); //wirelessLinkStats.getLocalSNRA1()
+
+        renderSNR(this, (LinearLayout) findViewById(R.id.localA1Rating), wirelessLinkStats.getLocalSNRA1(), 128);
+        renderSNR(this, (LinearLayout) findViewById(R.id.localA2Rating), wirelessLinkStats.getLocalSNRA2(), 128);
+        renderSNR(this, (LinearLayout) findViewById(R.id.remoteA1Rating), wirelessLinkStats.getRemoteSNRA1(), 128);
+        renderSNR(this, (LinearLayout) findViewById(R.id.remoteA2Rating), wirelessLinkStats.getRemoteSNRA2(), 128);
 
         mLocalMacAddress.setText(mSharedPreference.getMacAddress());
         mLocalIPAddress.setText(mSharedPreference.getLocalIPAddress());
+        renderAreaGraph();
         if( mSharedPreference.getRadioMode() == 1 ) {
             mLocalRadio.setText("BSU");
             mRemoteRadio.setText("SU");
+            mLocalSNRLabel.setText("BSU");
+            mRemoteSNRLabel.setText("SU");
         } else {
             mLocalRadio.setText("SU");
             mRemoteRadio.setText("BSU");
+            mLocalSNRLabel.setText("SU");
+            mRemoteSNRLabel.setText("BSU");
         }
     }
-    private String convertTODegress(double latitude, double longitude) {
+    /*private String convertTODegress(double latitude, double longitude) {
         StringBuilder builder = new StringBuilder();
         if (latitude < 0) {
             builder.append("S ");
@@ -317,39 +216,7 @@ public class SummaryActivity extends BaseActivity {
         builder.append(longitudeSplit[2]);
         builder.append("\"");
         return builder.toString();
-    }
-    private void setSNRToProgressbars(int progress, ProgressBar p1, ProgressBar p2, ProgressBar p3, ProgressBar p4, ProgressBar p5) {
-
-        if(progress < 25){
-            p1.setProgressDrawable( getResources().getDrawable(R.drawable.lowsignal_progressbar));
-            p2.setProgressDrawable( getResources().getDrawable(R.drawable.lowsignal_progressbar));
-        }else if(progress > 25 && progress <= 35){
-            p1.setProgressDrawable( getResources().getDrawable(R.drawable.averagesignal_progressbar));
-            p2.setProgressDrawable( getResources().getDrawable(R.drawable.averagesignal_progressbar));
-        }else {
-            p1.setProgressDrawable( getResources().getDrawable(R.drawable.myprogressbar));
-            p2.setProgressDrawable( getResources().getDrawable(R.drawable.myprogressbar));
-            p3.setProgressDrawable( getResources().getDrawable(R.drawable.myprogressbar));
-            p4.setProgressDrawable( getResources().getDrawable(R.drawable.myprogressbar));
-            p5.setProgressDrawable( getResources().getDrawable(R.drawable.myprogressbar));
-        }
-        int rem =  progress % 20;
-        progress = progress / 20;
-
-        if( progress == 0 ){ p1.setProgress(rem); }
-        if( progress == 1 ){ p2.setProgress(rem); }
-        if( progress == 2 ){ p3.setProgress(rem); }
-        if( progress == 3 ){ p4.setProgress(rem); }
-        if( progress == 4 ){ p5.setProgress(rem); }
-
-        for ( int i = 0; i < progress; i++ ) {
-            if( i == 0 ){ p1.setProgress(20); }
-            if( i == 1 ){ p2.setProgress(20); }
-            if( i == 2 ){ p3.setProgress(20); }
-            if( i == 3 ){ p4.setProgress(20); }
-            if( i == 4 ){ p5.setProgress(20); }
-        }
-    }
+    }*/
 
     private void initAreaGraph() {
         areaGraph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
@@ -386,31 +253,17 @@ public class SummaryActivity extends BaseActivity {
     }
 
     private void renderAreaGraph() {
-        localSeries.resetData(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 3),
-                new DataPoint(5, 6),
-                new DataPoint(6, 7),
-                new DataPoint(7, 5),
-                new DataPoint(8, 2),
-                new DataPoint(9, 3),
-                new DataPoint(10, 8)
-        });
-        remoteSeries.resetData(new DataPoint[] {
-                new DataPoint(0, 5),
-                new DataPoint(1, 3),
-                new DataPoint(2, 4),
-                new DataPoint(3, 9),
-                new DataPoint(4, 7),
-                new DataPoint(5, 6),
-                new DataPoint(6, 5),
-                new DataPoint(7, 8),
-                new DataPoint(8, 3),
-                new DataPoint(9, 10),
-                new DataPoint(10, 8)
-        });
+        int len = localSeriesData.size();
+        if (len > 20) {
+            len = 20;
+        }
+        DataPoint[] localDataPoints = new DataPoint[len];
+        DataPoint[] remoteDataPoints = new DataPoint[len];
+        for (int i = len-1; i >= 0; i--) {
+            localDataPoints[i] = new DataPoint(i, localSeriesData.get(i));
+            remoteDataPoints[i] = new DataPoint(i, remoteSeriesData.get(i));
+        }
+        localSeries.resetData(localDataPoints);
+        remoteSeries.resetData(remoteDataPoints);
     }
 }

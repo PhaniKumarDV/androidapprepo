@@ -10,9 +10,9 @@
     tools:openDrawer="start">
 
     <include
-        layout="@layout/app_bar_linkalinger"
+        layout="@layout/app_bar_summary"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

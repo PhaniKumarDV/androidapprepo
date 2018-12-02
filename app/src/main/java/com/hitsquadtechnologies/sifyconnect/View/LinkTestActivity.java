@@ -3,8 +3,7 @@ package com.hitsquadtechnologies.sifyconnect.View;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -12,12 +11,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hitsquadtechnologies.sifyconnect.Interfaces.TaskCompleted;
 import com.hitsquadtechnologies.sifyconnect.R;
-import com.hitsquadtechnologies.sifyconnect.ServerPrograms.UDPSetRequest;
-import com.hitsquadtechnologies.sifyconnect.ServerPrograms.UDPConnection;
+import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
+import com.hsq.kw.packet.vo.KWWirelessLinkStats;
 import com.hsq.kw.packet.vo.LinkTest;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -27,36 +25,35 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class LinkTestActivity extends BaseActivity {
 
+    private static final int MAX_DATA_POINTS = 10;
+
+    RouterService.Subscription mSubscription;
     SharedPreference mSharedPreference;
-    UDPConnection mUDPConnection;
     Button mStart,mStop;
     Spinner mDirection,mDuration;
     TextView mSuMac;
     int mStrDuration = 30;
     int mStrDirection =1;
-    LinkTest setPackrt;
     GraphView areaGraph;
     LineGraphSeries<DataPoint> localSeries;
     LineGraphSeries<DataPoint> remoteSeries;
+    List<Integer> localSeriesData = new ArrayList<>();
+    List<Integer> remoteSeriesData = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tool);
+        setContentView(R.layout.activity_link_test);
         this.onCreate("Link Test", R.id.toolbar, true);
-        initi();
-    }
-
-    private void initi()
-    {
         mStop           = (Button)findViewById(R.id.Link_stopbutton);
         mStart          = (Button)findViewById(R.id.Link_Startbutton);
-        mDirection      =(Spinner)findViewById(R.id.Link_Direction);
-        mDuration       =(Spinner)findViewById(R.id.Link_duration);
+        mDirection      = (Spinner)findViewById(R.id.Link_Direction);
+        mDuration       = (Spinner)findViewById(R.id.Link_duration);
         mSuMac          = (TextView)findViewById(R.id.Link_SuMac);
         mSharedPreference = new SharedPreference(LinkTestActivity.this);
 
@@ -95,163 +92,99 @@ public class LinkTestActivity extends BaseActivity {
             mStop.setVisibility(View.VISIBLE);
             mStart.setVisibility(View.GONE);
         }
-
-           startLinkTestRequest();
-           sendGetRequestToServer();
-           //sendGetRequest();
-        areaGraph           = findViewById(R.id.area_graph);
         initAreaGraph();
-        renderAreaGraph();
     }
 
-
-
-    private void startLinkTestRequest()
-    {
-        mStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String macaddress = mSuMac.getText().toString();
-                if(!macaddress.isEmpty())
-                {
-                    mStop.setVisibility(View.VISIBLE);
-                    sendSetRequestToServer();
-                    timer();
-                    mSharedPreference.saveStartOrStop(true);
-                    sendGetRequest();
-                }else {
-                    Toast.makeText(LinkTestActivity.this,R.string.toast,Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        mStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mStop.setVisibility(View.GONE);
-                mStart.setVisibility(View.VISIBLE);
-                mSharedPreference.saveStartOrStop(false);
-                stopRequest();
-            }
-        });
-    }
-
-
-    private void stopRequest(){
-
-        String macaddress = mSuMac.getText().toString();
-        if(macaddress != null){
-            setPackrt = new LinkTest();
-            setPackrt.setMacAddr(macaddress);
-        }
-        setPackrt.setStartStop(0);
-        setPackrt.setDirection(1);
-        setPackrt.setDuration(mStrDuration);
-
-        LinkTest setPackrt = new LinkTest(0,macaddress,1,mStrDuration);
-        KeywestPacket setLinkTestres = setPackrt.buildPacketFromUI();
-        UDPSetRequest setRequest = new UDPSetRequest(mSharedPreference.getIPAddress(),9181,setLinkTestres);
-        setRequest.start();
-    }
-    private void sendSetRequestToServer()
-    {
-        String macaddress = mSuMac.getText().toString();
-        if(macaddress != null){
-            setPackrt = new LinkTest();
-            setPackrt.setMacAddr(macaddress);
-        }else {
-            Toast.makeText(LinkTestActivity.this,"Mac address is empty",Toast.LENGTH_LONG).show();
-        }
-        setPackrt.setStartStop(1);
-        setPackrt.setDirection(mStrDirection);
-        setPackrt.setDuration(mStrDuration);
-        LinkTest setPackrt = new LinkTest(1,macaddress,mStrDirection,mStrDuration);
-
-        KeywestPacket setLinkTestres = setPackrt.buildPacketFromUI();
-        UDPSetRequest setRequest = new UDPSetRequest(mSharedPreference.getIPAddress(),9181,setLinkTestres);
-        setRequest.start();
-    }
-
-
-    private void sendGetRequest(){
-
-        new CountDownTimer(1000, 1000)
-        {
-            public void onTick(long millisUntilFinished)
-            { }
-            public  void onFinish()
-            {sendGetRequestToServer();
-            }
-        }.start();
-    }
-    private void timer(){
-        new CountDownTimer(TimeUnit.SECONDS.toMillis(mStrDuration), 1000)
-        {
-            public void onTick(long millisUntilFinished)
-            {}
-            public  void onFinish()
-            {
-                mSharedPreference.saveStartOrStop(false);
-                mStop.setVisibility(View.GONE);
-                mStart.setVisibility(View.VISIBLE);
-            }
-        }.start();
-    }
-
-    private void sendGetRequestToServer()
-    {
+    @Override
+    protected void onResume() {
+        super.onResume();
         KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
-        mUDPConnection   = new UDPConnection(mSharedPreference.getIPAddress(), 9181,wirelessLinkPacket,new ResponseListener());
-        mUDPConnection.start();
-    }
-
-    class ResponseListener implements TaskCompleted {
-
-        @Override
-        public void onTaskComplete(final KeywestPacket result) {
-            runOnUiThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    /*updateUI(result);*/
+        this.mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
+            @Override
+            public void onSuccess(KeywestPacket response) {
+                KWWirelessLinkStats wirelessLinkStats = new KWWirelessLinkStats(response);
+                if (mSuMac.getText().length() == 0) {
+                    mSuMac.setText(wirelessLinkStats.getMacAddress());
                 }
+                localSeriesData = addData(localSeriesData, wirelessLinkStats.getTxInput());
+                remoteSeriesData = addData(remoteSeriesData, wirelessLinkStats.getRxInput());
+                localSeries.resetData(toDataPontArray(localSeriesData));
+                remoteSeries.resetData(toDataPontArray(remoteSeriesData));
+            }
+        });
+    }
+
+    private List<Integer> addData(List<Integer> seriesData, int value) {
+        if (seriesData.size() > MAX_DATA_POINTS) {
+            seriesData = seriesData.subList(seriesData.size() - MAX_DATA_POINTS, seriesData.size());
+        }
+        seriesData.add(value);
+        return seriesData;
+    }
+
+
+    private String seriesData(List<Integer> seriesData) {
+        String str = "";
+        for (int i = 0; i < seriesData.size(); i++) {
+            str += seriesData.get(i) + ",";
+        }
+        return  str;
+    }
+
+    private DataPoint[] toDataPontArray(List<Integer> seriesData) {
+        int len = seriesData.size();
+        DataPoint[] dataPoints = new DataPoint[len];
+        for (int i = 0; i < len; i++) {
+            dataPoints[i] = new DataPoint(i, seriesData.get(i));
+        }
+        return dataPoints;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mSubscription != null) {
+            mSubscription.cancel();
+        }
+    }
+
+    public void startTest(View view) {
+        String macAddress = mSuMac.getText().toString();
+        if(!macAddress.isEmpty()) {
+            LinkTest linkTestPkt = new LinkTest(1, macAddress, mStrDirection, mStrDuration);
+            KeywestPacket keywestPacket = linkTestPkt.buildPacketFromUI();
+            RouterService.INSTANCE.sendRequest(keywestPacket, new RouterService.Callback<KeywestPacket>() {
+                @Override
+                public void onSuccess(KeywestPacket packet) {}
             });
-
-        }
-
-        @Override
-        public void endServer(String result) {
-
-        }
-
-        @Override
-        public void responce(KeywestPacket responce) {
-
+            mStop.setVisibility(View.VISIBLE);
+            new CountDownTimer(TimeUnit.SECONDS.toMillis(mStrDuration), 1000) {
+                public void onTick(long millisUntilFinished) {}
+                public  void onFinish() {
+                    stopTest(null);
+                }
+            }.start();
+            mSharedPreference.saveStartOrStop(true);
+        }else {
+            Toast.makeText(LinkTestActivity.this,R.string.mac_address_is_empty_toast,Toast.LENGTH_LONG).show();
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        //getMenuInflater().inflate(R.menu.menu_menu, menu);
-        return true;
+    public void stopTest(View view){
+        String macAddress = mSuMac.getText().toString();
+        LinkTest linkTestPkt = new LinkTest(0, macAddress, mStrDirection, mStrDuration);
+        KeywestPacket keywestPacket = linkTestPkt.buildPacketFromUI();
+        RouterService.INSTANCE.sendRequest(keywestPacket, new RouterService.Callback<KeywestPacket>() {
+            @Override
+            public void onSuccess(KeywestPacket packet) {}
+        });
+        mSharedPreference.saveStartOrStop(false);
+        mStop.setVisibility(View.GONE);
+        mStart.setVisibility(View.VISIBLE);
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        int id = item.getItemId();
-        if (id == R.id.action_settings)
-        {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     private void initAreaGraph() {
+        areaGraph = findViewById(R.id.area_graph);
         areaGraph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
         localSeries = new LineGraphSeries<>(new DataPoint[] {});
         int localSeriesColor = getResources().getColor(R.color.su_line_graph_color);
@@ -284,34 +217,4 @@ public class LinkTestActivity extends BaseActivity {
         areaGraph.addSeries(localSeries);
         areaGraph.addSeries(remoteSeries);
     }
-
-    private void renderAreaGraph() {
-        localSeries.resetData(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 3),
-                new DataPoint(5, 6),
-                new DataPoint(6, 7),
-                new DataPoint(7, 5),
-                new DataPoint(8, 2),
-                new DataPoint(9, 3),
-                new DataPoint(10, 8)
-        });
-        remoteSeries.resetData(new DataPoint[] {
-                new DataPoint(0, 5),
-                new DataPoint(1, 3),
-                new DataPoint(2, 4),
-                new DataPoint(3, 9),
-                new DataPoint(4, 7),
-                new DataPoint(5, 6),
-                new DataPoint(6, 5),
-                new DataPoint(7, 8),
-                new DataPoint(8, 3),
-                new DataPoint(9, 10),
-                new DataPoint(10, 8)
-        });
-    }
-
 }
