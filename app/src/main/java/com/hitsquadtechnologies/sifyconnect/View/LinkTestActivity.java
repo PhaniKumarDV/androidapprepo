@@ -108,9 +108,8 @@ public class LinkTestActivity extends BaseActivity {
                 }
                 localSeriesData = addData(localSeriesData, wirelessLinkStats.getTxInput());
                 remoteSeriesData = addData(remoteSeriesData, wirelessLinkStats.getRxInput());
-                int maxValue = Math.max(max(localSeriesData), max(remoteSeriesData));
-                maxValue = (maxValue / 10 + 1) * 10;
-                areaGraph.getViewport().setMaxY(maxValue);
+                int maxValue = Double.valueOf(Math.max(max(localSeriesData), max(remoteSeriesData)) * 1.25).intValue();
+                areaGraph.getViewport().setMaxY(Math.max(maxValue, 10));
                 localSeries.resetData(toDataPointArray(localSeriesData));
                 remoteSeries.resetData(toDataPointArray(remoteSeriesData));
             }
@@ -222,7 +221,7 @@ public class LinkTestActivity extends BaseActivity {
         remoteSeries.setDrawDataPoints(false);
         LegendRenderer legendRenderer = areaGraph.getLegendRenderer();
         legendRenderer.setVisible(true);
-        legendRenderer.setFixedPosition(0, 0);
+        legendRenderer.setFixedPosition(0, -20);
         legendRenderer.setTextSize(32);
         legendRenderer.setTextColor(Color.parseColor("#000000"));
         legendRenderer.setBackgroundColor(Color.argb(0, 0, 0, 0));
