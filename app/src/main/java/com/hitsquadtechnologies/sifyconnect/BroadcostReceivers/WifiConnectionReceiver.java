@@ -9,9 +9,12 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
+import com.hitsquadtechnologies.sifyconnect.View.SummaryActivity;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
+import com.hsq.kw.packet.KeywestPacket;
 
 
 public class WifiConnectionReceiver extends BroadcastReceiver {
@@ -19,7 +22,7 @@ public class WifiConnectionReceiver extends BroadcastReceiver {
     SharedPreference mSharedPreference;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public void onReceive(Context context,   Intent intent) {
+    public void onReceive(final Context context, Intent intent) {
 
         mSharedPreference = new SharedPreference(context);
         if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION))
@@ -35,9 +38,18 @@ public class WifiConnectionReceiver extends BroadcastReceiver {
                 String bssid = wifiInfo.getBSSID();
                 String iPAddress = intToIp(wifiManager.getDhcpInfo().gateway);
                 mSharedPreference.saveIPAddress(iPAddress,method(ssid),bssid);
-                RouterService.INSTANCE.connectTo(iPAddress);
-                Log.e("ipaddress", method(ssid) + "XXXXXXXX");
-                //Log.e("INFO", " -- Wifi XXXXXXXXXXXXXXXconnected --- " + " SSID " + ssid );
+                RouterService.INSTANCE.connectTo(iPAddress, new RouterService.Callback<KeywestPacket>() {
+                    @Override
+                    public void onSuccess(final KeywestPacket packet) {
+                        //Toast.makeText(context, "Server found", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError(String msg, Exception e) {
+                        Toast.makeText(context, "Server not found", Toast.LENGTH_LONG).show();
+                        Log.e(WifiConnectionReceiver.class.getName(), msg, e);
+                    }
+                });
 
             }
         }
