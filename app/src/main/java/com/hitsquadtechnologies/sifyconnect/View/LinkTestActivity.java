@@ -108,10 +108,21 @@ public class LinkTestActivity extends BaseActivity {
                 }
                 localSeriesData = addData(localSeriesData, wirelessLinkStats.getTxInput());
                 remoteSeriesData = addData(remoteSeriesData, wirelessLinkStats.getRxInput());
-                localSeries.resetData(toDataPontArray(localSeriesData));
-                remoteSeries.resetData(toDataPontArray(remoteSeriesData));
+                int maxValue = Math.max(max(localSeriesData), max(remoteSeriesData));
+                maxValue = (maxValue / 10 + 1) * 10;
+                areaGraph.getViewport().setMaxY(maxValue);
+                localSeries.resetData(toDataPointArray(localSeriesData));
+                remoteSeries.resetData(toDataPointArray(remoteSeriesData));
             }
         });
+    }
+
+    private int max(List<Integer> list) {
+        int max = 0;
+        for (int i : list) {
+            max = max > i ? max : i;
+        }
+        return max;
     }
 
     private List<Integer> addData(List<Integer> seriesData, int value) {
@@ -131,11 +142,15 @@ public class LinkTestActivity extends BaseActivity {
         return  str;
     }
 
-    private DataPoint[] toDataPontArray(List<Integer> seriesData) {
+    private DataPoint[] toDataPointArray(List<Integer> seriesData) {
         int len = seriesData.size();
-        DataPoint[] dataPoints = new DataPoint[len];
-        for (int i = 0; i < len; i++) {
-            dataPoints[i] = new DataPoint(i, seriesData.get(i));
+        DataPoint[] dataPoints = new DataPoint[MAX_DATA_POINTS];
+        for (int i = 0; i < MAX_DATA_POINTS; i++) {
+            int v = 0;
+            if ( i > (MAX_DATA_POINTS - len)) {
+                v = seriesData.get(i - (MAX_DATA_POINTS - len));
+            }
+            dataPoints[i] = new DataPoint(i, v);
         }
         return dataPoints;
     }
@@ -185,7 +200,6 @@ public class LinkTestActivity extends BaseActivity {
 
     private void initAreaGraph() {
         areaGraph = findViewById(R.id.area_graph);
-        areaGraph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
         localSeries = new LineGraphSeries<>(new DataPoint[] {});
         int localSeriesColor = getResources().getColor(R.color.su_line_graph_color);
         localSeries.setTitle("Local");
@@ -197,7 +211,7 @@ public class LinkTestActivity extends BaseActivity {
         areaGraph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
-                return null;
+                return isValueX ? null : Double.toString(value);
             }
         });
         int remoteSeriesColor = getResources().getColor(R.color.bsu_line_graph_color);
@@ -212,7 +226,10 @@ public class LinkTestActivity extends BaseActivity {
         legendRenderer.setTextSize(32);
         legendRenderer.setTextColor(Color.parseColor("#000000"));
         legendRenderer.setBackgroundColor(Color.argb(0, 0, 0, 0));
-        areaGraph.getViewport().setMaxY(10);
+        areaGraph.getViewport().setMinY(0);
+        areaGraph.getViewport().setMaxY(200);
+        areaGraph.getViewport().setMinX(0);
+        areaGraph.getViewport().setMaxX(MAX_DATA_POINTS);
         areaGraph.getViewport().setYAxisBoundsManual(true);
         areaGraph.addSeries(localSeries);
         areaGraph.addSeries(remoteSeries);
