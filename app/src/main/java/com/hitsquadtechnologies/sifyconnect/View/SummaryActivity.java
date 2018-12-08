@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hitsquadtechnologies.sifyconnect.Adapters.SharedLinkSpeedGraphData;
 import com.hitsquadtechnologies.sifyconnect.R;
 import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
@@ -43,8 +44,6 @@ public class SummaryActivity extends BaseActivity {
     Croller remoteRateGraph;
     TextView mLocalSNRLabel;
     TextView mRemoteSNRLabel;
-    List<Integer> localSeriesData = new ArrayList<>();
-    List<Integer> remoteSeriesData = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,44 +136,6 @@ public class SummaryActivity extends BaseActivity {
         }
     }
 
-    private List<Integer> addData(List<Integer> seriesData, int value) {
-        if (seriesData.size() > MAX_DATA_POINTS) {
-            seriesData = seriesData.subList(seriesData.size() - MAX_DATA_POINTS, seriesData.size());
-        }
-        seriesData.add(value);
-        return seriesData;
-    }
-
-
-    private String seriesData(List<Integer> seriesData) {
-        String str = "";
-        for (int i = 0; i < seriesData.size(); i++) {
-            str += seriesData.get(i) + ",";
-        }
-        return  str;
-    }
-
-    private String seriesData(DataPoint[] dataPoints) {
-        String str = "";
-        for (int i = 0; i < dataPoints.length; i++) {
-            str += dataPoints[i].getY() + ",";
-        }
-        return  str;
-    }
-
-    private DataPoint[] toDataPointArray(List<Integer> seriesData) {
-        int len = seriesData.size();
-        DataPoint[] dataPoints = new DataPoint[MAX_DATA_POINTS];
-        for (int i = 0; i < MAX_DATA_POINTS; i++) {
-            int v = 0;
-            if ( i > (MAX_DATA_POINTS - len)) {
-                v = seriesData.get(i - (MAX_DATA_POINTS - len));
-            }
-            dataPoints[i] = new DataPoint(i, v);
-        }
-        return dataPoints;
-    }
-
     @SuppressLint("SetTextI18n")
     private void updateUI(KeywestPacket testPacket) {
         KWWirelessLinkStats wirelessLinkStats = new KWWirelessLinkStats(testPacket);
@@ -182,12 +143,8 @@ public class SummaryActivity extends BaseActivity {
         mRemoteIPaddress.setText(wirelessLinkStats.getRemoteIP());
         mRemoteMacaddress.setText(wirelessLinkStats.getMacAddress());
 
-        localSeriesData = addData(localSeriesData, wirelessLinkStats.getTxInput());
-        remoteSeriesData = addData(remoteSeriesData, wirelessLinkStats.getRxInput());
-        int maxValue = Double.valueOf(Math.max(max(localSeriesData), max(remoteSeriesData)) * 1.25).intValue();
-        areaGraph.getViewport().setMaxY(Math.max(maxValue, 10));
-        localSeries.resetData(toDataPointArray(localSeriesData));
-        remoteSeries.resetData(toDataPointArray(remoteSeriesData));
+        SharedLinkSpeedGraphData.INSTANCE.add(wirelessLinkStats.getTxInput(), wirelessLinkStats.getRxInput());
+        renderGraph();
         //String strLocalGPS = convertTODegress(Double.parseDouble(wirelessLinkStats.getLocalLat()),Double.parseDouble(wirelessLinkStats.getLocalLong()));
         //String strRemoteGPS = convertTODegress(Double.parseDouble(wirelessLinkStats.getRemoteLat()),Double.parseDouble(wirelessLinkStats.getRemoteLong()));
         mLocalGPSAddress.setText(wirelessLinkStats.getLocalLat() +"\n" + wirelessLinkStats.getLocalLong());
@@ -214,14 +171,6 @@ public class SummaryActivity extends BaseActivity {
             mLocalSNRLabel.setText("SU");
             mRemoteSNRLabel.setText("BSU");
         }
-    }
-
-    private int max(List<Integer> list) {
-        int max = 0;
-        for (int i : list) {
-            max = max > i ? max : i;
-        }
-        return max;
     }
 
     /*private String convertTODegress(double latitude, double longitude) {
@@ -259,7 +208,7 @@ public class SummaryActivity extends BaseActivity {
     private void initAreaGraph() {
         localSeries = new LineGraphSeries<>(new DataPoint[] {});
         int localSeriesColor = getResources().getColor(R.color.local_line_graph_color);
-        localSeries.setTitle("Local");
+        localSeries.setTitle("Local (Mbps)");
         localSeries.setColor(localSeriesColor);
         localSeries.setDrawBackground(true);
         localSeries.setBackgroundColor(Color.argb(64, Color.red(localSeriesColor), Color.green(localSeriesColor), Color.blue(localSeriesColor)));
@@ -275,7 +224,7 @@ public class SummaryActivity extends BaseActivity {
         remoteSeries.setColor(remoteSeriesColor);
         remoteSeries.setDrawBackground(true);
         remoteSeries.setBackgroundColor(Color.argb(64, Color.red(remoteSeriesColor), Color.green(remoteSeriesColor), Color.blue(remoteSeriesColor)));
-        remoteSeries.setTitle("Remote");
+        remoteSeries.setTitle("Remote (Mbps)");
         remoteSeries.setDrawDataPoints(false);
         LegendRenderer legendRenderer = areaGraph.getLegendRenderer();
         legendRenderer.setVisible(true);
@@ -290,5 +239,13 @@ public class SummaryActivity extends BaseActivity {
         areaGraph.getViewport().setYAxisBoundsManual(true);
         areaGraph.addSeries(localSeries);
         areaGraph.addSeries(remoteSeries);
+        renderGraph();
+    }
+
+    public void renderGraph() {
+        int maxValue = Double.valueOf(SharedLinkSpeedGraphData.INSTANCE.max() * 1.25).intValue();
+        areaGraph.getViewport().setMaxY(Math.max(maxValue, 10));
+        localSeries.resetData(SharedLinkSpeedGraphData.INSTANCE.getLocalData());
+        remoteSeries.resetData(SharedLinkSpeedGraphData.INSTANCE.getRemoteData());
     }
 }
