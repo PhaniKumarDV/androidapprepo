@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hitsquadtechnologies.sifyconnect.R;
 import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
@@ -174,6 +175,14 @@ public class ConfigurationActivity extends BaseActivity {
                         progress.dismiss();
                     }
                 });
+            }
+
+            @Override
+            public void onError(String msg, Exception e) {
+                super.onError(msg, e);
+                progress.dismiss();
+                Log.e(ConfigurationActivity.class.getName(), "Configuration request failed: " + msg, e);
+                Toast.makeText(ConfigurationActivity.this, "Error occured", Toast.LENGTH_LONG).show();
             }
         });
     }

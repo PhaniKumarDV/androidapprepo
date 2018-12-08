@@ -20,6 +20,8 @@ import com.hitsquadtechnologies.sifyconnect.R;
 import com.hitsquadtechnologies.sifyconnect.View.DiscoveryActivity;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -27,7 +29,6 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
 
     private DiscoveryActivity mContext;
     private List<wifiDetailsdata> wifiDetailsarrayList;
-    private String mConnectedWifiSSID;
     private LayoutInflater inflater;
     private View lastShownWifiDetails;
     private SharedPreference mPreferences;
@@ -38,6 +39,19 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
         inflater = LayoutInflater.from(context);
         this.wifiDetailsarrayList = wifiDetailsList;
         this.mPreferences = new SharedPreference(context);
+        final String connectedWifiSsid = this.mPreferences.getWifiMac();
+        Collections.sort(wifiDetailsList, new Comparator<wifiDetailsdata>() {
+            @Override
+            public int compare(wifiDetailsdata o1, wifiDetailsdata o2) {
+                if (o1.getBSSID().equalsIgnoreCase(connectedWifiSsid) || o2.getSSID().trim().length() == 0) {
+                    return -1;
+                } if (o2.getBSSID().equalsIgnoreCase(connectedWifiSsid) || o1.getSSID().trim().length() == 0) {
+                    return 1;
+                } else {
+                    return o1.getSSID().compareTo(o2.getSSID());
+                }
+            }
+        });
     }
 
     @NonNull

@@ -13,10 +13,10 @@ import com.hitsquadtechnologies.sifyconnect.R;
 import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
+import com.hsq.kw.packet.vo.Configuration;
 import com.hsq.kw.packet.vo.KWWirelessLinkStats;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -79,8 +79,26 @@ public class SummaryActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
-        mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
+
+        KeywestPacket configRequest = new Configuration().getPacket();
+        RouterService.INSTANCE.sendRequest(configRequest, new RouterService.Callback<KeywestPacket>() {
+            @Override
+            public void onSuccess(final KeywestPacket packet) {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        Configuration configuration = new Configuration(packet);
+                        mSharedPreference.saveLocalDeviceValues(configuration.getDeviceMac(), configuration.getDeviceMode(), configuration.getIpAddress());
+                        mLocalMacAddress.setText(mSharedPreference.getMacAddress());
+                        mLocalIPAddress.setText(mSharedPreference.getLocalIPAddress());
+                    }
+                });
+            }
+        });
+        KeywestPacket assocListPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
+        mSubscription = RouterService.INSTANCE.observe(assocListPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
                 runOnUiThread(new Runnable()
@@ -177,8 +195,6 @@ public class SummaryActivity extends BaseActivity {
         renderSNR(this, (LinearLayout) findViewById(R.id.remoteA1Rating), wirelessLinkStats.getRemoteSNRA1(), 128);
         renderSNR(this, (LinearLayout) findViewById(R.id.remoteA2Rating), wirelessLinkStats.getRemoteSNRA2(), 128);
 
-        mLocalMacAddress.setText(mSharedPreference.getMacAddress());
-        mLocalIPAddress.setText(mSharedPreference.getLocalIPAddress());
         renderAreaGraph();
         if( mSharedPreference.getRadioMode() == 1 ) {
             mLocalRadio.setText("BSU");
