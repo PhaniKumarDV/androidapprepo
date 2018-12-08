@@ -210,7 +210,7 @@ public class LinkTestActivity extends BaseActivity {
         areaGraph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
-                return isValueX ? null : Double.toString(value);
+                return isValueX ? null : Double.valueOf(value).intValue() + "";
             }
         });
         int remoteSeriesColor = getResources().getColor(R.color.bsu_line_graph_color);
@@ -228,7 +228,7 @@ public class LinkTestActivity extends BaseActivity {
         areaGraph.getViewport().setMinY(0);
         areaGraph.getViewport().setMaxY(200);
         areaGraph.getViewport().setMinX(0);
-        areaGraph.getViewport().setMaxX(MAX_DATA_POINTS);
+        areaGraph.getViewport().setMaxX(MAX_DATA_POINTS + 1);
         areaGraph.getViewport().setYAxisBoundsManual(true);
         areaGraph.addSeries(localSeries);
         areaGraph.addSeries(remoteSeries);

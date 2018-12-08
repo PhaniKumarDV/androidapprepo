@@ -154,6 +154,14 @@ public class SummaryActivity extends BaseActivity {
         return  str;
     }
 
+    private String seriesData(DataPoint[] dataPoints) {
+        String str = "";
+        for (int i = 0; i < dataPoints.length; i++) {
+            str += dataPoints[i].getY() + ",";
+        }
+        return  str;
+    }
+
     private DataPoint[] toDataPointArray(List<Integer> seriesData) {
         int len = seriesData.size();
         DataPoint[] dataPoints = new DataPoint[MAX_DATA_POINTS];
@@ -195,7 +203,6 @@ public class SummaryActivity extends BaseActivity {
         renderSNR(this, (LinearLayout) findViewById(R.id.remoteA1Rating), wirelessLinkStats.getRemoteSNRA1(), 128);
         renderSNR(this, (LinearLayout) findViewById(R.id.remoteA2Rating), wirelessLinkStats.getRemoteSNRA2(), 128);
 
-        renderAreaGraph();
         if( mSharedPreference.getRadioMode() == 1 ) {
             mLocalRadio.setText("BSU");
             mRemoteRadio.setText("SU");
@@ -261,7 +268,7 @@ public class SummaryActivity extends BaseActivity {
         areaGraph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
-                return isValueX ? null : Double.toString(value);
+                return isValueX ? null : Double.valueOf(value).intValue() + "";
             }
         });
         int remoteSeriesColor = getResources().getColor(R.color.bsu_line_graph_color);
@@ -279,24 +286,9 @@ public class SummaryActivity extends BaseActivity {
         areaGraph.getViewport().setMinY(0);
         areaGraph.getViewport().setMaxY(200);
         areaGraph.getViewport().setMinX(0);
-        areaGraph.getViewport().setMaxX(MAX_DATA_POINTS);
+        areaGraph.getViewport().setMaxX(MAX_DATA_POINTS + 1);
         areaGraph.getViewport().setYAxisBoundsManual(true);
         areaGraph.addSeries(localSeries);
         areaGraph.addSeries(remoteSeries);
-    }
-
-    private void renderAreaGraph() {
-        int len = localSeriesData.size();
-        if (len > 20) {
-            len = 20;
-        }
-        DataPoint[] localDataPoints = new DataPoint[len];
-        DataPoint[] remoteDataPoints = new DataPoint[len];
-        for (int i = len-1; i >= 0; i--) {
-            localDataPoints[i] = new DataPoint(i, localSeriesData.get(i));
-            remoteDataPoints[i] = new DataPoint(i, remoteSeriesData.get(i));
-        }
-        localSeries.resetData(localDataPoints);
-        remoteSeries.resetData(remoteDataPoints);
     }
 }
