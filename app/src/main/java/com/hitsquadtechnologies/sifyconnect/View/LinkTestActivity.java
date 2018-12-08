@@ -3,7 +3,6 @@ package com.hitsquadtechnologies.sifyconnect.View;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,7 +18,6 @@ import com.hsq.kw.packet.vo.KWWirelessLinkStats;
 import com.hsq.kw.packet.vo.LinkTest;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -40,8 +38,10 @@ public class LinkTestActivity extends BaseActivity {
     TextView mSuMac;
     TextView localSnrA1;
     TextView localSnrA2;
+    TextView localLinkQuality;
     TextView remoteSnrA1;
     TextView remoteSnrA2;
+    TextView remoteLinkQuality;
     int mStrDuration = 30;
     int mStrDirection =1;
     GraphView areaGraph;
@@ -64,8 +64,10 @@ public class LinkTestActivity extends BaseActivity {
         mMacLabel       = findViewById(R.id.mac_label);
         localSnrA1      = findViewById(R.id.localA1);
         localSnrA2      = findViewById(R.id.localA2);
+        localLinkQuality = findViewById(R.id.localLinkQuality);
         remoteSnrA1     = findViewById(R.id.remoteA1);
         remoteSnrA2     = findViewById(R.id.remoteA2);
+        remoteLinkQuality = findViewById(R.id.remoteLinkQuality);
 
         mDuration.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -129,8 +131,10 @@ public class LinkTestActivity extends BaseActivity {
                 remoteSeries.resetData(toDataPointArray(remoteSeriesData));
                 localSnrA1.setText("" + wirelessLinkStats.getLocalSNRA1());
                 localSnrA2.setText("" + wirelessLinkStats.getLocalSNRA2());
+                localLinkQuality.setText("5");
                 remoteSnrA1.setText("" + wirelessLinkStats.getRemoteSNRA1());
                 remoteSnrA2.setText("" + wirelessLinkStats.getRemoteSNRA2());
+                remoteLinkQuality.setText("8");
             }
         });
     }
