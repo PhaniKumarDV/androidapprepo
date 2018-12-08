@@ -258,7 +258,7 @@ public class SummaryActivity extends BaseActivity {
 
     private void initAreaGraph() {
         localSeries = new LineGraphSeries<>(new DataPoint[] {});
-        int localSeriesColor = getResources().getColor(R.color.su_line_graph_color);
+        int localSeriesColor = getResources().getColor(R.color.local_line_graph_color);
         localSeries.setTitle("Local");
         localSeries.setColor(localSeriesColor);
         localSeries.setDrawBackground(true);
@@ -271,7 +271,7 @@ public class SummaryActivity extends BaseActivity {
                 return isValueX ? null : Double.valueOf(value).intValue() + "";
             }
         });
-        int remoteSeriesColor = getResources().getColor(R.color.bsu_line_graph_color);
+        int remoteSeriesColor = getResources().getColor(R.color.remote_line_graph_color);
         remoteSeries.setColor(remoteSeriesColor);
         remoteSeries.setDrawBackground(true);
         remoteSeries.setBackgroundColor(Color.argb(64, Color.red(remoteSeriesColor), Color.green(remoteSeriesColor), Color.blue(remoteSeriesColor)));

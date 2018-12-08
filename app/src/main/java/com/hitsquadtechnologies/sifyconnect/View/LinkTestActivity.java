@@ -36,7 +36,12 @@ public class LinkTestActivity extends BaseActivity {
     SharedPreference mSharedPreference;
     Button mStart,mStop;
     Spinner mDirection,mDuration;
+    TextView mMacLabel;
     TextView mSuMac;
+    TextView localSnrA1;
+    TextView localSnrA2;
+    TextView remoteSnrA1;
+    TextView remoteSnrA2;
     int mStrDuration = 30;
     int mStrDirection =1;
     GraphView areaGraph;
@@ -56,6 +61,11 @@ public class LinkTestActivity extends BaseActivity {
         mDuration       = (Spinner)findViewById(R.id.Link_duration);
         mSuMac          = (TextView)findViewById(R.id.Link_SuMac);
         mSharedPreference = new SharedPreference(LinkTestActivity.this);
+        mMacLabel       = findViewById(R.id.mac_label);
+        localSnrA1      = findViewById(R.id.localA1);
+        localSnrA2      = findViewById(R.id.localA2);
+        remoteSnrA1     = findViewById(R.id.remoteA1);
+        remoteSnrA2     = findViewById(R.id.remoteA2);
 
         mDuration.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -99,6 +109,11 @@ public class LinkTestActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
+        if( mSharedPreference.getRadioMode() == 1 ) {
+            mMacLabel.setText("SU MAC");
+        } else {
+            mMacLabel.setText("BSU MAC");
+        }
         this.mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(KeywestPacket response) {
@@ -112,6 +127,10 @@ public class LinkTestActivity extends BaseActivity {
                 areaGraph.getViewport().setMaxY(Math.max(maxValue, 10));
                 localSeries.resetData(toDataPointArray(localSeriesData));
                 remoteSeries.resetData(toDataPointArray(remoteSeriesData));
+                localSnrA1.setText("" + wirelessLinkStats.getLocalSNRA1());
+                localSnrA2.setText("" + wirelessLinkStats.getLocalSNRA2());
+                remoteSnrA1.setText("" + wirelessLinkStats.getRemoteSNRA1());
+                remoteSnrA2.setText("" + wirelessLinkStats.getRemoteSNRA2());
             }
         });
     }
@@ -200,7 +219,7 @@ public class LinkTestActivity extends BaseActivity {
     private void initAreaGraph() {
         areaGraph = findViewById(R.id.area_graph);
         localSeries = new LineGraphSeries<>(new DataPoint[] {});
-        int localSeriesColor = getResources().getColor(R.color.su_line_graph_color);
+        int localSeriesColor = getResources().getColor(R.color.local_line_graph_color);
         localSeries.setTitle("Local");
         localSeries.setColor(localSeriesColor);
         localSeries.setDrawBackground(true);
@@ -213,7 +232,7 @@ public class LinkTestActivity extends BaseActivity {
                 return isValueX ? null : Double.valueOf(value).intValue() + "";
             }
         });
-        int remoteSeriesColor = getResources().getColor(R.color.bsu_line_graph_color);
+        int remoteSeriesColor = getResources().getColor(R.color.remote_line_graph_color);
         remoteSeries.setColor(remoteSeriesColor);
         remoteSeries.setDrawBackground(true);
         remoteSeries.setBackgroundColor(Color.argb(64, Color.red(remoteSeriesColor), Color.green(remoteSeriesColor), Color.blue(remoteSeriesColor)));

@@ -32,7 +32,7 @@
 
     <color name="bgBottomNavigation">#fe485a</color>
 
-    <color name="su_line_graph_color">#0083c2</color>
-    <color name="bsu_line_graph_color">#2ac2dd</color>
+    <color name="local_line_graph_color">#0083c2</color>
+    <color name="remote_line_graph_color">#2ac2dd</color>
 
 </resources>
