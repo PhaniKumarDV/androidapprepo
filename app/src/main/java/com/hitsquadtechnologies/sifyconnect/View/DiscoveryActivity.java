@@ -1,6 +1,7 @@
 package com.hitsquadtechnologies.sifyconnect.View;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -124,11 +126,24 @@ public class DiscoveryActivity extends BaseActivity {
 
     public void connectToWifi(String networkSSID,String pass)
     {
+        hideKeyboard();
         WifiConfiguration conf = new WifiConfiguration();
                      conf.SSID = "\"" + networkSSID + "\"";
              conf.preSharedKey = "\""+ pass +"\"";
               connet(conf,networkSSID);
     }
+
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = this.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(this);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 
     private void connet(WifiConfiguration conf,String networkSSID) {
 
@@ -188,7 +203,7 @@ public class DiscoveryActivity extends BaseActivity {
                 scannedWifisDetailsArrayList.add(mWifiDetailsdata);
             }
 
-            adapter = new WifiscannerAdapter(DiscoveryActivity.this, scannedWifisDetailsArrayList,mSharedPreference.getWifiMac());
+            adapter = new WifiscannerAdapter(DiscoveryActivity.this, scannedWifisDetailsArrayList);
             mListViwProvider.setAdapter(adapter);
 
         }

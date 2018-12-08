@@ -39,6 +39,15 @@ public class SharedPreference {
         editor.commit();
     }
 
+
+    public void resetIPAddress(){
+
+        editor.remove(KEY_SSID);
+        editor.remove(KEY_IPADDRESS);
+        editor.remove(KEY_WIFIMAC);
+        editor.commit();
+    }
+
     public void saveLocalDeviceValues(String Mac, int mode,String LocalIpaddress)
     {
         editor.putString(KEY_MACADDRESS, Mac);

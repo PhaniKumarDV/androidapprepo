@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.wifi.ScanResult;
 import android.support.annotation.NonNull;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.hitsquadtechnologies.sifyconnect.Model.wifiDetailsdata;
 import com.hitsquadtechnologies.sifyconnect.R;
 import com.hitsquadtechnologies.sifyconnect.View.DiscoveryActivity;
+import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 
 import java.util.List;
 
@@ -28,13 +30,14 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
     private String mConnectedWifiSSID;
     private LayoutInflater inflater;
     private View lastShownWifiDetails;
+    private SharedPreference mPreferences;
 
-    public WifiscannerAdapter(DiscoveryActivity context, List<wifiDetailsdata> wifiDetailsList, String ConnectedWifissid) {
+    public WifiscannerAdapter(DiscoveryActivity context, List<wifiDetailsdata> wifiDetailsList) {
         super(context, R.layout.list_item, wifiDetailsList);
         mContext = context;
-        this.mConnectedWifiSSID = ConnectedWifissid;
         inflater = LayoutInflater.from(context);
         this.wifiDetailsarrayList = wifiDetailsList;
+        this.mPreferences = new SharedPreference(context);
     }
 
     @NonNull
@@ -81,6 +84,17 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
                     WifiscannerAdapter.this.mContext.stopScan();
                 }
             });
+            newViewHolder.passwordInput.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                        v.clearFocus();
+                        WifiscannerAdapter.this.mContext.startScan();
+                        WifiscannerAdapter.this.mContext.connectToWifi(newViewHolder.wifiProvider.getText().toString(), newViewHolder.passwordInput.getText().toString());
+                    }
+                    return false;
+                }
+            });
             newViewHolder.connectBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -102,7 +116,7 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        if(wifiData.getBSSID().equalsIgnoreCase(this.mConnectedWifiSSID))
+        if(wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac()))
         {
             viewHolder.txConnectedStatus.setVisibility(View.VISIBLE);
             viewHolder.txConnectedStatus.setText("Connected");

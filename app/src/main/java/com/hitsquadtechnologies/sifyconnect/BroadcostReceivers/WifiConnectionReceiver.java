@@ -1,5 +1,6 @@
 package com.hitsquadtechnologies.sifyconnect.BroadcostReceivers;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,7 @@ public class WifiConnectionReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, Intent intent) {
 
         mSharedPreference = new SharedPreference(context);
+        this.mSharedPreference.resetIPAddress();
         if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION))
         {
             NetworkInfo info = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
@@ -37,16 +39,24 @@ public class WifiConnectionReceiver extends BroadcastReceiver {
 
                 String bssid = wifiInfo.getBSSID();
                 String iPAddress = intToIp(wifiManager.getDhcpInfo().gateway);
+                final ProgressDialog progress = new ProgressDialog(context);
+                progress.setMessage("Locating server");
+                progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progress.setIndeterminate(true);
+                progress.setCancelable(false);
+                progress.show();
                 mSharedPreference.saveIPAddress(iPAddress,method(ssid),bssid);
                 RouterService.INSTANCE.connectTo(iPAddress, new RouterService.Callback<KeywestPacket>() {
                     @Override
                     public void onSuccess(final KeywestPacket packet) {
-                        //Toast.makeText(context, "Server found", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Server found", Toast.LENGTH_LONG).show();
+                        progress.hide();
                     }
 
                     @Override
                     public void onError(String msg, Exception e) {
                         Toast.makeText(context, "Server not found", Toast.LENGTH_LONG).show();
+                        progress.hide();
                         Log.e(WifiConnectionReceiver.class.getName(), msg, e);
                     }
                 });

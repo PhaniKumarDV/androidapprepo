@@ -18,7 +18,7 @@ public class RouterService {
 
     public static final int DEFAULT_PORT = 9181;
     public static final long MAX_SUBSCRIPTION_AGE = TimeUnit.MINUTES.toMillis(60);
-    public static final long REQUEST_TIMEOUT = TimeUnit.SECONDS.toMillis(20);
+    public static final long REQUEST_TIMEOUT = TimeUnit.SECONDS.toMillis(10);
 
     public static abstract class Callback<T> {
         public abstract void onSuccess(T t);
