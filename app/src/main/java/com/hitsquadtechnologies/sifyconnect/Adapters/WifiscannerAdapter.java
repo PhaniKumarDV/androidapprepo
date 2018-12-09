@@ -43,12 +43,16 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
         Collections.sort(wifiDetailsList, new Comparator<wifiDetailsdata>() {
             @Override
             public int compare(wifiDetailsdata o1, wifiDetailsdata o2) {
-                if (o1.getBSSID().equalsIgnoreCase(connectedWifiSsid) || o2.getSSID().trim().length() == 0) {
+                if (o1 == null) {
+                    return 1;
+                } else if (o2 == null) {
                     return -1;
-                } if (o2.getBSSID().equalsIgnoreCase(connectedWifiSsid) || o1.getSSID().trim().length() == 0) {
+                } else if (o1.getBSSID().equalsIgnoreCase(connectedWifiSsid) || o2.getSSID().trim().length() == 0) {
+                    return -1;
+                } else if (o2.getBSSID().equalsIgnoreCase(connectedWifiSsid) || o1.getSSID().trim().length() == 0) {
                     return 1;
                 } else {
-                    return o1.getSSID().compareTo(o2.getSSID());
+                    return o1.getSSID().toLowerCase().compareTo(o2.getSSID().toLowerCase());
                 }
             }
         });
@@ -77,6 +81,7 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
             newViewHolder.security = convertView.findViewById(R.id.securityValue);
             newViewHolder.channelWidth = convertView.findViewById(R.id.channelWidthValue);
             newViewHolder.bssid = convertView.findViewById(R.id.bssidValue);
+            newViewHolder.ssid = convertView.findViewById(R.id.ssidValue);
             newViewHolder.connectBtn = convertView.findViewById(R.id.connectBtn);
             newViewHolder.cancelBtn = convertView.findViewById(R.id.cancelBtn);
             newViewHolder.passwordInput = convertView.findViewById(R.id.wifiPassword);
@@ -196,6 +201,7 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
         }
 
         viewHolder.bssid.setText(wifiData.getBSSID());
+        viewHolder.ssid.setText(wifiData.getSSID());
         viewHolder.channelWidth.setText(getChannelWidthStr(wifiData.getFrequency(), wifiData.getChannelWidth()));
         viewHolder.frequencyLabel.setText(wifiData.getFrequency()+ "MHz");
 
@@ -262,6 +268,7 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
         public TextView security;
         public TextView channelWidth;
         public TextView bssid;
+        public TextView ssid;
         public TextView frequencyLabel;
         public Button connectBtn;
         public Button cancelBtn;

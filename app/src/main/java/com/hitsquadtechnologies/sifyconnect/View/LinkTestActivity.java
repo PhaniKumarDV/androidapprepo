@@ -126,10 +126,10 @@ public class LinkTestActivity extends BaseActivity {
                 renderGraph();
                 localSnrA1.setText("" + wirelessLinkStats.getLocalSNRA1());
                 localSnrA2.setText("" + wirelessLinkStats.getLocalSNRA2());
-                localLinkQuality.setText("5");
+                localLinkQuality.setText("90");
                 remoteSnrA1.setText("" + wirelessLinkStats.getRemoteSNRA1());
                 remoteSnrA2.setText("" + wirelessLinkStats.getRemoteSNRA2());
-                remoteLinkQuality.setText("8");
+                remoteLinkQuality.setText("94");
             }
         });
     }
