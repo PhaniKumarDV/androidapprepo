@@ -22,6 +22,7 @@ public class SharedPreference {
     private static final String KEY_DIRECTION = "Direction";
     private static final String KEY_ISTRUE = "StartorStop";
     private static final String KEY_WIFIMAC = "WifiMac";
+    private static final String KEY_TOUR = "Tour";
 
     public SharedPreference(Context context)
     {
@@ -35,6 +36,15 @@ public class SharedPreference {
         editor.putString(KEY_SSID, ssid);
         editor.putString(KEY_IPADDRESS, IPAddress);
         editor.putString(KEY_WIFIMAC, wifimac);
+        editor.commit();
+    }
+
+
+    public void resetIPAddress(){
+
+        editor.remove(KEY_SSID);
+        editor.remove(KEY_IPADDRESS);
+        editor.remove(KEY_WIFIMAC);
         editor.commit();
     }
 
@@ -107,5 +117,13 @@ public class SharedPreference {
         return pref.getBoolean(KEY_ISTRUE,false);
     }
 
+    public boolean showTour() {
+        return pref.getBoolean(KEY_TOUR, true);
+    }
+
+    public void setTour(boolean flag) {
+        editor.putBoolean(KEY_TOUR, flag);
+        editor.commit();
+    }
 
 }

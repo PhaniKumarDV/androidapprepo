@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#f2f2f2</color>
-    <color name="colorPrimary">#663399</color>
+    <color name="colorPrimary">#2e295d</color>
     <color name="colorBlue">#01a3c0</color>
     <color name="colorRed">#CC0000</color>
     <color name="bg_login">#26ae90</color>
@@ -31,5 +31,8 @@
     <color name="green">#56b643</color>
 
     <color name="bgBottomNavigation">#fe485a</color>
+
+    <color name="local_line_graph_color">#0083c2</color>
+    <color name="remote_line_graph_color">#2ac2dd</color>
 
 </resources>

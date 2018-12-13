@@ -12,6 +12,11 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+/***
+ * @deprecated
+ * Use {@link RouterService}
+ */
+@Deprecated()
 public class UDPConnection extends Thread{
 
     private String dstAddress;

@@ -1,6 +1,7 @@
 package com.hitsquadtechnologies.sifyconnect.View;
 
-import android.app.Dialog;
+import android.Manifest;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,27 +11,15 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Messenger;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.SparseArray;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.hitsquadtechnologies.sifyconnect.Adapters.WifiscannerAdapter;
 import com.hitsquadtechnologies.sifyconnect.BroadcostReceivers.WifiConnectionReceiver;
 import com.hitsquadtechnologies.sifyconnect.Model.wifiDetailsdata;
@@ -42,10 +31,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
-public class DiscoveryActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class DiscoveryActivity extends BaseActivity {
 
     WifiManager wifiManager;
     WifiScanReceiver receiverWifi;
@@ -53,33 +40,21 @@ public class DiscoveryActivity extends AppCompatActivity
     WifiConnectionReceiver connectWifiState;
     ArrayList<wifiDetailsdata> scannedWifisDetailsArrayList;
     ListView mListViwProvider;
-    String txpassword;
-    TextView mSignalstength;
     boolean isConnected = false;
     WifiscannerAdapter  adapter;
     SharedPreference mSharedPreference;
     ShowHidePasswordEditText password;
     WifiManager mConnectwifiManager;
+    boolean mScanStopped;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Discovery");
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
+        setContentView(R.layout.activity_discovery);
+        this.onCreate("Discovery", R.id.toolbar, true);
         initialization();
-        navigationview();
-
     }
 
     private void initialization()
@@ -93,24 +68,29 @@ public class DiscoveryActivity extends AppCompatActivity
             Toast.makeText(this, "WiFi is disabled ... We need to enable it", Toast.LENGTH_LONG).show();
             wifiManager.setWifiEnabled(true);
         }
+        if (mSharedPreference.showTour()) {
+            this.startActivity(new Intent(this, TourActivity.class));
+        }
         scaningForWifiList();
         listViewOnItemclickListner();
-    }
-
-    private void navigationview()
-    {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mConnectwifiManager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
 
     private void scaningForWifiList()
     {
-        Toast.makeText(this, "Scanning....", Toast.LENGTH_LONG).show();
-        receiverWifi = new WifiScanReceiver();
-        registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        wifiManager.startScan();
-        connectWifiState = new WifiConnectionReceiver();
-        registerReceiver(connectWifiState, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+        requestPermission(Manifest.permission.ACCESS_COARSE_LOCATION,
+                new PermissionCallback() {
+                    @Override
+                    public void onGrant() {
+                        Toast.makeText(DiscoveryActivity.this, "Scanning....", Toast.LENGTH_LONG).show();
+                        receiverWifi = new WifiScanReceiver();
+                        registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+                        wifiManager.startScan();
+                        connectWifiState = new WifiConnectionReceiver();
+                        registerReceiver(connectWifiState, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
+                    }
+                }
+        );
     }
 
     @Override
@@ -139,21 +119,31 @@ public class DiscoveryActivity extends AppCompatActivity
     {
         isConnected = false;
         TextView ssid = (TextView) view.findViewById(R.id.wifi_name);
-        if(ssid.getText().toString().equalsIgnoreCase(mSharedPreference.getSsid()))
-         {
+        if(ssid.getText().toString().equalsIgnoreCase(mSharedPreference.getSsid())) {
            isConnected = true;
-         }
-         dialogView(position);
+        }
     }
 
-    private void connectToWifi(int position,String pass)
+    public void connectToWifi(String networkSSID,String pass)
     {
-        String networkSSID     = scannedWifisDetailsArrayList.get(position).getSSID();
+        hideKeyboard();
         WifiConfiguration conf = new WifiConfiguration();
                      conf.SSID = "\"" + networkSSID + "\"";
              conf.preSharedKey = "\""+ pass +"\"";
               connet(conf,networkSSID);
     }
+
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = this.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(this);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
 
     private void connet(WifiConfiguration conf,String networkSSID) {
 
@@ -181,9 +171,20 @@ public class DiscoveryActivity extends AppCompatActivity
         super.onResume();
     }
 
+    public void stopScan() {
+        mScanStopped = true;
+    }
+
+    public void startScan() {
+        mScanStopped = false;
+    }
+
     class WifiScanReceiver extends BroadcastReceiver {
         @RequiresApi(api = Build.VERSION_CODES.M)
         public void onReceive(Context c, Intent intent) {
+            if (DiscoveryActivity.this.mScanStopped) {
+                return;
+            }
             wifiList = wifiManager.getScanResults();
             Collections.sort(wifiList, new Comparator<ScanResult>() {
                 @Override
@@ -202,153 +203,10 @@ public class DiscoveryActivity extends AppCompatActivity
                 scannedWifisDetailsArrayList.add(mWifiDetailsdata);
             }
 
-            adapter = new WifiscannerAdapter(DiscoveryActivity.this, scannedWifisDetailsArrayList,mSharedPreference.getWifiMac());
+            adapter = new WifiscannerAdapter(DiscoveryActivity.this, scannedWifisDetailsArrayList);
             mListViwProvider.setAdapter(adapter);
 
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.nav_discovery) {
-
-            Intent intent = new Intent(DiscoveryActivity.this,DiscoveryActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_configuration) {
-
-            Intent intent = new Intent(DiscoveryActivity.this,ConfigurationActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_summary) {
-
-            Intent intent = new Intent(DiscoveryActivity.this,SummaryActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_Alignment) {
-
-            Intent intent = new Intent(DiscoveryActivity.this,AlignmentActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_linktest) {
-
-            Intent intent = new Intent(DiscoveryActivity.this,LinkTestActivity.class);
-            startActivity(intent);
-        }else if (id == R.id.nav_wireless)
-        {
-            Intent intent = new Intent(DiscoveryActivity.this,StaticsActivity.class);
-            startActivity(intent);
-        }else if (id == R.id.nav_logout)
-        {
-            logout();
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private void logout() {
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(DiscoveryActivity.this,LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void dialogView(final int position){
-
-        final Dialog dialog = new Dialog(DiscoveryActivity.this);
-        dialog.setContentView(R.layout.dialog_view);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        TextView txSsid = (TextView) dialog.findViewById(R.id.dialog_wifi_ssid);
-        TextView textbssia = (TextView) dialog.findViewById(R.id.dialog_wifi_bssid);
-        TextView textcapabilites = (TextView) dialog.findViewById(R.id.dialog_wifi_capabilities);
-        TextView textFrequency = (TextView) dialog.findViewById(R.id.dialog_wifi_frequecy);
-        TextView txchannelwidth = (TextView) dialog.findViewById(R.id.dialog_wifi_channelwidth);
-        Button closeButton = (Button) dialog.findViewById(R.id.wifi_cancle_button);
-        Button forgotButton = (Button) dialog.findViewById(R.id.wifi_forgot_button);
-        Button connectbutton = (Button) dialog.findViewById(R.id.wifi_connect_button);
-        password = (ShowHidePasswordEditText) dialog.findViewById(R.id.simplePassword);
-
-        txSsid.setText(scannedWifisDetailsArrayList.get(position).getSSID());
-        textbssia.setText(String.format("%s", scannedWifisDetailsArrayList.get(position).getBSSID()));
-        textcapabilites.setText(String.format("%s", scannedWifisDetailsArrayList.get(position).getCapabilities()));
-        textFrequency.setText(new StringBuilder().append(scannedWifisDetailsArrayList.get(position).getFrequency()).append(" MHz").toString());
-        mConnectwifiManager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-
-        if(isConnected)
-        {
-            forgotButton.setEnabled(true);
-            forgotButton.setTextColor(getResources().getColor(R.color.colorPrimary));
-            connectbutton.setEnabled(false);
-            password.setVisibility(View.GONE);
-
-        } else {
-            connectbutton.setEnabled(true);
-            forgotButton.setEnabled(false);
-            connectbutton.setTextColor(getResources().getColor(R.color.colorPrimary));
-            password.setVisibility(View.VISIBLE);
-        }
-
-        if(scannedWifisDetailsArrayList.get(position).getChannelWidth() == 0) {
-            txchannelwidth.setText("20 MHz");
-        } else if(scannedWifisDetailsArrayList.get(position).getChannelWidth() == 1) {
-            txchannelwidth.setText("40 MHz");
-        } else if(scannedWifisDetailsArrayList.get(position).getChannelWidth() == 2) {
-            txchannelwidth.setText("  MHz");
-        }
-
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                dialog.dismiss();
-            }
-        });
-        connectbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view)
-            {
-                txpassword = password.getText().toString();
-                String ssid = ((TextView) view).getText().toString();
-                connectToWifi(position,txpassword);
-               // String mSsid = mSharedPreference.getSsid();
-                String bssid = mSharedPreference.getWifiMac();
-                if(bssid != null){
-                    adapter = new WifiscannerAdapter(DiscoveryActivity.this, scannedWifisDetailsArrayList,bssid);
-                    mListViwProvider.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                }
-                dialog.dismiss();
-            }
-        });
-
-        forgotButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                forgetPassword();
-
-                adapter = new WifiscannerAdapter(DiscoveryActivity.this, scannedWifisDetailsArrayList,mSharedPreference.getWifiMac());
-                mListViwProvider.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
     }
 
     private void forgetPassword(){
@@ -356,15 +214,5 @@ public class DiscoveryActivity extends AppCompatActivity
             Log.d("networkId", String.valueOf(networkId));
             mConnectwifiManager.removeNetwork(networkId);
             mConnectwifiManager.saveConfiguration();
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 }

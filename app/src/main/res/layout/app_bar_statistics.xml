@@ -63,6 +63,12 @@
 
     </RelativeLayout>
 
+    <TextView
+        style="@style/PoweredBy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/powered_by"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

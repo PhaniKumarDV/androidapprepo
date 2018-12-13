@@ -1,5 +1,6 @@
 package com.hitsquadtechnologies.sifyconnect.BroadcostReceivers;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,19 +10,23 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
+import com.hitsquadtechnologies.sifyconnect.View.SummaryActivity;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
+import com.hsq.kw.packet.KeywestPacket;
 
 
 public class WifiConnectionReceiver extends BroadcastReceiver {
 
-    private boolean isReceiverRegistered = false;
     SharedPreference mSharedPreference;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public void onReceive(Context context,   Intent intent) {
+    public void onReceive(final Context context, Intent intent) {
 
         mSharedPreference = new SharedPreference(context);
+        this.mSharedPreference.resetIPAddress();
         if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION))
         {
             NetworkInfo info = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
@@ -33,10 +38,28 @@ public class WifiConnectionReceiver extends BroadcastReceiver {
                 Log.e("ssid", ssid);
 
                 String bssid = wifiInfo.getBSSID();
-                int IPAddress = wifiManager.getDhcpInfo().gateway;
-                mSharedPreference.saveIPAddress(intToIp(IPAddress),method(ssid),bssid);
-                Log.e("ipaddress", method(ssid) + "XXXXXXXX");
-                //Log.e("INFO", " -- Wifi XXXXXXXXXXXXXXXconnected --- " + " SSID " + ssid );
+                String iPAddress = intToIp(wifiManager.getDhcpInfo().gateway);
+                final ProgressDialog progress = new ProgressDialog(context);
+                progress.setMessage("Locating server");
+                progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progress.setIndeterminate(true);
+                progress.setCancelable(false);
+                progress.show();
+                mSharedPreference.saveIPAddress(iPAddress,method(ssid),bssid);
+                RouterService.INSTANCE.connectTo(iPAddress, new RouterService.Callback<KeywestPacket>() {
+                    @Override
+                    public void onSuccess(final KeywestPacket packet) {
+                        Toast.makeText(context, "Server found", Toast.LENGTH_LONG).show();
+                        progress.hide();
+                    }
+
+                    @Override
+                    public void onError(String msg, Exception e) {
+                        Toast.makeText(context, "Server not found", Toast.LENGTH_LONG).show();
+                        progress.hide();
+                        Log.e(WifiConnectionReceiver.class.getName(), msg, e);
+                    }
+                });
 
             }
         }
