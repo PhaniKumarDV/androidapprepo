@@ -1,11 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">SifyConnect</string>
+    <string name="app_name">@string/client_name</string>
+    <string name="client_name">SifyConnect</string>
+    <string name="powered_by">Powered by KeyWest Networks</string>
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="username">UserName</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="skip_tour">Skip</string>
+    <string name="end_tour">End</string>
     <string name="action_sign_in_short">Register</string>
     <string name="email">Email</string>
     <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
@@ -100,6 +104,17 @@
     <string name="title_cart">Cart</string>
     <string name="title_profile">Profile</string>
 
-    <string name="toast">Mac address is empty</string>
+    <string name="mac_address_is_empty_toast">Mac address is empty</string>
+
+
+    <string name="Dashboard.SSID.header">SSID</string>
+    <string name="Dashboard.frequency.header">Frequency</string>
+    <string name="Dashboard.RSSI.header">RSSI(dB)</string>
+
+    <string name="wifiDetails.security">Security</string>
+    <string name="wifiDetails.channelWidth">Channel Width</string>
+    <string name="wifiDetails.BSSID">BSSID</string>
+    <string name="title_activity_home">HomeActivity</string>
+
 
 </resources>

@@ -1,133 +1,307 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:gauge="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:gauge="http://schemas.android.com/tools">
+    android:background="#ffffff"
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/relativelay"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_height="64dp"
+        android:id="@+id/wifi_list_item">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.4" />
+
 
         <ImageView
             android:id="@+id/wifi_security"
             android:layout_width="31dp"
             android:layout_height="25dp"
-            android:layout_gravity="start"
-            android:layout_marginBottom="25dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:src="@drawable/wifi"
-            gauge:ignore="RtlSymmetry" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.56" />
 
         <TextView
             android:id="@+id/wifi_name"
-            android:layout_width="120dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="20dp"
-            android:layout_toEndOf="@+id/wifi_security"
-            android:layout_toRightOf="@+id/wifi_security"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="text"
+            android:paddingTop="4dp"
+            android:text="wifi"
             android:textColor="@color/text_view_color"
-            android:textSize="20sp"
-            app:fontFamily="@font/calibri" />
+            android:textSize="12sp"
+            app:fontFamily="@font/calibri"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toEndOf="@+id/wifi_security"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.56" />
 
         <TextView
-            android:id="@+id/Tx_channel"
-            android:layout_width="100dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="25dp"
-            android:layout_toEndOf="@+id/wifi_name"
-            android:layout_toRightOf="@+id/wifi_name"
-            android:gravity="center"
-            android:text="2442"
-            android:textColor="@color/text_view_color"
-            android:textSize="@dimen/text_large_size"
-            app:fontFamily="@font/calibri"
-            android:visibility="gone"/>
+            android:id="@+id/connectedText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/wifi_name"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="4dp"
+            android:text="connected"
+            android:textColor="@color/colorBlue"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@+id/wifi_name"
+            app:layout_constraintTop_toBottomOf="@+id/wifi_name" />
 
         <TextView
             android:id="@+id/signal_strength"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="120dp"
-            android:layout_marginTop="20dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
             android:fontFamily="@font/calibri"
             android:gravity="center"
-            android:text="-10"
+            android:text="-10dBm"
             android:textColor="@color/green"
-            android:textSize="24sp" />
-
-        <!--<LinearLayout
-            android:orientation="vertical"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_toEndOf="@+id/Tx_channel"
-            android:layout_toRightOf="@+id/Tx_channel"
-            >
-
-            <TextView
-                android:id="@+id/signal_strength"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:fontFamily="@font/calibri"
-                android:text="-10"
-                android:textColor="@color/input_login"
-                android:textSize="12dp" />
-
-            <ImageView
-                android:id="@+id/Tx_wifi_rssi"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_marginLeft="7dp"
-                android:layout_marginTop="-8dp"
-                android:src="@drawable/full_signal1" />
-
-        </LinearLayout>-->
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/progressbar"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
-            android:id="@+id/connectedText"
+            android:id="@+id/frequency"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_below="@+id/wifi_name"
-            android:layout_marginStart="57dp"
-            android:layout_marginTop="5dp"
-            android:textSize="16sp"
-            android:textColor="@color/green"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/calibri"
+            android:gravity="center"
+            android:text="5745MHz"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/progressbar"
+            app:layout_constraintStart_toStartOf="@+id/guideline" />
 
         <ProgressBar
             android:id="@+id/progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:max="100"
+            android:maxHeight="10dp"
+            android:progress="-95"
+            android:progressTint="@color/green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/wifi_name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.64" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/wifi_details"
+        style="@style/WifiDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="32dp"
+                android:rotation="180"
+                android:src="@drawable/discovery_expan_indicator"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/discovery_bssid" />
+
+                    <TextView
+                        android:id="@+id/ssidLabel"
+                        style="@style/WifiDetails.Text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="@string/Dashboard.SSID.header" />
+
+                    <TextView
+                        android:id="@+id/ssidValue"
+                        style="@style/WifiDetails.Text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:textAlignment="textEnd" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/discovery_bssid" />
+
+                    <TextView
+                        android:id="@+id/bssidLabel"
+                        style="@style/WifiDetails.Text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="@string/wifiDetails.BSSID" />
+
+                    <TextView
+                        android:id="@+id/bssidValue"
+                        style="@style/WifiDetails.Text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:textAlignment="textEnd" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/discovery_security" />
+
+                    <TextView
+                        android:id="@+id/securityLabel"
+                        style="@style/WifiDetails.Text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="@string/wifiDetails.security" />
+
+                    <TextView
+                        android:id="@+id/securityValue"
+                        style="@style/WifiDetails.Text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:textAlignment="textEnd" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/discovery_channel_width" />
+
+                    <TextView
+                        android:id="@+id/channelWidthLabel"
+                        style="@style/WifiDetails.Text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="@string/wifiDetails.channelWidth" />
+
+                    <TextView
+                        android:id="@+id/channelWidthValue"
+                        style="@style/WifiDetails.Text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:textAlignment="textEnd" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+
+        <EditText
+            android:id="@+id/wifiPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="15dp"
-            android:progress="-95"
-            android:max="0"
-            android:min="-100"
-            android:maxHeight="10dp"
-            android:layout_marginBottom="15dp"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:progressTint="@color/green"
-            android:layout_below="@+id/connectedText"/>
+            android:background="#eeeeee"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="12sp" />
 
-    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/connectBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Connect"
+                android:textSize="14sp" />
 
+            <Button
+                android:id="@+id/cancelBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="cancel" />
+        </LinearLayout>
+    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

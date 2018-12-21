@@ -25,7 +25,7 @@ public class StaticsActivity extends AppCompatActivity  implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_statics);
+        setContentView(R.layout.activity_statistics);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -78,7 +78,7 @@ public class StaticsActivity extends AppCompatActivity  implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
-        getMenuInflater().inflate(R.menu.menu_menu, menu);
+        //getMenuInflater().inflate(R.menu.menu_menu, menu);
         return true;
     }
 
