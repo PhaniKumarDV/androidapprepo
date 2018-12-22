@@ -43,12 +43,23 @@
     <string name="SU_GPS"> "17' 23' 13.7040 N \n78' 29' 30.0624 E "</string>
 
     <string name="channel"> "Bandwidth" </string>
+    <string name="ddrs_status">DDRS Status</string>
+    <string name="spatial_stream">Spatial Stream</string>
+    <string name="mcs_index">MCS Index</string>
+    <string name="min_mcs_index">Min. MCS Index</string>
+    <string name="max_mcs_index">Max. MCS Index</string>
+    <string name="atpc_status">ATPC Status</string>
+    <string name="tx_power">TX Power</string>
+    <string name="ip_address_type">IP Adress Type</string>
     <string name="device_mode">Radio Mode</string>
     <string name="country">Country</string>
     <string name="empty">-</string>
 
-    <string-array name="direction_arrays">
+    <string-array name="BSU_direction_arrays">
         <item>Uplink</item>
+        <item>Bi-Di</item>
+    </string-array>
+    <string-array name="SU_direction_arrays">
         <item>Downlink</item>
         <item>Bi-Di</item>
     </string-array>
@@ -82,6 +93,15 @@
         <item>"107"</item>
         <item>"166"</item>
         <item>"135"</item>
+    </string-array>
+
+    <string-array name="enable_disabled_arrays">
+        <item>Enable</item>
+        <item>Disable</item>
+    </string-array>
+    <string-array name="spatial_stream_arrays">
+        <item>Single</item>
+        <item>Dual</item>
     </string-array>
     <string-array name="ipAddress_arrays">
         <item>Static</item>

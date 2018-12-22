@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/antenna_name_view"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/summary_bg1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <TextView
+                    android:id="@+id/radio_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="BSU"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/antenna_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/antenna_signal_view"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="2"
+                android:background="@drawable/summary_bg6">
+
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BEST"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/antenna_best_signal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-64.6"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="dBm"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="#ffffff" />
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CURRENT"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/antenna_current_signal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-64.6"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="dBm"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="16dp">
+        <LinearLayout
+            android:id="@+id/signal_diff_scale"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/signal_diff_scale_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+
+    <SeekBar
+        android:id="@+id/antenna_signal_diff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:max="10"
+        android:padding="0dp"
+        android:progress="3"
+        android:progressDrawable="@drawable/diagonise_seekbar_progress"
+        android:thumb="@drawable/diagonise_seekbar_thumb" />
+</LinearLayout>
