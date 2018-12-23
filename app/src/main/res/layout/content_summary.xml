@@ -494,6 +494,15 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- to  prevent events-->
+                <LinearLayout
+                    android:id="@+id/mask"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="horizontal"/>
+
             </android.support.constraint.ConstraintLayout>
 
 

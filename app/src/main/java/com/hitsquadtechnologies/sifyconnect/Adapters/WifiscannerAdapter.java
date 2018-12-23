@@ -39,23 +39,6 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
         inflater = LayoutInflater.from(context);
         this.wifiDetailsarrayList = wifiDetailsList;
         this.mPreferences = new SharedPreference(context);
-        final String connectedWifiSsid = this.mPreferences.getWifiMac();
-        Collections.sort(wifiDetailsList, new Comparator<wifiDetailsdata>() {
-            @Override
-            public int compare(wifiDetailsdata o1, wifiDetailsdata o2) {
-                if (o1 == null) {
-                    return 1;
-                } else if (o2 == null) {
-                    return -1;
-                } else if (o1.getBSSID().equalsIgnoreCase(connectedWifiSsid) || o2.getSSID().trim().length() == 0) {
-                    return -1;
-                } else if (o2.getBSSID().equalsIgnoreCase(connectedWifiSsid) || o1.getSSID().trim().length() == 0) {
-                    return 1;
-                } else {
-                    return o1.getSSID().toLowerCase().compareTo(o2.getSSID().toLowerCase());
-                }
-            }
-        });
     }
 
     @NonNull
@@ -135,16 +118,6 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        if(wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac()))
-        {
-            viewHolder.txConnectedStatus.setVisibility(View.VISIBLE);
-            viewHolder.txConnectedStatus.setText("Connected");
-            viewHolder.connectBtn.setVisibility(View.GONE);
-
-        }else {
-            viewHolder.txConnectedStatus.setVisibility(View.GONE);
-            viewHolder.connectBtn.setVisibility(View.VISIBLE);
-        }
 
         viewHolder.wifiProvider.setText(wifiData.getSSID());
 
@@ -166,6 +139,17 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
             viewHolder.passwordInput.setVisibility(View.GONE);
         }
 
+
+        if(wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac())) {
+            viewHolder.txConnectedStatus.setVisibility(View.VISIBLE);
+            viewHolder.txConnectedStatus.setText("Connected");
+            viewHolder.connectBtn.setVisibility(View.GONE);
+            viewHolder.passwordInput.setVisibility(View.GONE);
+        }else {
+            viewHolder.txConnectedStatus.setVisibility(View.GONE);
+            viewHolder.connectBtn.setVisibility(View.VISIBLE);
+        }
+
         viewHolder.txsignalstgth.setText(Integer.toString(wifiData.getRssi()) + "dBm");
 
 
@@ -180,22 +164,7 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
             int rssi = wifiData.getRssi();
             setProgressbar(viewHolder,rssi,"#f38624");
 
-        }else if(wifiData.getRssi() >= -70 &&
-                wifiData.getRssi() < -60){
-
-            int rssi = wifiData.getRssi();
-            setProgressbar(viewHolder,rssi,"#e60000");
-
-        }
-        else if(wifiData.getRssi() >= -80 &&
-                wifiData.getRssi() < -70){
-
-            int rssi = wifiData.getRssi();
-            setProgressbar(viewHolder,rssi,"#e60000");
-        }
-        else if(wifiData.getRssi() >= -90 &&
-                wifiData.getRssi() < -80){
-
+        } else {
             int rssi = wifiData.getRssi();
             setProgressbar(viewHolder,rssi,"#e60000");
         }

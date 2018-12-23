@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,8 +24,6 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.sdsmdg.harjot.crollerTest.Croller;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class SummaryActivity extends BaseActivity {
 
@@ -72,6 +71,11 @@ public class SummaryActivity extends BaseActivity {
         areaGraph           = findViewById(R.id.area_graph);
         mLocalSNRLabel      = findViewById(R.id.localSNRLabel);
         mRemoteSNRLabel     = findViewById(R.id.remoteSNRLabel);
+        findViewById(R.id.mask).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
         initAreaGraph();
     }
 
@@ -89,7 +93,6 @@ public class SummaryActivity extends BaseActivity {
                     public void run()
                     {
                         Configuration configuration = new Configuration(packet);
-                        mSharedPreference.saveLocalDeviceValues(configuration.getDeviceMac(), configuration.getDeviceMode(), configuration.getIpAddress());
                         mLocalMacAddress.setText(mSharedPreference.getMacAddress());
                         mLocalIPAddress.setText(mSharedPreference.getLocalIPAddress());
                     }
@@ -122,10 +125,11 @@ public class SummaryActivity extends BaseActivity {
 
     public void renderSNR(Activity a, LinearLayout v, int strength, int max) {
         v.removeAllViews();
-        int noOfIndicators = 10;
-        strength = (strength * noOfIndicators) / max;
+        int noOfIndicators = 8;
+        double scale = max / noOfIndicators;
+        strength = Double.valueOf(Math.ceil(strength / scale)).intValue();
         int w = v.getLayoutParams().width;
-        for(int i = 0; i < max; i++) {
+        for(int i = 0; i < noOfIndicators; i++) {
             int imageId = i < strength ? R.drawable.signal_bar_active : R.drawable.signal_bar;
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (0.07 * w), ViewGroup.LayoutParams.MATCH_PARENT);
             ImageView imageView = new ImageView(a);
@@ -155,10 +159,10 @@ public class SummaryActivity extends BaseActivity {
         remoteRateGraph.setProgress(wirelessLinkStats.getRemoteRate());
 
 
-        renderSNR(this, (LinearLayout) findViewById(R.id.localA1Rating), wirelessLinkStats.getLocalSNRA1(), 128);
-        renderSNR(this, (LinearLayout) findViewById(R.id.localA2Rating), wirelessLinkStats.getLocalSNRA2(), 128);
-        renderSNR(this, (LinearLayout) findViewById(R.id.remoteA1Rating), wirelessLinkStats.getRemoteSNRA1(), 128);
-        renderSNR(this, (LinearLayout) findViewById(R.id.remoteA2Rating), wirelessLinkStats.getRemoteSNRA2(), 128);
+        renderSNR(this, (LinearLayout) findViewById(R.id.localA1Rating), wirelessLinkStats.getLocalSNRA1(), 100);
+        renderSNR(this, (LinearLayout) findViewById(R.id.localA2Rating), wirelessLinkStats.getLocalSNRA2(), 100);
+        renderSNR(this, (LinearLayout) findViewById(R.id.remoteA1Rating), wirelessLinkStats.getRemoteSNRA1(), 100);
+        renderSNR(this, (LinearLayout) findViewById(R.id.remoteA2Rating), wirelessLinkStats.getRemoteSNRA2(), 100);
 
         if( mSharedPreference.getRadioMode() == 1 ) {
             mLocalRadio.setText("BSU");
