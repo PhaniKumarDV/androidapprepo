@@ -13,8 +13,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -70,7 +69,7 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:entries="@array/direction_arrays"
+                    android:entries="@array/BSU_direction_arrays"
                     android:textColor="@color/text_view_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibrili" />
@@ -117,8 +116,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
 
                 <Button
                     android:id="@+id/Link_Startbutton"
@@ -127,11 +126,11 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/custom_button"
+                    android:onClick="startTest"
                     android:text="Start"
                     android:textColor="@color/white"
                     android:textSize="15sp"
-                    app:fontFamily="@font/calibril"
-                    android:onClick="startTest"/>
+                    app:fontFamily="@font/calibril" />
 
                 <Button
                     android:id="@+id/Link_stopbutton"
@@ -140,12 +139,12 @@
                     android:layout_alignStart="@+id/Link_Startbutton"
                     android:layout_centerVertical="true"
                     android:background="@drawable/custom_button"
+                    android:onClick="stopTest"
                     android:text="Stop"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:visibility="gone"
-                    app:fontFamily="@font/calibril"
-                    android:onClick="stopTest"/>
+                    app:fontFamily="@font/calibril" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -162,6 +161,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_view_color" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -191,8 +194,12 @@
                         android:layout_weight="1"
                         android:text="Remote"
                         android:textAlignment="center"
-                        android:textStyle="bold"  />
+                        android:textStyle="bold" />
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_view_color" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -205,9 +212,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="SNR A1 (dB)"
-                        android:textStyle="bold"
-                        android:textAlignment="textEnd" />
+                        android:text="Signal A1 (dB)"
+                        android:textAlignment="textEnd"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/localA1"
@@ -215,8 +222,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="34"
-                        android:textColor="@color/local_line_graph_color"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="@color/local_line_graph_color" />
 
                     <TextView
                         android:id="@+id/remoteA1"
@@ -224,10 +231,13 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="100"
-                        android:textColor="@color/remote_line_graph_color"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="@color/remote_line_graph_color" />
                 </LinearLayout>
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_view_color" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -239,9 +249,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="SNR A2 (dB)"
-                        android:textStyle="bold"
-                        android:textAlignment="textEnd" />
+                        android:text="Signal A2 (dB)"
+                        android:textAlignment="textEnd"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/localA2"
@@ -249,8 +259,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="12"
-                        android:textColor="@color/local_line_graph_color"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="@color/local_line_graph_color" />
 
                     <TextView
                         android:id="@+id/remoteA2"
@@ -258,11 +268,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="45"
-                        android:textColor="@color/remote_line_graph_color"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="@color/remote_line_graph_color" />
                 </LinearLayout>
 
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_view_color" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -276,8 +289,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Link Quality (%)"
-                        android:textStyle="bold"
-                        android:textAlignment="textEnd" />
+                        android:textAlignment="textEnd"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/localLinkQuality"
@@ -285,8 +298,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="4"
-                        android:textColor="@color/local_line_graph_color"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="@color/local_line_graph_color" />
 
                     <TextView
                         android:id="@+id/remoteLinkQuality"
@@ -294,9 +307,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="3"
-                        android:textColor="@color/remote_line_graph_color"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="@color/remote_line_graph_color" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/text_view_color" />
 
             </LinearLayout>
 
@@ -304,10 +322,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:gravity="bottom"
             android:orientation="vertical">
+
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/area_graph"
                 android:layout_width="match_parent"

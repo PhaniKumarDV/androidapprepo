@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".View.AlignmentActivity">
 
@@ -29,15 +30,13 @@
     <include
         layout="@layout/content_alignment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AppBarLayout" />
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <TextView
         style="@style/PoweredBy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/powered_by"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:text="@string/powered_by"/>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

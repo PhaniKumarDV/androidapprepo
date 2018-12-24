@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -13,8 +12,11 @@ import android.widget.Toast;
 import com.hitsquadtechnologies.sifyconnect.Adapters.SharedLinkSpeedGraphData;
 import com.hitsquadtechnologies.sifyconnect.R;
 import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
+import com.hitsquadtechnologies.sifyconnect.constants.DirectionType;
+import com.hitsquadtechnologies.sifyconnect.utils.Options;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
+import com.hsq.kw.packet.vo.Configuration;
 import com.hsq.kw.packet.vo.KWWirelessLinkStats;
 import com.hsq.kw.packet.vo.LinkTest;
 import com.jjoe64.graphview.DefaultLabelFormatter;
@@ -23,7 +25,6 @@ import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -46,8 +47,11 @@ public class LinkTestActivity extends BaseActivity {
     int mStrDuration = 30;
     int mStrDirection =1;
     GraphView areaGraph;
+    Options directionalOptions;
+    Options durationOptions = new Options();
     LineGraphSeries<DataPoint> localSeries;
     LineGraphSeries<DataPoint> remoteSeries;
+    CountDownTimer stopTestTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,42 +71,15 @@ public class LinkTestActivity extends BaseActivity {
         remoteSnrA1     = findViewById(R.id.remoteA1);
         remoteSnrA2     = findViewById(R.id.remoteA2);
         remoteLinkQuality = findViewById(R.id.remoteLinkQuality);
-
-        mDuration.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                Object item = adapterView.getItemAtPosition(position);
-                if (item != null)
-                {
-                    mSharedPreference.saveDuractionValues(position);
-                    mStrDuration = Integer.parseInt((item.toString()));
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
-
-        mDirection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                Object item = adapterView.getItemAtPosition(position);
-                if (item != null)
-                {
-                    mSharedPreference.saveDirectionValues(position);
-                    mStrDirection = position+1;
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
-        });
-
-        mDuration.setSelection(mSharedPreference.getDuration());
-        mDirection.setSelection(mSharedPreference.getDirection());
-
+        durationOptions.add(30, "30");
+        durationOptions.add(60, "60");
+        durationOptions.add(120, "120");
         if(mSharedPreference.getIsTrue()){
             mStop.setVisibility(View.VISIBLE);
             mStart.setVisibility(View.GONE);
         }
+        initSpinner(mDuration, durationOptions);
+        mDuration.setSelection(durationOptions.findPositionByKey(mSharedPreference.getDuration()));
         initAreaGraph();
     }
 
@@ -110,11 +87,17 @@ public class LinkTestActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
+        directionalOptions = new Options();
         if( mSharedPreference.getRadioMode() == 1 ) {
             mMacLabel.setText("SU MAC");
+            directionalOptions.add(DirectionType.DOWN_LINK, "Downlink");
         } else {
+            directionalOptions.add(DirectionType.UP_LINK, "Uplink");
             mMacLabel.setText("BSU MAC");
         }
+        directionalOptions.add(DirectionType.BI_DI_LINK, "Bi-di");
+        initSpinner(this.mDirection, directionalOptions);
+        mDirection.setSelection(directionalOptions.findPositionByKey(mSharedPreference.getDirection()));
         this.mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(KeywestPacket response) {
@@ -124,12 +107,12 @@ public class LinkTestActivity extends BaseActivity {
                 }
                 SharedLinkSpeedGraphData.INSTANCE.add(wirelessLinkStats.getTxInput(), wirelessLinkStats.getRxInput());
                 renderGraph();
-                localSnrA1.setText("" + wirelessLinkStats.getLocalSNRA1());
-                localSnrA2.setText("" + wirelessLinkStats.getLocalSNRA2());
-                localLinkQuality.setText("90");
-                remoteSnrA1.setText("" + wirelessLinkStats.getRemoteSNRA1());
-                remoteSnrA2.setText("" + wirelessLinkStats.getRemoteSNRA2());
-                remoteLinkQuality.setText("94");
+                localSnrA1.setText("" + wirelessLinkStats.getLocalSignalA1());
+                localSnrA2.setText("" + wirelessLinkStats.getLocalSignalA2());
+                localLinkQuality.setText(""+ wirelessLinkStats.getLocalLinkQualityIndex());
+                remoteSnrA1.setText("" + wirelessLinkStats.getRemoteSignalA1());
+                remoteSnrA2.setText("" + wirelessLinkStats.getRemoteSignalA2());
+                remoteLinkQuality.setText(""+wirelessLinkStats.getRemoteLinkQualityIndex());
             }
         });
     }
@@ -182,6 +165,10 @@ public class LinkTestActivity extends BaseActivity {
 
     public void startTest(View view) {
         String macAddress = mSuMac.getText().toString();
+        mStrDirection = getSelectedOption(this.mDirection, directionalOptions);
+        mStrDuration  = getSelectedOption(this.mDuration, durationOptions);
+        mSharedPreference.saveDuractionValues(mStrDuration);
+        mSharedPreference.saveDirectionValues(mStrDirection);
         if(!macAddress.isEmpty()) {
             LinkTest linkTestPkt = new LinkTest(1, macAddress, mStrDirection, mStrDuration);
             KeywestPacket keywestPacket = linkTestPkt.buildPacketFromUI();
@@ -190,9 +177,10 @@ public class LinkTestActivity extends BaseActivity {
                 public void onSuccess(KeywestPacket packet) {}
             });
             mStop.setVisibility(View.VISIBLE);
-            new CountDownTimer(TimeUnit.SECONDS.toMillis(mStrDuration), 1000) {
+            stopTestTimer = new CountDownTimer(TimeUnit.SECONDS.toMillis(mStrDuration), 1000) {
                 public void onTick(long millisUntilFinished) {}
                 public  void onFinish() {
+                    stopTestTimer = null;
                     stopTest(null);
                 }
             }.start();
@@ -213,6 +201,9 @@ public class LinkTestActivity extends BaseActivity {
         mSharedPreference.saveStartOrStop(false);
         mStop.setVisibility(View.GONE);
         mStart.setVisibility(View.VISIBLE);
+        if (stopTestTimer != null) {
+            stopTestTimer.cancel();
+        }
     }
 
     private void initAreaGraph() {

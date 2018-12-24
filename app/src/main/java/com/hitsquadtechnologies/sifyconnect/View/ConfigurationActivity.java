@@ -6,7 +6,6 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -15,25 +14,30 @@ import android.widget.Toast;
 
 import com.hitsquadtechnologies.sifyconnect.R;
 import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
+import com.hitsquadtechnologies.sifyconnect.constants.Bandwidth;
+import com.hitsquadtechnologies.sifyconnect.constants.DeviceMode;
+import com.hitsquadtechnologies.sifyconnect.constants.EnableDisable;
+import com.hitsquadtechnologies.sifyconnect.constants.IPAddressType;
+import com.hitsquadtechnologies.sifyconnect.constants.OperationalMode;
+import com.hitsquadtechnologies.sifyconnect.constants.SpatialStream;
+import com.hitsquadtechnologies.sifyconnect.utils.Options;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
 import com.hsq.kw.packet.vo.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ConfigurationActivity extends BaseActivity {
 
     Configuration mConfiguration;
-    EditText mSSID, mChannelNumber, mLinkId, mCustName;
+    EditText mSSID, mChannelNumber, mLinkId, mCustName, mTxPower;
     TextView mGateway, mIPAddress, mDeviceMode, mNetMask;
     Button mSetRequest;
-    Spinner mChannelBandwidth, mMode, mIPAddressType, mCountryCode;
+    Spinner mChannelBandwidth, mMode, mIPAddressType, mCountryCode, mDdrsStatus,
+            mSpatialStream, mMcsIndex, mMinMcsIndex, mMaxMcsIndex, matpcStatus;
     SharedPreference mSharedPreference;
     ProgressDialog progress;
-    public static final int COUNTRYCODE_UL = 5016;
-    public static final int COUNTRYCODE_L = 5017;
-    public static final int COUNTRYCODE_R = 5011;
+    View mMinMcsIndexRow, mMaxMcsIndexRow, mMcsIndexRow, mTxPowerRow;
+    private Options bandwidthOptions;
+    private Options mcsOptions;
     public static final int ZERO = 0;
     public static final int ONE = 1;
     public static final int TWO = 2;
@@ -58,7 +62,17 @@ public class ConfigurationActivity extends BaseActivity {
         mLinkId = (EditText) findViewById(R.id.config_LinkId);
         mCustName = (EditText) findViewById(R.id.config_custName);
         mNetMask = (TextView) findViewById(R.id.config_netmask);
-        mConfiguration = new Configuration();
+        mDdrsStatus = findViewById(R.id.config_DDRS_status);
+        mSpatialStream = findViewById(R.id.config_spatial_stream);
+        mMcsIndex = findViewById(R.id.config_mcs_index);
+        mMcsIndexRow = findViewById(R.id.mcs_index_row);
+        mMaxMcsIndex = findViewById(R.id.config_max_mcs_index);
+        mMaxMcsIndexRow = findViewById(R.id.max_mcs_index_row);
+        mMinMcsIndex = findViewById(R.id.config_min_mcs_index);
+        mMinMcsIndexRow = findViewById(R.id.min_mcs_index_row);
+        matpcStatus = findViewById(R.id.config_atpc_status);
+        mTxPower = findViewById(R.id.config_tx_power);
+        mTxPowerRow = findViewById(R.id.tx_power_row);
         init();
         loadConfiguration();
     }
@@ -70,14 +84,21 @@ public class ConfigurationActivity extends BaseActivity {
      *
      */
     private void init() {
-        mChannelBandwidth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mDdrsStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                Object item = adapterView.getItemAtPosition(position);
-                if (item != null) {
-                    mConfiguration.setChannelBW(position + 3);
-                    Log.w("position", String.valueOf(mConfiguration.getChannel()));
-                }
+                setMCSOptions();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        mSpatialStream.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                setMCSOptions();
             }
 
             @Override
@@ -88,84 +109,87 @@ public class ConfigurationActivity extends BaseActivity {
         mMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                Object item = adapterView.getItemAtPosition(position);
-                if (item != null) {
-                    mConfiguration.setMode(position + 1);
-                    setBWvalues(position);
-                }
+                setBandwidthOptions();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
+        matpcStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                onAptcChange();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
 
         mIPAddressType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                Object item = adapterView.getItemAtPosition(position);
-                if (item != null) {
-                    mConfiguration.setIpAddrType(position + 1);
-                    if (item.toString().equalsIgnoreCase("Dynamic")) {
-                        mIPAddress.setClickable(false);
-                        mIPAddress.setEnabled(false);
-                        mGateway.setEnabled(false);
-                    }
-                    if (item.toString().equalsIgnoreCase("Static")) {
-                        mIPAddress.setEnabled(true);
-                        mIPAddress.setClickable(true);
-                        mGateway.setEnabled(true);
-                    }
-                }
+                onIpAddressTypeChange();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-        mCountryCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                Object item = adapterView.getItemAtPosition(position);
-                if (item != null) {
-                    if (position == ZERO) {
-                        mConfiguration.setCountryCode(COUNTRYCODE_UL);
-                    }
-                    if (position == ONE) {
-                        mConfiguration.setCountryCode(COUNTRYCODE_L);
-                    }
-                    if (position == TWO) {
-                        mConfiguration.setCountryCode(COUNTRYCODE_R);
-                    }
-                }
-            }
+        initSpinner(mCountryCode, Options.COUNTRY_CODE_OPTIONS);
+        initSpinner(mMode, Options.OPERATIONAL_MODE);
+        initSpinner(mDdrsStatus, Options.ENABLE_DISABLE);
+        initSpinner(mSpatialStream, Options.SPATIAL_STREAM);
+        initSpinner(matpcStatus, Options.ENABLE_DISABLE);
+    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
-
-        if (mDeviceMode.getText().toString().equalsIgnoreCase("BSU")) {
-            mConfiguration.setDeviceMode(ONE);
+    private void onAptcChange() {
+        int value = getSelectedOption(matpcStatus, Options.ENABLE_DISABLE);
+        if (value == EnableDisable.ENABLE) {
+            mTxPowerRow.setVisibility(View.GONE);
         } else {
-            mConfiguration.setDeviceMode(TWO);
+            mTxPowerRow.setVisibility(View.VISIBLE);
         }
     }
 
-    private void showProgress(String message) {
+    private void onIpAddressTypeChange() {
+        int ipAddressType = getSelectedOption(mIPAddressType, Options.IP_ADDRESS_TYPE);
+        boolean isStatic = ipAddressType == IPAddressType.STATIC;
+        mIPAddress.setEnabled(isStatic);
+        mGateway.setEnabled(isStatic);
+        mNetMask.setEnabled(isStatic);
+    }
 
+    private void showProgress(String message) {
+        showProgress(message, 0, null);
+    }
+
+    private void showProgress(String message, int timeout, final Runnable finishCallback) {
         progress = new ProgressDialog(this);
         progress.setMessage(message);
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
         progress.setCancelable(false);
         progress.show();
+        if (timeout > 0) {
+            new CountDownTimer(timeout, 1000) {
+                public void onTick(long millisUntilFinished) {
+                }
+
+                public void onFinish() {
+                    progress.dismiss();
+                    finishCallback.run();
+                }
+            }.start();
+        }
     }
 
     private void loadConfiguration() {
         showProgress("Please wait fetching config...");
-        mConfiguration = new Configuration();
-        RouterService.INSTANCE.sendRequest(mConfiguration.getPacket(), new RouterService.Callback<KeywestPacket>() {
+        RouterService.INSTANCE.sendRequest(new Configuration().getPacket(), new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
                 runOnUiThread(new Runnable() {
@@ -188,144 +212,149 @@ public class ConfigurationActivity extends BaseActivity {
     }
 
     private void updateUI(KeywestPacket packet) {
-        Configuration configuration = new Configuration(packet);
-
-        mSSID.setText(configuration.getSsid());
-        mSharedPreference.saveLocalDeviceValues(configuration.getDeviceMac(), configuration.getDeviceMode(), configuration.getIpAddress());
-
-        int bw = configuration.getChannelBW();
-        mChannelBandwidth.setSelection(bw - 1);
-        mConfiguration.setChannelBW(bw);
-
-        int Mode = configuration.getMode();
-        setBWvalues(Mode);
-        mMode.setSelection(Mode - 1);
-        mConfiguration.setMode(Mode);
-
-        switch (configuration.getCountryCode()) {
-
-            case COUNTRYCODE_UL:
-                mCountryCode.setSelection(ZERO);
-                mConfiguration.setCountryCode(COUNTRYCODE_UL);
-                break;
-
-            case COUNTRYCODE_L:
-                mCountryCode.setSelection(ONE);
-                mConfiguration.setCountryCode(COUNTRYCODE_L);
-                break;
-
-            case COUNTRYCODE_R:
-                mCountryCode.setSelection(TWO);
-                mConfiguration.setCountryCode(COUNTRYCODE_R);
-                break;
-
-            default:
-                break;
-        }
-
-        if (configuration.getIpAddrType() == ONE) {
-            mIPAddressType.setSelection(0);
-            mConfiguration.setIpAddrType(configuration.getIpAddrType());
-            mIPAddress.setText(configuration.getIpAddress());
-            mGateway.setText(configuration.getGatewayIp());
-        }
-        if (configuration.getIpAddrType() == TWO) {
-            mIPAddressType.setSelection(1);
-            mIPAddress.setClickable(false);
-            mIPAddress.setEnabled(false);
-            mConfiguration.setIpAddrType(configuration.getIpAddrType());
-            mIPAddress.setText(configuration.getIpAddress());
-            mGateway.setText(configuration.getGatewayIp());
-        }
-
-        if (configuration.getDeviceMode() == ONE) {
+        mConfiguration = new Configuration(packet);
+        if (mConfiguration.getDeviceMode() == ONE) {
             mDeviceMode.setText("BSU");
         } else {
             mDeviceMode.setText("SU");
         }
-
-        mNetMask.setText(configuration.getNetMask());
-        mCustName.setText(configuration.getCustName());
-        mLinkId.setText(Integer.toString(configuration.getLinkId()));
-
-        if (configuration.getChannel() == ZERO) {
+        mCountryCode.setSelection(Options.COUNTRY_CODE_OPTIONS.findPositionByKey(mConfiguration.getCountryCode()));
+        mSSID.setText(mConfiguration.getSsid());
+        mMode.setSelection(Options.OPERATIONAL_MODE.findPositionByKey(mConfiguration.getMode()));
+        setBandwidthOptions();
+        mChannelBandwidth.setSelection(bandwidthOptions.findPositionByKey(mConfiguration.getChannelBW()));
+        if (mConfiguration.getChannel() == ZERO) {
             mChannelNumber.setText("Auto");
         } else {
-            mChannelNumber.setText(Integer.toString(configuration.getChannel()));
+            mChannelNumber.setText(Integer.toString(mConfiguration.getChannel()));
         }
+        mDdrsStatus.setSelection(Options.ENABLE_DISABLE.findPositionByKey(mConfiguration.getDdrsStatus()));
+        mSpatialStream.setSelection(Options.SPATIAL_STREAM.findPositionByKey(mConfiguration.getSpacialStream()));
+        setMCSOptions();
+        matpcStatus.setSelection(Options.ENABLE_DISABLE.findPositionByKey(mConfiguration.getAtpcStatus()));
+        onAptcChange();
+        mTxPower.setText(Integer.toString(mConfiguration.getTranmitPower()));
+        mIPAddressType.setSelection(Options.IP_ADDRESS_TYPE.findPositionByKey(mConfiguration.getIpAddrType()));
+        onIpAddressTypeChange();
+        mIPAddress.setText(mConfiguration.getIpAddress());
+        mGateway.setText(mConfiguration.getGatewayIp());
+        mNetMask.setText(mConfiguration.getNetMask());
+        mCustName.setText(mConfiguration.getCustName());
+        mLinkId.setText(Integer.toString(mConfiguration.getLinkId()));
+    }
+
+    private String getTextValue(TextView v, String defaultValue) {
+        if (v.getText() != null) {
+            return v.getText().toString();
+        }
+        return defaultValue;
+    }
+
+    private Integer getTextValue(TextView v, int defaultValue) {
+        if (v.getText() != null) {
+            return Integer.parseInt(v.getText().toString());
+        }
+        return defaultValue;
     }
 
     public void setConfiguration (View v) {
-        showProgress("Loading...");
+        final String ssid = mSharedPreference.getSsid();
+        showProgress("Applying Configuration...", 35 * 1000, new Runnable() {
+            @Override
+            public void run() {
+                connectToWifi(ssid, "");
+                new CountDownTimer(3000, 1000) {
 
-        new CountDownTimer(4000, 1000) {
-            public void onTick(long millisUntilFinished) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        loadConfiguration();
+                    }
+                }.start();
             }
-
-            public void onFinish() {
-                progress.dismiss();
-            }
-        }.start();
-
-        String ssid = mSSID.getText().toString();
-        if (ssid != null) {
-            mConfiguration.setSsid(mSSID.getText().toString());
+        });
+        Configuration configuration = new Configuration();
+        configuration.setDeviceMode("BSU".equals(mDeviceMode.getText().toString()) ? DeviceMode.BSU : DeviceMode.SU);
+        configuration.setCountryCode(getSelectedOption(mCountryCode, Options.COUNTRY_CODE_OPTIONS));
+        configuration.setSsid(getTextValue(mSSID, ""));
+        configuration.setMode(getSelectedOption(mMode, Options.OPERATIONAL_MODE));
+        configuration.setChannelBW(getSelectedOption(mChannelBandwidth, bandwidthOptions));
+        String channel = getTextValue(mChannelNumber, "");
+        if (channel.equalsIgnoreCase("Auto")) {
+            configuration.setChannel(ZERO);
         } else {
-            mConfiguration.setSsid("");
+            configuration.setChannel(Integer.parseInt(channel));
         }
-        String ipaddress = mIPAddress.getText().toString();
-        if (ipaddress != null) {
-            mConfiguration.setIpAddress(mIPAddress.getText().toString());
-        } else {
-            mConfiguration.setIpAddress("");
-        }
-        if (mChannelNumber.getText().toString().equalsIgnoreCase("Auto")) {
-            mConfiguration.setChannel(ZERO);
-        } else {
-            mConfiguration.setChannel(Integer.parseInt(mChannelNumber.getText().toString()));
-        }
-        String gateway = mGateway.getText().toString();
-        if (gateway != null) {
-            mConfiguration.setGatewayIp(mGateway.getText().toString());
-        } else {
-            mConfiguration.setGatewayIp("");
-        }
+        configuration.setDdrsStatus(getSelectedOption(mDdrsStatus, Options.ENABLE_DISABLE));
+        configuration.setSpacialStream(getSelectedOption(mSpatialStream, Options.SPATIAL_STREAM));
+        configuration.setModulationIndex(getSelectedOption(mMcsIndex, mcsOptions));
+        configuration.setMinModulationIndex(getSelectedOption(mMinMcsIndex, mcsOptions));
+        configuration.setMaxModulationIndex(getSelectedOption(mMaxMcsIndex, mcsOptions));
+        configuration.setAtpcStatus(getSelectedOption(matpcStatus, Options.ENABLE_DISABLE));
+        configuration.setTranmitPower(getTextValue(mTxPower, 0));
+        configuration.setIpAddrType(getSelectedOption(mIPAddressType, Options.IP_ADDRESS_TYPE));
+        configuration.setIpAddress(getTextValue(mIPAddress, ""));
+        configuration.setGatewayIp(getTextValue(mGateway, ""));
+        configuration.setNetMask(getTextValue(mNetMask, ""));
+        configuration.setLinkId(stringToInt(getTextValue(mLinkId, "")));
+        configuration.setCustName(getTextValue(mCustName, ""));
 
-        mConfiguration.setNetMask(mNetMask.getText().toString());
-        mConfiguration.setCustName(mCustName.getText().toString());
-        mConfiguration.setLinkId(stringToInt(mLinkId.getText().toString()));
-
-        KeywestPacket setpacket = mConfiguration.buildPacketFromUI();
+        KeywestPacket setpacket = configuration.buildPacketFromUI();
         RouterService.INSTANCE.sendRequest(setpacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(KeywestPacket packet) {
-                progress.dismiss();
             }
         });
     }
 
-    private void setBWvalues(int strMode) {
-        List<String> bandwidth_arrays = new ArrayList<String>();
-        bandwidth_arrays.clear();
+    private void setBandwidthOptions() {
+        int operationalMode = getSelectedOption(mMode, Options.OPERATIONAL_MODE);
+        bandwidthOptions = new Options();
+        if (operationalMode == OperationalMode._11A) {
+            bandwidthOptions.add(Bandwidth._20MHZ, "20MHz");
+        } else if (operationalMode == OperationalMode._11NA) {
+            bandwidthOptions.add(Bandwidth._20MHZ, "20MHz");
+            bandwidthOptions.add(Bandwidth._40MHZ, "40MHz");
+        } else if (operationalMode == OperationalMode._11AC) {
+            bandwidthOptions.add(Bandwidth._20MHZ, "20MHz");
+            bandwidthOptions.add(Bandwidth._40MHZ, "40MHz");
+            bandwidthOptions.add(Bandwidth._80MHZ, "80MHz");
+        }
+        initSpinner(mChannelBandwidth, bandwidthOptions);
+    }
 
-        if (strMode == ZERO) {
-            bandwidth_arrays.add("20MHz");
+    private void setMCSOptions() {
+        int spatialStream = getSelectedOption(mSpatialStream, Options.SPATIAL_STREAM);
+        int ddrs = getSelectedOption(mDdrsStatus, Options.ENABLE_DISABLE);
+        int start = spatialStream == SpatialStream.DUAL ? 10 : 0;
+        int end = start + 10;
+        mcsOptions = new Options();
+        for (int i = start; i < end; i++) {
+            mcsOptions.add(i, "MCS"+ i);
         }
-        if (strMode == ONE) {
-            bandwidth_arrays.add("20MHz");
-            bandwidth_arrays.add("40MHz");
-            bandwidth_arrays.add("40MHz-");
+        initSpinner(mMcsIndex, mcsOptions);
+        initSpinner(mMinMcsIndex, mcsOptions);
+        initSpinner(mMaxMcsIndex, mcsOptions);
+        int defaultMaxValue = mcsOptions.findPositionByKey(end - 1);
+        if (ddrs == EnableDisable.ENABLE) {
+            mMcsIndexRow.setVisibility(View.GONE);
+            mMinMcsIndexRow.setVisibility(View.VISIBLE);
+            mMaxMcsIndexRow.setVisibility(View.VISIBLE);
+        } else {
+            mMcsIndexRow.setVisibility(View.VISIBLE);
+            mMinMcsIndexRow.setVisibility(View.GONE);
+            mMaxMcsIndexRow.setVisibility(View.GONE);
         }
-        if (strMode == TWO) {
-            bandwidth_arrays.add("20MHz");
-            bandwidth_arrays.add("40MHz");
-            bandwidth_arrays.add("40MHz-");
-            bandwidth_arrays.add("80MHz");
+        if (mConfiguration != null) {
+            mMcsIndex.setSelection(mcsOptions.findPositionByKey(mConfiguration.getModulationIndex()));
+            mMinMcsIndex.setSelection(mcsOptions.findPositionByKey(mConfiguration.getMinModulationIndex()));
+            mMaxMcsIndex.setSelection(mcsOptions.findPositionByKey(mConfiguration.getMaxModulationIndex(), defaultMaxValue));
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item, bandwidth_arrays);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mChannelBandwidth.setAdapter(adapter);
+
     }
 
     private int stringToInt(String value) {

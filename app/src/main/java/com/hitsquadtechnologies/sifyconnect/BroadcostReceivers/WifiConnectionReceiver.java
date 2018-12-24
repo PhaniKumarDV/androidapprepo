@@ -16,6 +16,7 @@ import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
 import com.hitsquadtechnologies.sifyconnect.View.SummaryActivity;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
+import com.hsq.kw.packet.vo.Configuration;
 
 
 public class WifiConnectionReceiver extends BroadcastReceiver {
@@ -50,6 +51,14 @@ public class WifiConnectionReceiver extends BroadcastReceiver {
                     @Override
                     public void onSuccess(final KeywestPacket packet) {
                         Toast.makeText(context, "Server found", Toast.LENGTH_LONG).show();
+                        KeywestPacket configRequest = new Configuration().getPacket();
+                        RouterService.INSTANCE.sendRequest(configRequest, new RouterService.Callback<KeywestPacket>() {
+                            @Override
+                            public void onSuccess(final KeywestPacket packet) {
+                                Configuration configuration = new Configuration(packet);
+                                mSharedPreference.saveLocalDeviceValues(configuration.getDeviceMac(), configuration.getDeviceMode(), configuration.getIpAddress());
+                            }
+                        });
                         progress.hide();
                     }
 

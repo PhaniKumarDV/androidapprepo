@@ -1,16 +1,15 @@
 package com.hitsquadtechnologies.sifyconnect.View;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
-import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
@@ -34,6 +33,8 @@ import java.util.List;
 
 public class DiscoveryActivity extends BaseActivity {
 
+    private static final int SCAN_INTERVAL = 10000;
+
     WifiManager wifiManager;
     WifiScanReceiver receiverWifi;
     List<ScanResult> wifiList;
@@ -44,8 +45,8 @@ public class DiscoveryActivity extends BaseActivity {
     WifiscannerAdapter  adapter;
     SharedPreference mSharedPreference;
     ShowHidePasswordEditText password;
-    WifiManager mConnectwifiManager;
     boolean mScanStopped;
+    CountDownTimer timer;
 
 
 
@@ -71,26 +72,32 @@ public class DiscoveryActivity extends BaseActivity {
         if (mSharedPreference.showTour()) {
             this.startActivity(new Intent(this, TourActivity.class));
         }
-        scaningForWifiList();
-        listViewOnItemclickListner();
-        mConnectwifiManager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-    }
+        timer = new CountDownTimer(SCAN_INTERVAL * 1000, SCAN_INTERVAL) {
 
-    private void scaningForWifiList()
-    {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                //Toast.makeText(DiscoveryActivity.this, "Scanning....", Toast.LENGTH_LONG).show();
+                wifiManager.startScan();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        };
+        timer.start();
         requestPermission(Manifest.permission.ACCESS_COARSE_LOCATION,
                 new PermissionCallback() {
                     @Override
                     public void onGrant() {
-                        Toast.makeText(DiscoveryActivity.this, "Scanning....", Toast.LENGTH_LONG).show();
                         receiverWifi = new WifiScanReceiver();
                         registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-                        wifiManager.startScan();
                         connectWifiState = new WifiConnectionReceiver();
                         registerReceiver(connectWifiState, new IntentFilter(WifiManager.NETWORK_STATE_CHANGED_ACTION));
                     }
                 }
         );
+        listViewOnItemclickListner();
     }
 
     @Override
@@ -99,6 +106,7 @@ public class DiscoveryActivity extends BaseActivity {
         try{
             unregisterReceiver(receiverWifi);
             unregisterReceiver(connectWifiState);
+            timer.cancel();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -124,47 +132,6 @@ public class DiscoveryActivity extends BaseActivity {
         }
     }
 
-    public void connectToWifi(String networkSSID,String pass)
-    {
-        hideKeyboard();
-        WifiConfiguration conf = new WifiConfiguration();
-                     conf.SSID = "\"" + networkSSID + "\"";
-             conf.preSharedKey = "\""+ pass +"\"";
-              connet(conf,networkSSID);
-    }
-
-    public void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = this.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(this);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
-
-    private void connet(WifiConfiguration conf,String networkSSID) {
-
-        if (mConnectwifiManager != null) {
-            mConnectwifiManager.addNetwork(conf);
-        }
-        List<WifiConfiguration> list = null;
-        if (mConnectwifiManager != null) {
-            list = mConnectwifiManager.getConfiguredNetworks();
-        }
-        for( WifiConfiguration i : list ) {
-            if(i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
-                mConnectwifiManager.disconnect();
-                mConnectwifiManager.enableNetwork(i.networkId, true);
-                mConnectwifiManager.reconnect();
-            }
-        }
-        scaningForWifiList();
-  }
-
-
 
     protected void onResume() {
         registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
@@ -186,12 +153,6 @@ public class DiscoveryActivity extends BaseActivity {
                 return;
             }
             wifiList = wifiManager.getScanResults();
-            Collections.sort(wifiList, new Comparator<ScanResult>() {
-                @Override
-                public int compare(ScanResult lhs, ScanResult rhs) {
-                    return (Integer.compare(rhs.level, lhs.level));
-                }
-            });
             scannedWifisDetailsArrayList.clear();
             for (int i = 0; i < wifiList.size(); i++) {
                 wifiDetailsdata mWifiDetailsdata = new wifiDetailsdata();
@@ -203,16 +164,35 @@ public class DiscoveryActivity extends BaseActivity {
                 scannedWifisDetailsArrayList.add(mWifiDetailsdata);
             }
 
+            final String connectedWifiSsid = new SharedPreference(c).getWifiMac();
+            Collections.sort(scannedWifisDetailsArrayList, new Comparator<wifiDetailsdata>() {
+                @Override
+                public int compare(wifiDetailsdata o1, wifiDetailsdata o2) {
+                    if (o1 == null) {
+                        return 1;
+                    } else if (o2 == null) {
+                        return -1;
+                    } else if (o1.getBSSID().equalsIgnoreCase(connectedWifiSsid) || o2.getSSID().trim().length() == 0) {
+                        return -1;
+                    } else if (o2.getBSSID().equalsIgnoreCase(connectedWifiSsid) || o1.getSSID().trim().length() == 0) {
+                        return 1;
+                    } else {
+                        return o1.getSSID().toLowerCase().compareTo(o2.getSSID().toLowerCase());
+                    }
+                }
+            });
+
             adapter = new WifiscannerAdapter(DiscoveryActivity.this, scannedWifisDetailsArrayList);
             mListViwProvider.setAdapter(adapter);
+            mListViwProvider.refreshDrawableState();
 
         }
     }
 
-    private void forgetPassword(){
+    /*private void forgetPassword(){
             int networkId = mConnectwifiManager.getConnectionInfo().getNetworkId();
             Log.d("networkId", String.valueOf(networkId));
             mConnectwifiManager.removeNetwork(networkId);
             mConnectwifiManager.saveConfiguration();
-    }
+    }*/
 }
