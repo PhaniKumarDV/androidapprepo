@@ -6,6 +6,10 @@ import android.util.Log;
 
 import com.hsq.kw.packet.KeywestPacket;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -133,17 +137,33 @@ public class RouterService {
             @Override
             protected KeywestPacket doInBackground(Object... objects) {
                 KeywestPacket receivedPacket = null;
+                Socket socket = null;
                 try {
                     InetAddress address = InetAddress.getByName(mIPAdress);
                     byte[] bytes = keywestPacket.toByteArray();
-                    DatagramPacket packet = new DatagramPacket(bytes, bytes.length, address, mPort);
-                    mSocket.send(packet);
+                    socket = new Socket(address,mPort);
+                    DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                    //ByteArrayOutputStream bos = new ByteArrayOutputStream(socket.getOutputStream());
+                    DataInputStream dis = new DataInputStream(socket.getInputStream());
+
+                    //DatagramPacket packet = new DatagramPacket(bytes, bytes.length, address, mPort);
+                    dos.write(bytes);
                     byte[] buf = new byte[1307];
-                    packet = new DatagramPacket(buf, buf.length);
-                    mSocket.receive(packet);
-                    receivedPacket = new KeywestPacket(packet);
+                    dis.read(buf);
+                    //packet =s new DatagramPacket(buf, buf.length);
+                    //mSocket.receive(packet);
+                    receivedPacket = new KeywestPacket(buf);
+
                 } catch (Exception e) {
                     Log.e(RouterService.class.getName(), "communication failed", e);
+                } finally {
+                    if (socket != null) {
+                        try {
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
                 return  receivedPacket;
             }
