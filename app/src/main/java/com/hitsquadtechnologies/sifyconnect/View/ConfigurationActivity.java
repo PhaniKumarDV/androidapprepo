@@ -161,6 +161,17 @@ public class ConfigurationActivity extends BaseActivity {
         mIPAddress.setEnabled(isStatic);
         mGateway.setEnabled(isStatic);
         mNetMask.setEnabled(isStatic);
+        if (mConfiguration != null) {
+            if (isStatic) {
+                mIPAddress.setText(mConfiguration.getIpAddress());
+                mGateway.setText(mConfiguration.getGatewayIp());
+                mNetMask.setText(mConfiguration.getNetMask());
+            } else {
+                mIPAddress.setText(mConfiguration.getDhcpAddress());
+                mGateway.setText(mConfiguration.getDhcpGateway());
+                mNetMask.setText(mConfiguration.getDhcpMask());
+            }
+        }
     }
 
     private void showProgress(String message) {
@@ -236,9 +247,6 @@ public class ConfigurationActivity extends BaseActivity {
         mTxPower.setText(Integer.toString(mConfiguration.getTranmitPower()));
         mIPAddressType.setSelection(Options.IP_ADDRESS_TYPE.findPositionByKey(mConfiguration.getIpAddrType()));
         onIpAddressTypeChange();
-        mIPAddress.setText(mConfiguration.getIpAddress());
-        mGateway.setText(mConfiguration.getGatewayIp());
-        mNetMask.setText(mConfiguration.getNetMask());
         mCustName.setText(mConfiguration.getCustName());
         mLinkId.setText(Integer.toString(mConfiguration.getLinkId()));
     }

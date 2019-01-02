@@ -77,6 +77,7 @@ public class RouterService {
     private String mIPAdress;
     private int mPort;
     private boolean serverFound;
+    private boolean isConnecting;
 
     private RouterService() {}
 
@@ -87,6 +88,7 @@ public class RouterService {
     public void connectTo(String ipAddress, int port, final Callback<KeywestPacket> callback) {
         this.mIPAdress = ipAddress;
         this.mPort = port;
+        this.isConnecting = true;
         KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
         sendRequest(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
@@ -95,6 +97,7 @@ public class RouterService {
                 if (callback != null) {
                     callback.onSuccess(packet);
                 }
+                RouterService.this.isConnecting = false;
             }
 
             @Override
@@ -103,8 +106,13 @@ public class RouterService {
                 if (callback != null) {
                     callback.onError(msg, e);
                 }
+                RouterService.this.isConnecting = false;
             }
         });
+    }
+
+    public boolean isConnecting() {
+        return isConnecting;
     }
 
     public boolean isServerFound() {
@@ -114,7 +122,8 @@ public class RouterService {
     private AsyncTask send(final KeywestPacket keywestPacket, final Callback<KeywestPacket> callback) {
         final CountDownTimer timer;
         final Task task = new Task(callback) {
-            private DatagramSocket mSocket;;
+            private DatagramSocket mSocket;
+            private int retryCount = 0;
 
             @Override
             protected void onPreExecute() {
@@ -138,6 +147,9 @@ public class RouterService {
             protected KeywestPacket doInBackground(Object... objects) {
                 KeywestPacket receivedPacket = null;
                 Socket socket = null;
+                if (retryCount >= 10) {
+                    return receivedPacket;
+                }
                 try {
                     InetAddress address = InetAddress.getByName(mIPAdress);
                     byte[] bytes = keywestPacket.toByteArray();
@@ -156,6 +168,8 @@ public class RouterService {
 
                 } catch (Exception e) {
                     Log.e(RouterService.class.getName(), "communication failed", e);
+                    retryCount++;
+                    return doInBackgroundLater(objects);
                 } finally {
                     if (socket != null) {
                         try {
@@ -166,6 +180,15 @@ public class RouterService {
                     }
                 }
                 return  receivedPacket;
+            }
+
+            private KeywestPacket doInBackgroundLater(Object... objects) {
+                try {
+                    Thread.sleep(5 * 1000);
+                    return doInBackground(objects);
+                } catch (InterruptedException ie) {
+                    return null;
+                }
             }
         };
         return task;
