@@ -52,27 +52,31 @@ public class WifiConnectionReceiver extends BroadcastReceiver {
         Log.e("ssid", ssid);
         String bssid = wifiInfo.getBSSID();
         String iPAddress = intToIp(wifiManager.getDhcpInfo().gateway);
-        final ProgressDialog progress = new ProgressDialog(context);
+        /*final ProgressDialog progress = new ProgressDialog(context);
         progress.setMessage("Locating server");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
         progress.setCancelable(false);
-        progress.show();
+        progress.show();*/
         mSharedPreference.resetIPAddress();
         mSharedPreference.saveIPAddress(iPAddress, method(ssid), bssid);
         RouterService.INSTANCE.connectTo(iPAddress, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
-                Toast.makeText(context, "Server found", Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, "Server found and connected..", Toast.LENGTH_LONG).show();
+                locateServer = false;
+ //               progress.hide();
+
                 KeywestPacket configRequest = new Configuration().getPacket();
-                RouterService.INSTANCE.sendRequest(configRequest, new RouterService.Callback<KeywestPacket>() {
+                RouterService.INSTANCE.sendReq(configRequest, new RouterService.Callback<KeywestPacket>() {
                     @Override
                     public void onSuccess(final KeywestPacket packet) {
+ //                       progress.hide();
                         Configuration configuration = new Configuration(packet);
                         mSharedPreference.saveLocalDeviceValues(configuration.getDeviceMac(), configuration.getDeviceMode(), configuration.getIpAddress());
                     }
                 });
-                progress.hide();
+//                progress.hide();
                 if (locateServer) {
                     locateServer();
                     locateServer = false;
@@ -82,7 +86,7 @@ public class WifiConnectionReceiver extends BroadcastReceiver {
             @Override
             public void onError(String msg, Exception e) {
                 Toast.makeText(context, "Server not found", Toast.LENGTH_LONG).show();
-                progress.hide();
+                //progress.hide();
                 Log.e(WifiConnectionReceiver.class.getName(), msg, e);
                 if (locateServer) {
                     locateServer();

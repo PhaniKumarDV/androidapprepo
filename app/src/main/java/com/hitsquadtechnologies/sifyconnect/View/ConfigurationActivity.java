@@ -248,7 +248,7 @@ public class ConfigurationActivity extends BaseActivity {
         mIPAddressType.setSelection(Options.IP_ADDRESS_TYPE.findPositionByKey(mConfiguration.getIpAddrType()));
         onIpAddressTypeChange();
         mCustName.setText(mConfiguration.getCustName());
-        mLinkId.setText(Integer.toString(mConfiguration.getLinkId()));
+        mLinkId.setText(mConfiguration.getLinkId());
     }
 
     private String getTextValue(TextView v, String defaultValue) {
@@ -308,7 +308,7 @@ public class ConfigurationActivity extends BaseActivity {
         configuration.setIpAddress(getTextValue(mIPAddress, ""));
         configuration.setGatewayIp(getTextValue(mGateway, ""));
         configuration.setNetMask(getTextValue(mNetMask, ""));
-        configuration.setLinkId(stringToInt(getTextValue(mLinkId, "")));
+        configuration.setLinkId(getTextValue(mLinkId, ""));
         configuration.setCustName(getTextValue(mCustName, ""));
 
         KeywestPacket setpacket = configuration.buildPacketFromUI();

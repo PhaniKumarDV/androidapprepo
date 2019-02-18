@@ -77,8 +77,14 @@ public class AlignmentActivity extends BaseActivity {
         KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
         mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
-            public void onSuccess(KeywestPacket packet) {
-                updateUI(new KWWirelessLinkStats(packet));
+            public void onSuccess(final KeywestPacket packet) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateUI(new KWWirelessLinkStats(packet));
+                    }
+                });
+
             }
         });
     }

@@ -98,23 +98,46 @@ public class LinkTestActivity extends BaseActivity {
         directionalOptions.add(DirectionType.BI_DI_LINK, "Bi-di");
         initSpinner(this.mDirection, directionalOptions);
         mDirection.setSelection(directionalOptions.findPositionByKey(mSharedPreference.getDirection()));
-        this.mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
+        /*this.mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(KeywestPacket response) {
-                KWWirelessLinkStats wirelessLinkStats = new KWWirelessLinkStats(response);
-                if (mSuMac.getText().length() == 0) {
-                    mSuMac.setText(wirelessLinkStats.getMacAddress());
-                }
-                SharedLinkSpeedGraphData.INSTANCE.add(wirelessLinkStats.getTxInput(), wirelessLinkStats.getRxInput());
-                renderGraph();
-                localSnrA1.setText("" + wirelessLinkStats.getLocalSignalA1());
-                localSnrA2.setText("" + wirelessLinkStats.getLocalSignalA2());
-                localLinkQuality.setText(""+ wirelessLinkStats.getLocalLinkQualityIndex());
-                remoteSnrA1.setText("" + wirelessLinkStats.getRemoteSignalA1());
-                remoteSnrA2.setText("" + wirelessLinkStats.getRemoteSignalA2());
-                remoteLinkQuality.setText(""+wirelessLinkStats.getRemoteLinkQualityIndex());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateUI(new KWWirelessLinkStats(response));
+                    }
+                });
+
+
+            }
+        });*/
+
+        this.mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
+            @Override
+            public void onSuccess(final KeywestPacket packet) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateUI(new KWWirelessLinkStats(packet));
+                    }
+                });
+
             }
         });
+    }
+
+    private void updateUI(KWWirelessLinkStats wirelessLinkStats) {
+        if (mSuMac.getText().length() == 0) {
+            mSuMac.setText(wirelessLinkStats.getMacAddress());
+        }
+        SharedLinkSpeedGraphData.INSTANCE.add(wirelessLinkStats.getTxInput(), wirelessLinkStats.getRxInput());
+        renderGraph();
+        localSnrA1.setText("" + wirelessLinkStats.getLocalSignalA1());
+        localSnrA2.setText("" + wirelessLinkStats.getLocalSignalA2());
+        localLinkQuality.setText(""+ wirelessLinkStats.getLocalLinkQualityIndex());
+        remoteSnrA1.setText("" + wirelessLinkStats.getRemoteSignalA1());
+        remoteSnrA2.setText("" + wirelessLinkStats.getRemoteSignalA2());
+        remoteLinkQuality.setText(""+wirelessLinkStats.getRemoteLinkQualityIndex());
     }
 
     private int max(List<Integer> list) {
