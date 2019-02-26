@@ -705,6 +705,42 @@
             android:layout_width="match_parent"
             android:layout_height="0.25dp"
             android:background="@color/text_view_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+        <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:text="Distance (KM)"
+                android:textColor="@color/text_view_color"
+                android:textSize="15sp"
+                app:fontFamily="@font/calibril" />
+
+            <EditText
+                android:id="@+id/config_dist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:maxLines="1"
+                android:background="@android:color/transparent"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                app:fontFamily="@font/calibril" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:background="@color/text_view_color" />
     </LinearLayout>
     </ScrollView>
 

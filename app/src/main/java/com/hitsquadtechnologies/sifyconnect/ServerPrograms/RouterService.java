@@ -3,47 +3,43 @@ package com.hitsquadtechnologies.sifyconnect.ServerPrograms;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.util.Log;
-
 import com.hsq.kw.packet.KeywestPacket;
 import com.kw.connection.client.TCPClient;
 import com.kw.connection.client.handler.AbstractResponseHandler;
-
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 public class RouterService {
-
     public static String TAG = RouterService.class.getName();
-
     public static final int DEFAULT_PORT = 9181;
     public static final long MAX_SUBSCRIPTION_AGE = TimeUnit.MINUTES.toMillis(60);
     public static final long REQUEST_TIMEOUT = TimeUnit.SECONDS.toMillis(10);
 
-    public Map<Byte,Callback<KeywestPacket>> callbackMap = new ConcurrentHashMap<Byte,Callback<KeywestPacket>>();
-
+    public Map<Byte,Callback<KeywestPacket>> callbackMap = new HashMap<Byte,Callback<KeywestPacket>>();
     public int uniqueId = 0;
+    private int connectionState = 0;
+    private Byte previousByte = 0;
+    private Byte connectionByte = new Byte((byte)0);
+    private ResponseHandler handler = null;
 
     public static abstract class Callback<T> {
         public abstract void onSuccess(T t);
-
         public void onError(String msg, Exception e) {
             Log.e(TAG, msg, e);
         }
     }
 
     public static abstract class Subscription {
-
         public abstract void cancel();
     }
 
     public static abstract class Task<T> extends AsyncTask<Object, Void, T> {
-
         private CountDownTimer timer;
         private Callback<T> c;
-
         Task(Callback<T> c) {
             this.c = c;
         }
@@ -61,7 +57,6 @@ public class RouterService {
             };
             timer.start();
         }
-
         @Override
         protected void onPostExecute(T t) {
             super.onPostExecute(t);
@@ -75,70 +70,106 @@ public class RouterService {
     }
 
     public static final RouterService INSTANCE = new RouterService();
-
     private String mIPAdress;
     private int mPort;
     private boolean serverFound;
-
     private TCPClient client = null;
-
     private RouterService() {}
-
     private class ResponseHandler extends AbstractResponseHandler {
-
         public ResponseHandler(TCPClient client) {
             super(client);
         }
 
         @Override
         public void responseReceived(byte[] bytes) {
-            try {
-                KeywestPacket returnPacket = new KeywestPacket(bytes);
-                byte[] bytes1 = returnPacket.getHeader().getHeader();
-                byte b = bytes1[7];
-                Callback<KeywestPacket> cb = callbackMap.get(b);
-                if (cb != null) {
-                    cb.onSuccess(returnPacket);
+            if (bytes != null) {
+                try {
+                    KeywestPacket returnPacket = new KeywestPacket(bytes);
+                    byte[] bytes1 = returnPacket.getHeader().getHeader();
+                    byte b = bytes1[7];
+                    Callback<KeywestPacket> cb = callbackMap.get(b);
+                    callbackMap.put(b,null);
+                    if (cb != null) {
+                        cb.onSuccess(returnPacket);
+                    }
+                } catch (IOException e) {
+                    //TODO Need to handle on error case from android side
+                    //callbackMap.get(b).onError();
                 }
-
-            } catch (IOException e) {
-                //TODO Need to handle on error case from android side
-                //callbackMap.get(b).onError();
+            } else {
+                Callback<KeywestPacket> cb = callbackMap.get(previousByte);
+                callbackMap.put(previousByte,null);
+                if (cb != null) {
+                    cb.onError("No response received...",null);
+                }
             }
 
         }
 
         @Override
+        public void connectionFailed() {
+            Callback<KeywestPacket> callback =  callbackMap.get(connectionByte);
+            callbackMap.put(connectionByte,null);
+            //callbackMap.remove(connectionByte);
+            if (callback != null) {
+                callback.onError("Unable to connect to server. Max retries reached",null);
+            }
+        }
+
+        @Override
         public void serverConnected() {
-            Byte by = new Byte((byte)0);
             serverFound = true;
-            Callback<KeywestPacket> callback =  callbackMap.get(by);
-            callback.onSuccess(null);
+            Callback<KeywestPacket> callback =  callbackMap.get(connectionByte);
+            callbackMap.put(connectionByte,null);
+            if (callback != null) {
+                callback.onSuccess(null);
+            }
         }
 
         @Override
         public void serverDisconnected() {
+            Byte by = previousByte;
+            Log.i(RouterService.class.getName(), "Server disconnected called");
+            Callback<KeywestPacket> callback =  callbackMap.get(by);
+            connectionState = 0;
+            if(callback != null)
+                callback.onError("Server Disconnected",null);
             callbackMap.clear();
             serverFound = false;
+            client.setCloseClient(true);
         }
     }
-
     public boolean isConnecting() {
         if (client != null && client.isConnected()) {
             return true;
         }
         return  false;
     }
-
-
-    public void connectTo(String ipAddress, Callback<KeywestPacket> callback) {
-        client = new TCPClient(ipAddress,DEFAULT_PORT);
-        ResponseHandler handler = new ResponseHandler(client);
-        client.initialize(handler);
-        callbackMap.put((byte)0,callback);
-        //connectTo(ipAddress, DEFAULT_PORT, callback);
+    public int getConnectionState() {
+        return connectionState;
     }
 
+    public void setConnectionState(int connectionState) {
+        this.connectionState = connectionState;
+    }
+    public boolean disconnect() {
+        if (client != null) {
+            Log.i(RouterService.class.getName(), "disconnect from wifi handler called");
+            connectionState = 0;
+           return client.disconnect();
+        }
+        return false;
+    }
+    public void connectTo(String ipAddress, Callback<KeywestPacket> callback) {
+        Log.i(RouterService.class.getName(), "About to connect to server");
+        client = new TCPClient(ipAddress,DEFAULT_PORT);
+        client.setNoOfRetries(3);
+        client.setTimeOutInSecs(2);
+        connectionState = 1;
+        handler = new ResponseHandler(client);
+        client.initialize(handler);
+        callbackMap.put(connectionByte,callback);
+    }
     private synchronized byte getUniqueId() {
         if (uniqueId++ > 254) {
             uniqueId = 0;
@@ -146,12 +177,12 @@ public class RouterService {
         return (byte)uniqueId;
     }
 
-    public void connectTo(String ipAddress, int port, final Callback<KeywestPacket> callback) {
+    @Deprecated
+    private void connectTo(String ipAddress, int port, final Callback<KeywestPacket> callback) {
         this.mIPAdress = ipAddress;
         this.mPort = port;
         KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
         wirelessLinkPacket.getHeader().setMore(getUniqueId());
-        //wirelessLinkPacket.getHeader().s
         sendRequest(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
@@ -160,7 +191,6 @@ public class RouterService {
                     callback.onSuccess(packet);
                 }
             }
-
             @Override
             public void onError(String msg, Exception e) {
                 serverFound = false;
@@ -170,11 +200,9 @@ public class RouterService {
             }
         });
     }
-
     public boolean isServerFound() {
         return serverFound;
     }
-
     private AsyncTask send(final KeywestPacket keywestPacket, final Callback<KeywestPacket> callback) {
         final CountDownTimer timer;
 
@@ -218,8 +246,6 @@ public class RouterService {
         };
         return task;
     }
-
-
     public void sendReq(final KeywestPacket keywestPacket, final Callback<KeywestPacket> callback) {
         byte b = getUniqueId();
         keywestPacket.getHeader().setMore(b);
@@ -227,43 +253,81 @@ public class RouterService {
         try {
             client.send(keywestPacket.toByteArray());
         } catch (IOException e) {
-
         }
-        //send(keywestPacket, callback).execute();
+    }
+    public void sendRequest(final KeywestPacket keywestPacket, final Callback<KeywestPacket> callback) {
+        final byte b = getUniqueId();
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    keywestPacket.getHeader().setMore(b);
+                    previousByte = b;
+                    client.send(keywestPacket.toByteArray());
+                    callbackMap.put(b,callback);
+                } catch (IOException e) {
+                    callback.onError(e.getMessage(), e);
+                }
+            }
+        });
+        th.start();
     }
 
-    public void sendRequest(final KeywestPacket keywestPacket, final Callback<KeywestPacket> callback) {
-        byte b = getUniqueId();
+    public void sendRequest(final KeywestPacket keywestPacket, final Byte b,final Callback<KeywestPacket> callback) {
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    keywestPacket.getHeader().setMore(b);
+                    client.send(keywestPacket.toByteArray());
+                    callbackMap.put(b,callback);
+                } catch (IOException e) {
+                    callback.onError(e.getMessage(), e);
+                }
+            }
+        });
+        th.start();
+    }
+    private void sendRequest1(final KeywestPacket keywestPacket, final Callback<KeywestPacket> callback) {
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    client.send(keywestPacket.toByteArray());
+                } catch (IOException e) {
+                }
+            }
+        });
+        th.start();
+    }
+
+    public Subscription sendWithTimeOut(final KeywestPacket keywestPacket, final Callback<KeywestPacket> callback,long timeOutInterval) {
+        final byte b = getUniqueId();
+        Log.d(RouterService.class.getName(),"Sending timeout config with byte key + b");
         keywestPacket.getHeader().setMore(b);
         callbackMap.put(b,callback);
-        Thread th = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    client.send(keywestPacket.toByteArray());
-                } catch (IOException e) {
+        sendRequest(keywestPacket,callback);
+        final CountDownTimer timer = new CountDownTimer(timeOutInterval, 1000) {
+            public void onTick(long millisUntilFinished){
 
-                }
             }
-        });
-        th.start();
-        //send(keywestPacket, callback).execute();
-    }
-
-    public void sendRequest1(final KeywestPacket keywestPacket, final Callback<KeywestPacket> callback) {
-
-        Thread th = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    client.send(keywestPacket.toByteArray());
-                } catch (IOException e) {
-
+            public void onFinish() {
+                //handler.responseReceived(null);
+                Log.d(RouterService.class.getName(),"Sending timeout config with byte key + b");
+                Callback<KeywestPacket> callback1 = callbackMap.get(b);
+                if (callback1 != null) {
+                    callback1.onError("Faild to receive message from device",null);
+                    callbackMap.put(previousByte,null);
                 }
+                //callbackMap. callbackMap.put(connectionByte,null);
             }
-        });
-        th.start();
-        //send(keywestPacket, callback).execute();
+        }.start();
+        return new Subscription() {
+            @Override
+            public void cancel() {
+                timer.cancel();
+            }
+        };
     }
 
     public Subscription observe(final KeywestPacket keywestPacket, final Callback<KeywestPacket> callback) {
@@ -285,5 +349,4 @@ public class RouterService {
             }
         };
     }
-
 }

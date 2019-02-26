@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.hitsquadtechnologies.sifyconnect.Adapters.SharedLinkSpeedGraphData;
 import com.hitsquadtechnologies.sifyconnect.R;
 import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
@@ -25,10 +24,9 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.sdsmdg.harjot.crollerTest.Croller;
 
 
+/* This class implements the Summary Activity of the BSU/SU link */
 public class SummaryActivity extends BaseActivity {
-
     private static final int MAX_DATA_POINTS = 10;
-
     RouterService.Subscription mSubscription;
     TextView mLocalIPAddress,mRemoteIPaddress;
     TextView mLocalMacAddress,mRemoteMacaddress;
@@ -51,9 +49,7 @@ public class SummaryActivity extends BaseActivity {
         this.onCreate("Summary", R.id.toolbar, true);
         initialization();
     }
-
     private void initialization() {
-
         mLocalIPAddress     = (TextView)findViewById(R.id.WLink_LocalIpNetwork);
         mRemoteIPaddress    = (TextView)findViewById(R.id.WLink_RemoteIpNetwork);
         mLocalMacAddress    = (TextView)findViewById(R.id.WLess_LocalMacAddress);
@@ -78,20 +74,16 @@ public class SummaryActivity extends BaseActivity {
         });
         initAreaGraph();
     }
-
     @Override
     protected void onResume() {
         super.onResume();
-
         KeywestPacket configRequest = new Configuration().getPacket();
         RouterService.INSTANCE.sendRequest(configRequest, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
-                runOnUiThread(new Runnable()
-                {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void run()
-                    {
+                    public void run() {
                         Configuration configuration = new Configuration(packet);
                         mLocalMacAddress.setText(mSharedPreference.getMacAddress());
                         mLocalIPAddress.setText(mSharedPreference.getLocalIPAddress());
@@ -103,11 +95,9 @@ public class SummaryActivity extends BaseActivity {
         mSubscription = RouterService.INSTANCE.observe(assocListPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
-                runOnUiThread(new Runnable()
-                {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void run()
-                    {
+                    public void run() {
                         updateUI(packet);
                     }
                 });
@@ -143,10 +133,8 @@ public class SummaryActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     private void updateUI(KeywestPacket testPacket) {
         KWWirelessLinkStats wirelessLinkStats = new KWWirelessLinkStats(testPacket);
-
         mRemoteIPaddress.setText(wirelessLinkStats.getRemoteIP());
         mRemoteMacaddress.setText(wirelessLinkStats.getMacAddress());
-
         SharedLinkSpeedGraphData.INSTANCE.add(wirelessLinkStats.getTxInput(), wirelessLinkStats.getRxInput());
         renderGraph();
         //String strLocalGPS = convertTODegress(Double.parseDouble(wirelessLinkStats.getLocalLat()),Double.parseDouble(wirelessLinkStats.getLocalLong()));
@@ -157,13 +145,10 @@ public class SummaryActivity extends BaseActivity {
         mRemoteRate.setText(Integer.toString(wirelessLinkStats.getRemoteRate())+ " Mbps");
         localRateGraph.setProgress(wirelessLinkStats.getLocalRate());
         remoteRateGraph.setProgress(wirelessLinkStats.getRemoteRate());
-
-
         renderSNR(this, (LinearLayout) findViewById(R.id.localA1Rating), wirelessLinkStats.getLocalSNRA1(), 100);
         renderSNR(this, (LinearLayout) findViewById(R.id.localA2Rating), wirelessLinkStats.getLocalSNRA2(), 100);
         renderSNR(this, (LinearLayout) findViewById(R.id.remoteA1Rating), wirelessLinkStats.getRemoteSNRA1(), 100);
         renderSNR(this, (LinearLayout) findViewById(R.id.remoteA2Rating), wirelessLinkStats.getRemoteSNRA2(), 100);
-
         if( mSharedPreference.getRadioMode() == 1 ) {
             mLocalRadio.setText("BSU");
             mRemoteRadio.setText("SU");
@@ -176,38 +161,6 @@ public class SummaryActivity extends BaseActivity {
             mRemoteSNRLabel.setText("BSU");
         }
     }
-
-    /*private String convertTODegress(double latitude, double longitude) {
-        StringBuilder builder = new StringBuilder();
-        if (latitude < 0) {
-            builder.append("S ");
-        } else {
-            builder.append("N ");
-        }
-        String latitudeDegrees = Location.convert(Math.abs(latitude), Location.FORMAT_SECONDS);
-        String[] latitudeSplit = latitudeDegrees.split(":");
-        builder.append(latitudeSplit[0]);
-        builder.append("°");
-        builder.append(latitudeSplit[1]);
-        builder.append("'");
-        builder.append(latitudeSplit[2]);
-        builder.append("\"");
-        builder.append(" ");
-        if (longitude < 0) {
-            builder.append("W ");
-        } else {
-            builder.append("E ");
-        }
-        String longitudeDegrees = Location.convert(Math.abs(longitude), Location.FORMAT_SECONDS);
-        String[] longitudeSplit = longitudeDegrees.split(":");
-        builder.append(longitudeSplit[0]);
-        builder.append("°");
-        builder.append(longitudeSplit[1]);
-        builder.append("'");
-        builder.append(longitudeSplit[2]);
-        builder.append("\"");
-        return builder.toString();
-    }*/
 
     private void initAreaGraph() {
         localSeries = new LineGraphSeries<>(new DataPoint[] {});

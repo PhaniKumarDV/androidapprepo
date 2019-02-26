@@ -1,6 +1,5 @@
 package com.hitsquadtechnologies.sifyconnect.BroadcostReceivers;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,40 +10,44 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
+import com.hitsquadtechnologies.sifyconnect.View.DiscoveryActivity;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
 import com.hsq.kw.packet.vo.Configuration;
 
-
+/* This file receives the Wireless Radio Status Events based on which
+   the TCP Connection is maintained
+ */
 public class WifiConnectionReceiver extends BroadcastReceiver {
-
     SharedPreference mSharedPreference;
-
-    boolean locateServer = false;
-
     private Context mContext;
-
+    private int connectionState = 0;
+    private DiscoveryActivity activity = null;
+    public WifiConnectionReceiver(DiscoveryActivity activity) {
+        this.activity = activity;
+    }
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void onReceive(final Context context, Intent intent) {
-
         mSharedPreference = new SharedPreference(context);
-        if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION))
-        {
+        if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
             NetworkInfo info = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+            Toast.makeText(context, info.getState().name(), Toast.LENGTH_LONG).show();
+            /* If Connected, then establish the TCP Link */
             if (info.isConnected()) {
-                mContext = context;
-                locateServer();
-            }
+                if (RouterService.INSTANCE.getConnectionState() == 0) {
+                    mContext = context;
+                    locateServer();
+                }
+            } else {
+                    /* If !Connected, then disconnect the TCP Link */
+                    RouterService.INSTANCE.disconnect();
+                    //connectionState = 1;
+           }
         }
     }
-
+    /* Function which establishes the TCP Connection with the Server */
     private void locateServer() {
-        if (RouterService.INSTANCE.isConnecting()) {
-            locateServer = true;
-            return;
-        }
         final Context context = mContext;
         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
@@ -52,63 +55,40 @@ public class WifiConnectionReceiver extends BroadcastReceiver {
         Log.e("ssid", ssid);
         String bssid = wifiInfo.getBSSID();
         String iPAddress = intToIp(wifiManager.getDhcpInfo().gateway);
-        /*final ProgressDialog progress = new ProgressDialog(context);
-        progress.setMessage("Locating server");
-        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progress.setIndeterminate(true);
-        progress.setCancelable(false);
-        progress.show();*/
         mSharedPreference.resetIPAddress();
         mSharedPreference.saveIPAddress(iPAddress, method(ssid), bssid);
         RouterService.INSTANCE.connectTo(iPAddress, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
-//                Toast.makeText(context, "Server found and connected..", Toast.LENGTH_LONG).show();
-                locateServer = false;
- //               progress.hide();
-
+                connectionState = 1;
+                activity.showToast("Server Found and Connected..");
+                Log.i(WifiConnectionReceiver.class.getName(), "Server Found and Connected");
                 KeywestPacket configRequest = new Configuration().getPacket();
                 RouterService.INSTANCE.sendReq(configRequest, new RouterService.Callback<KeywestPacket>() {
                     @Override
                     public void onSuccess(final KeywestPacket packet) {
- //                       progress.hide();
                         Configuration configuration = new Configuration(packet);
                         mSharedPreference.saveLocalDeviceValues(configuration.getDeviceMac(), configuration.getDeviceMode(), configuration.getIpAddress());
                     }
                 });
-//                progress.hide();
-                if (locateServer) {
-                    locateServer();
-                    locateServer = false;
-                }
             }
-
             @Override
             public void onError(String msg, Exception e) {
-                Toast.makeText(context, "Server not found", Toast.LENGTH_LONG).show();
-                //progress.hide();
+                activity.showToast("Server Not Found..");
                 Log.e(WifiConnectionReceiver.class.getName(), msg, e);
-                if (locateServer) {
-                    locateServer();
-                    locateServer = false;
-                }
             }
         });
     }
-
     public String intToIp(int i) {
-
         return ((i & 0xFF)+"." +
                ((i >> 8 ) & 0xFF) + "."+
                ((i >> 16 ) & 0xFF) + "."+
                ((i >> 24 ) & 0xFF));
     }
-
     public String method(String str) {
         if (str != null && str.length() > 0) {
             str = str.substring(1, str.length() - 1);
         }
         return str;
     }
-
 }

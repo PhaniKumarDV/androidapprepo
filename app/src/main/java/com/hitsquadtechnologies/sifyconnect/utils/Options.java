@@ -30,11 +30,10 @@ public class Options {
 
         SPATIAL_STREAM.add(SpatialStream.SINGLE, "Single");
         SPATIAL_STREAM.add(SpatialStream.DUAL, "Dual");
+        SPATIAL_STREAM.add(SpatialStream.AUTO, "Auto");
 
-        COUNTRY_CODE_OPTIONS.add(CountryCode.INDIA_UL, "INDIA_UL");
-        COUNTRY_CODE_OPTIONS.add(CountryCode.INDIA_L, "INDIA_L");
-        COUNTRY_CODE_OPTIONS.add(CountryCode.RUSSIA, "RUSSIA");
-
+        COUNTRY_CODE_OPTIONS.add(CountryCode.INDIA1, "INDIA");
+        COUNTRY_CODE_OPTIONS.add(CountryCode.INDIA2, "5GHZ");
     }
 
     private List<UniquePair> statuses = new LinkedList<>();

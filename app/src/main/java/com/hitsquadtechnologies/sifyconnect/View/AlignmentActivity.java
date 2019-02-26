@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.hitsquadtechnologies.sifyconnect.Adapters.AntennaAdapter;
 import com.hitsquadtechnologies.sifyconnect.Model.AntennaSignal;
 import com.hitsquadtechnologies.sifyconnect.R;
@@ -17,12 +16,13 @@ import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
 import com.hsq.kw.packet.vo.KWWirelessLinkStats;
-
 import java.util.LinkedList;
 import java.util.List;
 
+/* This class implements the Alignment Activity which helps the installer
+to show the current and best SNR values
+ */
 public class AlignmentActivity extends BaseActivity {
-
     SharedPreference mSharedPreference;
     RouterService.Subscription mSubscription;
     TextView registerLabel;
@@ -51,8 +51,6 @@ public class AlignmentActivity extends BaseActivity {
         }
         AlignInit();
     }
-
-
     private void AlignInit() {
         mSharedPreference = new SharedPreference(AlignmentActivity.this);
     }
@@ -72,7 +70,6 @@ public class AlignmentActivity extends BaseActivity {
             v.addView(imageView);
         }
     }
-
     private void requestToServer() {
         KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
         mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
@@ -84,11 +81,9 @@ public class AlignmentActivity extends BaseActivity {
                         updateUI(new KWWirelessLinkStats(packet));
                     }
                 });
-
             }
         });
     }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -96,13 +91,11 @@ public class AlignmentActivity extends BaseActivity {
             mSubscription.cancel();
         }
     }
-
     @Override
     protected void onResume() {
         super.onResume();
         requestToServer();
     }
-
     @SuppressLint("SetTextI18n")
     private void updateUI(KWWirelessLinkStats wirelessLinkStats) {
         if (wirelessLinkStats.getNoOfLinks() > 0) {

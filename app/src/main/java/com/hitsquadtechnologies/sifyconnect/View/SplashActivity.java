@@ -4,21 +4,16 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-
 import com.hitsquadtechnologies.sifyconnect.R;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 
 public class SplashActivity extends AppCompatActivity {
-
     /** Duration of wait **/
     private final int SPLASH_DISPLAY_LENGTH = 3000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/
         new Handler().postDelayed(new Runnable(){
@@ -35,5 +30,4 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, SPLASH_DISPLAY_LENGTH);
     }
- }
-
+}

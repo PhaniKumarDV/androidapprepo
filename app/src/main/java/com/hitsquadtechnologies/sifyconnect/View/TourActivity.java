@@ -4,28 +4,23 @@ import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import com.hitsquadtechnologies.sifyconnect.R;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ViewListener;
 
+/* This class implements the TourActivity when the App is installed very first time */
 public class TourActivity extends AppCompatActivity {
-
     CarouselView carouselView;
-
     int[] sampleImages = {R.drawable.intro_screen1,
             R.drawable.intro_screen2,
             R.drawable.intro_screen3,
             R.drawable.intro_screen4};
 
     private Button endTourBtn;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,15 +48,12 @@ public class TourActivity extends AppCompatActivity {
                 }
                 reachedEnd = position == sampleImages.length - 1;
             }
-
             @Override
             public void onPageSelected(int position) {}
-
             @Override
             public void onPageScrollStateChanged(int state) {}
         });
     }
-
     public void endTour(View view) {
         this.startActivity(new Intent(TourActivity.this, DiscoveryActivity.class));
         this.finish();

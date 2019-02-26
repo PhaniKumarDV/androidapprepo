@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.hitsquadtechnologies.sifyconnect.Adapters.SharedLinkSpeedGraphData;
 import com.hitsquadtechnologies.sifyconnect.R;
 import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
@@ -16,7 +15,6 @@ import com.hitsquadtechnologies.sifyconnect.constants.DirectionType;
 import com.hitsquadtechnologies.sifyconnect.utils.Options;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
-import com.hsq.kw.packet.vo.Configuration;
 import com.hsq.kw.packet.vo.KWWirelessLinkStats;
 import com.hsq.kw.packet.vo.LinkTest;
 import com.jjoe64.graphview.DefaultLabelFormatter;
@@ -24,14 +22,11 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class LinkTestActivity extends BaseActivity {
-
     private static final int MAX_DATA_POINTS = 10;
-
     RouterService.Subscription mSubscription;
     SharedPreference mSharedPreference;
     Button mStart,mStop;
@@ -74,6 +69,7 @@ public class LinkTestActivity extends BaseActivity {
         durationOptions.add(30, "30");
         durationOptions.add(60, "60");
         durationOptions.add(120, "120");
+        durationOptions.add(180, "180");
         if(mSharedPreference.getIsTrue()){
             mStop.setVisibility(View.VISIBLE);
             mStart.setVisibility(View.GONE);
@@ -98,20 +94,6 @@ public class LinkTestActivity extends BaseActivity {
         directionalOptions.add(DirectionType.BI_DI_LINK, "Bi-di");
         initSpinner(this.mDirection, directionalOptions);
         mDirection.setSelection(directionalOptions.findPositionByKey(mSharedPreference.getDirection()));
-        /*this.mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
-            @Override
-            public void onSuccess(KeywestPacket response) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateUI(new KWWirelessLinkStats(response));
-                    }
-                });
-
-
-            }
-        });*/
-
         this.mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
@@ -121,7 +103,6 @@ public class LinkTestActivity extends BaseActivity {
                         updateUI(new KWWirelessLinkStats(packet));
                     }
                 });
-
             }
         });
     }
@@ -139,7 +120,6 @@ public class LinkTestActivity extends BaseActivity {
         remoteSnrA2.setText("" + wirelessLinkStats.getRemoteSignalA2());
         remoteLinkQuality.setText(""+wirelessLinkStats.getRemoteLinkQualityIndex());
     }
-
     private int max(List<Integer> list) {
         int max = 0;
         for (int i : list) {
@@ -147,7 +127,6 @@ public class LinkTestActivity extends BaseActivity {
         }
         return max;
     }
-
     private List<Integer> addData(List<Integer> seriesData, int value) {
         if (seriesData.size() > MAX_DATA_POINTS) {
             seriesData = seriesData.subList(seriesData.size() - MAX_DATA_POINTS, seriesData.size());
@@ -155,8 +134,6 @@ public class LinkTestActivity extends BaseActivity {
         seriesData.add(value);
         return seriesData;
     }
-
-
     private String seriesData(List<Integer> seriesData) {
         String str = "";
         for (int i = 0; i < seriesData.size(); i++) {
@@ -164,7 +141,6 @@ public class LinkTestActivity extends BaseActivity {
         }
         return  str;
     }
-
     private DataPoint[] toDataPointArray(List<Integer> seriesData) {
         int len = seriesData.size();
         DataPoint[] dataPoints = new DataPoint[MAX_DATA_POINTS];
@@ -177,7 +153,6 @@ public class LinkTestActivity extends BaseActivity {
         }
         return dataPoints;
     }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -185,7 +160,6 @@ public class LinkTestActivity extends BaseActivity {
             mSubscription.cancel();
         }
     }
-
     public void startTest(View view) {
         String macAddress = mSuMac.getText().toString();
         mStrDirection = getSelectedOption(this.mDirection, directionalOptions);
@@ -212,7 +186,6 @@ public class LinkTestActivity extends BaseActivity {
             Toast.makeText(LinkTestActivity.this,R.string.mac_address_is_empty_toast,Toast.LENGTH_LONG).show();
         }
     }
-
     public void stopTest(View view){
         String macAddress = mSuMac.getText().toString();
         LinkTest linkTestPkt = new LinkTest(0, macAddress, mStrDirection, mStrDuration);
@@ -228,7 +201,6 @@ public class LinkTestActivity extends BaseActivity {
             stopTestTimer.cancel();
         }
     }
-
     private void initAreaGraph() {
         areaGraph = findViewById(R.id.area_graph);
         localSeries = new LineGraphSeries<>(new DataPoint[] {});
@@ -266,12 +238,10 @@ public class LinkTestActivity extends BaseActivity {
         areaGraph.addSeries(remoteSeries);
         renderGraph();
     }
-
     public void renderGraph() {
         int maxValue = Double.valueOf(SharedLinkSpeedGraphData.INSTANCE.max() * 1.25).intValue();
         areaGraph.getViewport().setMaxY(Math.max(maxValue, 10));
         localSeries.resetData(SharedLinkSpeedGraphData.INSTANCE.getLocalData());
         remoteSeries.resetData(SharedLinkSpeedGraphData.INSTANCE.getRemoteData());
     }
-
 }
