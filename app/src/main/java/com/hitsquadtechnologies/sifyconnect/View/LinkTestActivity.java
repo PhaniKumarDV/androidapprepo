@@ -3,6 +3,7 @@ package com.hitsquadtechnologies.sifyconnect.View;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -79,6 +80,11 @@ public class LinkTestActivity extends BaseActivity {
         initAreaGraph();
     }
 
+   /* @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+*/
     @Override
     protected void onResume() {
         super.onResume();
@@ -94,7 +100,7 @@ public class LinkTestActivity extends BaseActivity {
         directionalOptions.add(DirectionType.BI_DI_LINK, "Bi-di");
         initSpinner(this.mDirection, directionalOptions);
         mDirection.setSelection(directionalOptions.findPositionByKey(mSharedPreference.getDirection()));
-        this.mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
+        this.mSubscription = RouterService.getInstance().observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
                 runOnUiThread(new Runnable() {
@@ -103,6 +109,13 @@ public class LinkTestActivity extends BaseActivity {
                         updateUI(new KWWirelessLinkStats(packet));
                     }
                 });
+            }
+            @Override
+            public void onError(String msg, Exception e) {
+                //super.onError(msg, e);
+                mStart.setVisibility(View.VISIBLE);
+                mStop.setVisibility(View.GONE);
+                Log.e(ConfigurationActivity.class.getName(), "Configuration request failed: " + msg, e);
             }
         });
     }
@@ -169,19 +182,23 @@ public class LinkTestActivity extends BaseActivity {
         if(!macAddress.isEmpty()) {
             LinkTest linkTestPkt = new LinkTest(1, macAddress, mStrDirection, mStrDuration);
             KeywestPacket keywestPacket = linkTestPkt.buildPacketFromUI();
-            RouterService.INSTANCE.sendRequest(keywestPacket, new RouterService.Callback<KeywestPacket>() {
+            RouterService.getInstance().sendRequest(keywestPacket, new RouterService.Callback<KeywestPacket>() {
                 @Override
                 public void onSuccess(KeywestPacket packet) {}
             });
             mStop.setVisibility(View.VISIBLE);
+            mStart.setVisibility(View.GONE);
             stopTestTimer = new CountDownTimer(TimeUnit.SECONDS.toMillis(mStrDuration), 1000) {
                 public void onTick(long millisUntilFinished) {}
                 public  void onFinish() {
                     stopTestTimer = null;
                     stopTest(null);
+
+                    //mStart.setText("Start");
                 }
             }.start();
             mSharedPreference.saveStartOrStop(true);
+            //mStart.setText("Stop");
         }else {
             Toast.makeText(LinkTestActivity.this,R.string.mac_address_is_empty_toast,Toast.LENGTH_LONG).show();
         }
@@ -190,7 +207,7 @@ public class LinkTestActivity extends BaseActivity {
         String macAddress = mSuMac.getText().toString();
         LinkTest linkTestPkt = new LinkTest(0, macAddress, mStrDirection, mStrDuration);
         KeywestPacket keywestPacket = linkTestPkt.buildPacketFromUI();
-        RouterService.INSTANCE.sendRequest(keywestPacket, new RouterService.Callback<KeywestPacket>() {
+        RouterService.getInstance().sendRequest(keywestPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(KeywestPacket packet) {}
         });

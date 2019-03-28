@@ -72,7 +72,7 @@ public class AlignmentActivity extends BaseActivity {
     }
     private void requestToServer() {
         KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
-        mSubscription = RouterService.INSTANCE.observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
+        mSubscription = RouterService.getInstance().observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
                 runOnUiThread(new Runnable() {

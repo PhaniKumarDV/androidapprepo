@@ -25,6 +25,7 @@ public class RouterService {
     private Byte previousByte = 0;
     private Byte connectionByte = new Byte((byte)0);
     private ResponseHandler handler = null;
+    private boolean loginState = false;
 
     public static abstract class Callback<T> {
         public abstract void onSuccess(T t);
@@ -69,12 +70,24 @@ public class RouterService {
         }
     }
 
-    public static final RouterService INSTANCE = new RouterService();
+    private static RouterService instance;
+
     private String mIPAdress;
     private int mPort;
     private boolean serverFound;
+    private boolean isUserAuthenticated;
     private TCPClient client = null;
     private RouterService() {}
+
+    public static RouterService getInstance() {
+        synchronized(RouterService.class) {
+            if (instance == null) {
+                instance = new RouterService();
+            }
+        }
+        return instance;
+    }
+
     private class ResponseHandler extends AbstractResponseHandler {
         public ResponseHandler(TCPClient client) {
             super(client);
@@ -87,11 +100,13 @@ public class RouterService {
                     KeywestPacket returnPacket = new KeywestPacket(bytes);
                     byte[] bytes1 = returnPacket.getHeader().getHeader();
                     byte b = bytes1[7];
+                    Log.d(RouterService.class.getName(),"Response received for sequence id" + b);
                     Callback<KeywestPacket> cb = callbackMap.get(b);
-                    callbackMap.put(b,null);
                     if (cb != null) {
+                        Log.d(RouterService.class.getName(),"Calling call back" + cb);
                         cb.onSuccess(returnPacket);
                     }
+                   // callbackMap.put(b,null);
                 } catch (IOException e) {
                     //TODO Need to handle on error case from android side
                     //callbackMap.get(b).onError();
@@ -145,6 +160,18 @@ public class RouterService {
         }
         return  false;
     }
+
+    public void loginSuccess() {
+        this.loginState = true;
+    }
+
+    public void loginFailed() {
+        this.loginState = false;
+    }
+
+    public boolean isUserAuthenticated() {
+        return loginState;
+    }
     public int getConnectionState() {
         return connectionState;
     }
@@ -177,7 +204,11 @@ public class RouterService {
         return (byte)uniqueId;
     }
 
-    @Deprecated
+    /*
+    * removed the method as it is not used.
+    */
+    //TODO remove the below commented code
+    /*@Deprecated
     private void connectTo(String ipAddress, int port, final Callback<KeywestPacket> callback) {
         this.mIPAdress = ipAddress;
         this.mPort = port;
@@ -199,9 +230,14 @@ public class RouterService {
                 }
             }
         });
-    }
+    }*/
     public boolean isServerFound() {
         return serverFound;
+    }
+
+    public void authenticationFailed() {
+        serverFound = false;
+        loginFailed();
     }
     private AsyncTask send(final KeywestPacket keywestPacket, final Callback<KeywestPacket> callback) {
         final CountDownTimer timer;
@@ -256,6 +292,24 @@ public class RouterService {
         }
     }
     public void sendRequest(final KeywestPacket keywestPacket, final Callback<KeywestPacket> callback) {
+        final byte b = getUniqueId();
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    keywestPacket.getHeader().setMore(b);
+                    previousByte = b;
+                    client.send(keywestPacket.toByteArray());
+                    callbackMap.put(b,callback);
+                } catch (IOException e) {
+                    callback.onError(e.getMessage(), e);
+                }
+            }
+        });
+        th.start();
+    }
+
+    public void authRequest(final KeywestPacket keywestPacket, final Callback<KeywestPacket> callback) {
         final byte b = getUniqueId();
         Thread th = new Thread(new Runnable() {
             @Override
@@ -332,9 +386,10 @@ public class RouterService {
 
     public Subscription observe(final KeywestPacket keywestPacket, final Callback<KeywestPacket> callback) {
         byte b = getUniqueId();
+        Log.d(RouterService.class.getName(),"Sending observe summary config with byte key" + b);
         keywestPacket.getHeader().setMore(b);
         callbackMap.put(b,callback);
-        final CountDownTimer timer = new CountDownTimer(MAX_SUBSCRIPTION_AGE, 3000) {
+        final CountDownTimer timer = new CountDownTimer(MAX_SUBSCRIPTION_AGE, 1000) {
             public void onTick(long millisUntilFinished){
                 sendRequest1(keywestPacket, callback);
             }

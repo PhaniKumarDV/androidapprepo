@@ -14,6 +14,12 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.hitsquadtechnologies.sifyconnect.R;
+import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
+import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
+import com.hsq.kw.packet.KeywestLTVPacket;
+import com.hsq.kw.packet.KeywestPacket;
+import com.hsq.kw.packet.vo.AuthenticationPacket;
+import com.hsq.kw.packet.vo.Configuration;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -23,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     boolean flag = false;
     ProgressDialog progress;
     int MY_PERMISSIONS_REQUEST_LOCATION = 1001;
+    SharedPreference mSharedPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private  void initialization()
     {
+        mSharedPreference = new SharedPreference( LoginActivity.this );
         progress = new ProgressDialog(this);
         progress.setMessage("Logging in...");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -68,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         mTxUserName = (EditText)findViewById(R.id.Tx_UserName);
         mTxUserPassword = (EditText)findViewById(R.id.Tx_UserPassword);
         mBtLogin = (Button) findViewById(R.id.BT_SubmitButton);
-        mBtSignup = (Button) findViewById(R.id.BT_signin);
+        //mBtSignup = (Button) findViewById(R.id.BT_signin);
         //mTestsigin = (Button) findViewById(R.id.sigin);
         //mTestLog = (Button) findViewById(R.id.Login);
 
@@ -89,37 +97,70 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 progress.show();
-                String email = mTxUserName.getText().toString();
-                String password = mTxUserPassword.getText().toString();
+                final String usrname = mTxUserName.getText().toString();
+                final String password = mTxUserPassword.getText().toString();
                 if (validation())
                 {
-                    authentication(email,password);
+                    authentication(usrname, password);
                 }
+                /*runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+
+                    }
+                });*/
             }
         });
 
-        mBtSignup.setOnClickListener(new View.OnClickListener() {
+        /*mBtSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this,signinActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
 
-    private void authentication(String email,String password)
+    private void authentication(String usrname,String password)
     {
+        // from here
+        AuthenticationPacket authenticationPacket = new AuthenticationPacket(usrname,password);
+        final KeywestPacket authRequestPacket = authenticationPacket.getPacket();
+        RouterService.getInstance().authRequest(authRequestPacket, new RouterService.Callback<KeywestPacket>() {
+            @Override
+            public void onSuccess(final KeywestPacket innerPacket) {
+                hideProgress();
+                if (innerPacket != null) {
+                    KeywestLTVPacket packet = innerPacket.getLTVPacketByType(1);
+                    if (packet != null) {
+                        byte [] status = packet.getValue();
+                        if (status[0] == 1) {
+                            // call configuation Request
+                            //activity.showToast("Authentication success. sending config request");
+                            //Toast.makeText(LoginActivity.this, "Authentication Success", Toast.LENGTH_LONG).show();
+                            sendConfigurationRequest();
+                            RouterService.getInstance().loginSuccess();
+                            //this.startActivity( new Intent( this, LoginActivity.class ) );
+                            updateUI();
+                        } else {
+                            // show toast
 
-        if(email.equalsIgnoreCase("admin") &&password.equalsIgnoreCase("admin")){
-
-            progress.dismiss();
-            updateUI();
-        }else {
-            progress.dismiss();
-            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                    Toast.LENGTH_SHORT).show();
-        }
+                            RouterService.getInstance().loginFailed();
+                            //Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_LONG).show();
+                            //activity.showToast("Authentication failed");
+                        }
+                    }
+                }
+                        /*Configuration configuration = new Configuration(innerPacket);
+                        String ipAddress = configuration.getIpAddress();
+                        if (configuration.getIpAddrType() == 2) {
+                            ipAddress = configuration.getDhcpAddress();
+                        }
+                        mSharedPreference.saveLocalDeviceValues(configuration.getDeviceMac(), configuration.getDeviceMode(), ipAddress);*/
+            }
+        });
         /*mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -136,9 +177,32 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });*/
     }
+
+   public void sendConfigurationRequest() {
+        KeywestPacket configRequest = new Configuration().getPacket();
+        RouterService.getInstance().sendReq(configRequest, new RouterService.Callback<KeywestPacket>() {
+            @Override
+            public void onSuccess(final KeywestPacket packet) {
+                Configuration configuration = new Configuration(packet);
+                mSharedPreference.saveLocalDeviceValues(configuration.getDeviceMac(), configuration.getDeviceMode(), configuration.getIpAddress());
+            }
+        });
+
+    }
+
+    private void hideProgress() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (progress != null) {
+                    progress.hide();
+                }
+            }
+        });
+    }
     private void updateUI()
     {
-        Intent intent = new Intent(LoginActivity.this,DiscoveryActivity.class);
+        Intent intent = new Intent(LoginActivity.this,HomeActivity.class);
         startActivity(intent);
     }
 
@@ -158,7 +222,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(mTxUserName.getText().toString()))
         {
-            mTxUserName.setError("Email Required");
+            mTxUserName.setError("Username Required");
             flag = false;
             progress.dismiss();
             return flag;
@@ -185,4 +249,10 @@ public class LoginActivity extends AppCompatActivity {
         }*/
     }
 
+   /* @Override
+    public void onBackPressed() {
+        if (RouterService.getInstance().isUserAuthenticated()) {
+            super.onBackPressed();
+        }
+    }*/
 }

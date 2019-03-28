@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -78,7 +79,7 @@ public class SummaryActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         KeywestPacket configRequest = new Configuration().getPacket();
-        RouterService.INSTANCE.sendRequest(configRequest, new RouterService.Callback<KeywestPacket>() {
+        RouterService.getInstance().sendRequest(configRequest, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
                 runOnUiThread(new Runnable() {
@@ -86,15 +87,22 @@ public class SummaryActivity extends BaseActivity {
                     public void run() {
                         Configuration configuration = new Configuration(packet);
                         mLocalMacAddress.setText(mSharedPreference.getMacAddress());
-                        mLocalIPAddress.setText(mSharedPreference.getLocalIPAddress());
+                        if (configuration.getIpAddrType() == 1) {
+                            mLocalIPAddress.setText(mSharedPreference.getLocalIPAddress());
+                        } else {
+
+                            mLocalIPAddress.setText(configuration.getDhcpAddress());
+                        }
+
                     }
                 });
             }
         });
         KeywestPacket assocListPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
-        mSubscription = RouterService.INSTANCE.observe(assocListPacket, new RouterService.Callback<KeywestPacket>() {
+        mSubscription = RouterService.getInstance().observe(assocListPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
+                Log.d(SummaryActivity.class.getName(),"On success called");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

@@ -53,6 +53,14 @@
     <string name="ip_address_type">IP Adress Type</string>
     <string name="device_mode">Radio Mode</string>
     <string name="country">Country</string>
+    <string name="vlan_status">VLAN Status</string>
+    <string name="vlan_mode">VLAN Mode</string>
+    <string name="vlan_mgmt_id">Mgmt VLAN ID</string>
+    <string name="vlan_access_id">Access VLAN ID</string>
+    <string name="trunk_opt">Trunk Option</string>
+    <string name="trunk_vlanid">Trunk VLAN ID</string>
+    <string name="svlanid">SVLAN ID</string>
+    <string name="svlan_ether_type">SVLAN EtherType</string>
     <string name="empty">-</string>
 
     <string-array name="BSU_direction_arrays">
@@ -109,7 +117,7 @@
     </string-array>
 
     <string-array name="DeviceMode_arrays">
-        <item>BSU</item>
+        <item>AP</item>
         <item>SU</item>
     </string-array>
 
@@ -118,6 +126,27 @@
         <item>INDIA_L</item>5017
         <item>RUSSIA</item>5011
     </string-array>
+
+    <string-array name="VlanMode_arrays">
+        <item>Transparent</item>
+        <item>Access</item>
+        <!--<item>Trunk</item>
+        <item>Q-in-Q</item>-->
+    </string-array>
+
+    <!--
+    <string-array name="Trunkopt_arrays">
+        <item>List</item>
+        <item>All</item>
+    </string-array>
+
+    <string-array name="Svlan_ethertype_arrays">
+        <item>0x8100</item>
+        <item>0x88a8</item>
+        <item>0x9100</item>
+        <item>0x9200</item>
+    </string-array>
+    -->
 
     <string name="title_shop">Shop</string>
     <string name="title_gifts">Gifts</string>

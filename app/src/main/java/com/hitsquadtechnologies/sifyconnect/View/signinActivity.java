@@ -37,12 +37,12 @@ public class signinActivity extends AppCompatActivity {
     private void initialization(){
 
         auth = FirebaseAuth.getInstance();
-        btnSignIn = (Button) findViewById(R.id.sign_in_button);
+        //btnSignIn = (Button) findViewById(R.id.sign_in_button);
         btnSignUp = (Button) findViewById(R.id.sign_up_button);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
+        //btnResetPassword = (Button) findViewById(R.id.btn_reset_password);
         //mTestsigin = (Button) findViewById(R.id.sigin);
         //mTestLog = (Button) findViewById(R.id.Login);
 

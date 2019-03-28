@@ -116,6 +116,14 @@ public class DiscoveryActivity extends BaseActivity {
            isConnected = true;
         }
     }
+/*
+    public void forget() {
+        forgetNetwork(mSharedPreference.getSsid());
+    }*/
+
+    public void wifiConnected() {
+        this.startActivity( new Intent( this, LoginActivity.class ) );
+    }
     protected void onResume() {
         registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
         super.onResume();

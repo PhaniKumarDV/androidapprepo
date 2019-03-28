@@ -1,23 +1,34 @@
 package com.hitsquadtechnologies.sifyconnect.utils;
 
 import com.hitsquadtechnologies.sifyconnect.constants.CountryCode;
+import com.hitsquadtechnologies.sifyconnect.constants.DeviceMode;
 import com.hitsquadtechnologies.sifyconnect.constants.EnableDisable;
 import com.hitsquadtechnologies.sifyconnect.constants.IPAddressType;
 import com.hitsquadtechnologies.sifyconnect.constants.OperationalMode;
+import com.hitsquadtechnologies.sifyconnect.constants.SVlanEtherType;
 import com.hitsquadtechnologies.sifyconnect.constants.SpatialStream;
+import com.hitsquadtechnologies.sifyconnect.constants.TrunkOpt;
+import com.hitsquadtechnologies.sifyconnect.constants.VlanMode;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Options {
+    public static final Options DEV_MODE = new Options();
     public static final Options OPERATIONAL_MODE = new Options();
     public static final Options ENABLE_DISABLE = new Options();
     public static final Options IP_ADDRESS_TYPE = new Options();
     public static final Options SPATIAL_STREAM = new Options();
     public static final Options COUNTRY_CODE_OPTIONS = new Options();
+    public static final Options VLAN_MODE = new Options();
+    public static final Options TRUNK_OPT = new Options();
+    public static final Options SVLAN_ETHERTYPE = new Options();
 
     static {
+        DEV_MODE.add(DeviceMode.AP,"AP");
+        DEV_MODE.add(DeviceMode.SU, "SU");
+
         OPERATIONAL_MODE.add(OperationalMode._11A, "11A");
         OPERATIONAL_MODE.add(OperationalMode._11NA, "11NA");
         OPERATIONAL_MODE.add(OperationalMode._11AC, "11AC");
@@ -34,6 +45,19 @@ public class Options {
 
         COUNTRY_CODE_OPTIONS.add(CountryCode.INDIA1, "INDIA");
         COUNTRY_CODE_OPTIONS.add(CountryCode.INDIA2, "5GHZ");
+
+        VLAN_MODE.add(VlanMode.TRANSPARENT,  "Transparent");
+        VLAN_MODE.add(VlanMode.ACCESS, "Access");
+        /*VLAN_MODE.add(VlanMode.TRUNK,"Trunk");
+        VLAN_MODE.add(VlanMode.QinQ,"QinQ");*/
+
+        TRUNK_OPT.add(TrunkOpt.LIST, "LIST");
+        TRUNK_OPT.add(TrunkOpt.ALL, "ALL");
+
+        SVLAN_ETHERTYPE.add(SVlanEtherType.Ox8100,"0x8100");
+        SVLAN_ETHERTYPE.add(SVlanEtherType.Ox88a8,"0x88a8");
+        SVLAN_ETHERTYPE.add(SVlanEtherType.Ox9100,"0x9100");
+        SVLAN_ETHERTYPE.add(SVlanEtherType.Ox9200,"0x9200");
     }
 
     private List<UniquePair> statuses = new LinkedList<>();

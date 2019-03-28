@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -210,6 +211,28 @@ public class BaseActivity extends AppCompatActivity
                 mConnectwifiManager.disconnect();
                 mConnectwifiManager.enableNetwork(i.networkId, true);
                 mConnectwifiManager.reconnect();
+            }
+        }
+    }
+
+    @Deprecated
+    protected void forgetNetwork1(String networkSSID) {
+        hideKeyboard();
+       /* WifiConfiguration conf = new WifiConfiguration();
+        conf.SSID = "\"" + networkSSID + "\"";
+        conf.preSharedKey = "\""+ pass +"\"";
+        if (mConnectwifiManager != null) {
+            mConnectwifiManager.addNetwork(conf);
+        }*/
+        List<WifiConfiguration> list = null;
+        if (mConnectwifiManager != null) {
+            list = mConnectwifiManager.getConfiguredNetworks();
+        }
+        for( WifiConfiguration i : list ) {
+            if(i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
+                mConnectwifiManager.removeNetwork(i.networkId);
+               /* mConnectwifiManager.enableNetwork(i.networkId, true);
+                mConnectwifiManager.reconnect();*/
             }
         }
     }

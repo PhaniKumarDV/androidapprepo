@@ -25,7 +25,7 @@ public class HomeActivity extends BaseActivity {
         this.configurationIcon = findViewById(R.id.configurationIcon);
         this.alignmentIcon = findViewById(R.id.alignmentIcon);
         this.linkTestIcon = findViewById(R.id.linkTestIcon);
-        if (RouterService.INSTANCE.isServerFound()) {
+        if (RouterService.getInstance().isServerFound() && RouterService.getInstance().isUserAuthenticated()) {
             this.summaryIcon.setImageResource(R.drawable.summary);
             this.configurationIcon.setImageResource(R.drawable.configuration);
             this.alignmentIcon.setImageResource(R.drawable.alignment);
@@ -53,7 +53,7 @@ public class HomeActivity extends BaseActivity {
         this.goTo(LinkTestActivity.class);
     }
     private void goTo(Class<? extends Activity> activityClass) {
-        if (RouterService.INSTANCE.isServerFound()) {
+        if (RouterService.getInstance().isServerFound() && RouterService.getInstance().isUserAuthenticated()) {
             this.startActivity(new Intent(this, activityClass));
         }
     }
