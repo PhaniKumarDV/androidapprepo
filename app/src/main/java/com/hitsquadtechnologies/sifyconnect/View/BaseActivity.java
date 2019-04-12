@@ -206,11 +206,13 @@ public class BaseActivity extends AppCompatActivity
         if (mConnectwifiManager != null) {
             list = mConnectwifiManager.getConfiguredNetworks();
         }
-        for( WifiConfiguration i : list ) {
-            if(i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
-                mConnectwifiManager.disconnect();
-                mConnectwifiManager.enableNetwork(i.networkId, true);
-                mConnectwifiManager.reconnect();
+        if ( list != null ) {
+            for (WifiConfiguration i : list) {
+                if (i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
+                    mConnectwifiManager.disconnect();
+                    mConnectwifiManager.enableNetwork(i.networkId, true);
+                    mConnectwifiManager.reconnect();
+                }
             }
         }
     }
