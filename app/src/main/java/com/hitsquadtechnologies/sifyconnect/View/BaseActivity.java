@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hitsquadtechnologies.sifyconnect.R;
+import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
 import com.hitsquadtechnologies.sifyconnect.utils.Options;
 import java.util.HashMap;
 import java.util.List;
@@ -196,6 +197,7 @@ public class BaseActivity extends AppCompatActivity
     }
     public void connectToWifi(String networkSSID,String pass) {
         hideKeyboard();
+        RouterService.getInstance().loginFailed();
         WifiConfiguration conf = new WifiConfiguration();
         conf.SSID = "\"" + networkSSID + "\"";
         conf.preSharedKey = "\""+ pass +"\"";
