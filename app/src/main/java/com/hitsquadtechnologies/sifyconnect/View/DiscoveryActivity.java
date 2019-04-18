@@ -264,6 +264,9 @@ public class DiscoveryActivity extends BaseActivity {
             scannedWifisDetailsArrayList.clear();
             for (int i = 0; i < wifiList.size(); i++) {
                 wifiDetailsdata mWifiDetailsdata = new wifiDetailsdata();
+                if (wifiList.get(i).SSID.equals("")) {
+                    continue;
+                }
                 mWifiDetailsdata.setBSSID(wifiList.get(i).BSSID);
                 mWifiDetailsdata.setSSID(wifiList.get(i).SSID);
                 mWifiDetailsdata.setCapabilities(wifiList.get(i).capabilities);
