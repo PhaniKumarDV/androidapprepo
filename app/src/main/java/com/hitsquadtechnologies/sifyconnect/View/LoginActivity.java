@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText mTxUserName,mTxUserPassword;
     Button mBtLogin,mBtSignup,mTestLog,mTestsigin;
-    private FirebaseAuth mAuth;
     boolean flag = false;
     ProgressDialog progress;
     int MY_PERMISSIONS_REQUEST_LOCATION = 1001;
@@ -72,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
         progress.setIndeterminate(true);
         progress.setCancelable(false);
 
-        mAuth = FirebaseAuth.getInstance();
         mTxUserName = (EditText)findViewById(R.id.Tx_UserName);
         mTxUserPassword = (EditText)findViewById(R.id.Tx_UserPassword);
         mBtLogin = (Button) findViewById(R.id.BT_SubmitButton);

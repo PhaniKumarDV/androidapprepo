@@ -65,10 +65,10 @@ public class NetworkUtil {
     }
 
     public static int forgetNetwork(WifiManager wifiManager, String ssid) {
+        String ssidQuote = "\"" + ssid + "\"";
         List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
-
         for (WifiConfiguration wifiConfiguration : configuredNetworks) {
-            if (ssid.equals(wifiConfiguration.SSID)) {
+            if (ssidQuote.equals(wifiConfiguration.SSID)) {
                 Log.w(TAG, "isNetworkExist : " + wifiConfiguration.SSID);
                 wifiManager.removeNetwork(wifiConfiguration.networkId);
                 wifiManager.saveConfiguration();
