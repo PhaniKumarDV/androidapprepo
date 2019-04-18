@@ -164,6 +164,12 @@
     <string name="wifiDetails.channelWidth">Channel Width</string>
     <string name="wifiDetails.BSSID">BSSID</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="txt_ssid">SSID</string>
+    <string name="txt_security">Security</string>
+    <string name="txt_wpa_wpa2_psk">WPA/WPA2 PSK</string>
+    <string name="txt_password">Password</string>
+    <string name="txt_cancel">Cancel</string>
+    <string name="txt_add">Add</string>
 
 
 </resources>

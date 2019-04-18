@@ -14,10 +14,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.hitsquadtechnologies.sifyconnect.Model.wifiDetailsdata;
 import com.hitsquadtechnologies.sifyconnect.R;
 import com.hitsquadtechnologies.sifyconnect.View.DiscoveryActivity;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
+
 import java.util.List;
 
 public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
@@ -34,18 +36,19 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
         this.wifiDetailsarrayList = wifiDetailsList;
         this.mPreferences = new SharedPreference(context);
     }
+
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-         wifiDetailsdata wifiData = wifiDetailsarrayList.get(position);
-         ViewHolder viewHolder;
-            if (convertView == null) {
+        wifiDetailsdata wifiData = wifiDetailsarrayList.get(position);
+        ViewHolder viewHolder;
+        if (convertView == null) {
             convertView = inflater.inflate(R.layout.list_item, parent, false);
             final ViewHolder newViewHolder = new ViewHolder();
             newViewHolder.wifisecurity = (ImageView) convertView.findViewById(R.id.wifi_security);
             newViewHolder.wifiProvider = (TextView) convertView.findViewById(R.id.wifi_name);
             newViewHolder.txsignalstgth = (TextView) convertView.findViewById(R.id.signal_strength);
-            newViewHolder.mProgressBar =(ProgressBar) convertView.findViewById(R.id.progressbar);
+            newViewHolder.mProgressBar = (ProgressBar) convertView.findViewById(R.id.progressbar);
             newViewHolder.txchannels = (TextView) convertView.findViewById(R.id.Tx_channel);
             newViewHolder.txConnectedStatus = (TextView) convertView.findViewById(R.id.connectedText);
             newViewHolder.detailsLayout = convertView.findViewById(R.id.wifi_details);
@@ -55,6 +58,7 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
             newViewHolder.ssid = convertView.findViewById(R.id.ssidValue);
             newViewHolder.connectBtn = convertView.findViewById(R.id.connectBtn);
             newViewHolder.cancelBtn = convertView.findViewById(R.id.cancelBtn);
+            newViewHolder.forgetBtn = convertView.findViewById(R.id.forgetBtn);
             newViewHolder.passwordInput = convertView.findViewById(R.id.wifiPassword);
             newViewHolder.frequencyLabel = convertView.findViewById(R.id.frequency);
             convertView.setTag(newViewHolder);
@@ -98,16 +102,23 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
                     newViewHolder.detailsLayout.setVisibility(View.GONE);
                 }
             });
+            newViewHolder.forgetBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    WifiscannerAdapter.this.mContext.forgetNetworkConfirmation(newViewHolder.wifiProvider.getText().toString());
+                    newViewHolder.detailsLayout.setVisibility(View.GONE);
+                }
+            });
             viewHolder = newViewHolder;
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.wifiProvider.setText(wifiData.getSSID());
-        if(wifiData.getCapabilities().contains("WPA2")) {
+        if (wifiData.getCapabilities().contains("WPA2")) {
             viewHolder.wifisecurity.setImageResource(R.drawable.discovery_secure_wifi);
             viewHolder.security.setText("WPA2");
             viewHolder.passwordInput.setVisibility(View.VISIBLE);
-        } else if(!wifiData.getCapabilities().contains("WPA2") && wifiData.getCapabilities().contains("WPA")) {
+        } else if (!wifiData.getCapabilities().contains("WPA2") && wifiData.getCapabilities().contains("WPA")) {
             viewHolder.wifisecurity.setImageResource(R.drawable.discovery_insecure_wifi);
             viewHolder.security.setText("WPA");
             viewHolder.passwordInput.setVisibility(View.GONE);
@@ -116,7 +127,7 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
             viewHolder.security.setText("NONE");
             viewHolder.passwordInput.setVisibility(View.GONE);
         }
-        if(wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac())) {
+        if (wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac())) {
             viewHolder.txConnectedStatus.setVisibility(View.VISIBLE);
             viewHolder.txConnectedStatus.setText("Connected");
             viewHolder.connectBtn.setVisibility(View.GONE);
@@ -126,23 +137,24 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
             viewHolder.connectBtn.setVisibility(View.VISIBLE);
         }
         viewHolder.txsignalstgth.setText(Integer.toString(wifiData.getRssi()) + "dBm");
-        if( wifiData.getRssi() >= -40 ) {
+        if (wifiData.getRssi() >= -40) {
             int rssi = wifiData.getRssi();
-            setProgressbar(viewHolder,rssi,"#29a329");
-        }else if( wifiData.getRssi()  >= -60 &&
-                wifiData.getRssi() < -40 ) {
+            setProgressbar(viewHolder, rssi, "#29a329");
+        } else if (wifiData.getRssi() >= -60 &&
+                wifiData.getRssi() < -40) {
             int rssi = wifiData.getRssi();
-            setProgressbar(viewHolder,rssi,"#f38624");
+            setProgressbar(viewHolder, rssi, "#f38624");
         } else {
             int rssi = wifiData.getRssi();
-            setProgressbar(viewHolder,rssi,"#e60000");
+            setProgressbar(viewHolder, rssi, "#e60000");
         }
         viewHolder.bssid.setText(wifiData.getBSSID());
         viewHolder.ssid.setText(wifiData.getSSID());
         viewHolder.channelWidth.setText(getChannelWidthStr(wifiData.getFrequency(), wifiData.getChannelWidth()));
-        viewHolder.frequencyLabel.setText(wifiData.getFrequency()+ "MHz");
+        viewHolder.frequencyLabel.setText(wifiData.getFrequency() + "MHz");
         return convertView;
     }
+
     private String getChannelWidthStr(int frequency, int channelWidth) {
         int channeWidthNum = 0;
         if (channelWidth == ScanResult.CHANNEL_WIDTH_20MHZ) {
@@ -154,14 +166,16 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
         } else if (channelWidth == ScanResult.CHANNEL_WIDTH_80MHZ_PLUS_MHZ) {
             channeWidthNum = 160;
         }
-        return channeWidthNum + "MHz (" + (frequency - channeWidthNum / 2 ) + " - " + (frequency + channeWidthNum / 2 ) +  "MHz)";
+        return channeWidthNum + "MHz (" + (frequency - channeWidthNum / 2) + " - " + (frequency + channeWidthNum / 2) + "MHz)";
     }
-    private void setProgressbar(ViewHolder viewHolder,int rssi,String color){
+
+    private void setProgressbar(ViewHolder viewHolder, int rssi, String color) {
         viewHolder.mProgressBar.setProgress(100 + rssi);
         viewHolder.mProgressBar.getProgressDrawable().setColorFilter(Color.parseColor(color), PorterDuff.Mode.SRC_IN);
         viewHolder.txsignalstgth.setTextColor(Color.parseColor(color));
         viewHolder.detailsLayout.setBackgroundColor(Color.parseColor(color));
     }
+
     static class ViewHolder {
         public TextView wifiProvider;
         public TextView txsignalstgth;
@@ -178,6 +192,7 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
         public TextView frequencyLabel;
         public Button connectBtn;
         public Button cancelBtn;
+        public Button forgetBtn;
         public EditText passwordInput;
     }
 }
