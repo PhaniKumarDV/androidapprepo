@@ -300,7 +300,13 @@
                 android:id="@+id/cancelBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:text="cancel" />
+                android:text="Cancel" />
+
+            <Button
+                android:id="@+id/forgetBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Forget" />
         </LinearLayout>
     </LinearLayout>
 

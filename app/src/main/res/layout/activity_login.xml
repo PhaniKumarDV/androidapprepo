@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".View.LinkTestActivity">
+    tools:context=".View.LoginActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/AppBarLayout"
@@ -22,22 +24,17 @@
             app:contentInsetStart="0dp"
             app:contentInsetStartWithNavigation="0dp"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
-
     </android.support.design.widget.AppBarLayout>
 
     <include
-        layout="@layout/content_link_test"
+        layout="@layout/content_login"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AppBarLayout" />
+        android:layout_weight="1"/>
 
     <TextView
         style="@style/PoweredBy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/powered_by"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-</android.support.constraint.ConstraintLayout>
+        android:text="@string/powered_by"/>
+</LinearLayout>

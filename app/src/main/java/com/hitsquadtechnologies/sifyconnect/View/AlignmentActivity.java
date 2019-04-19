@@ -49,9 +49,9 @@ public class AlignmentActivity extends BaseActivity {
             localRadio = "SU";
             remoteRadio = "BSU";
         }
-        AlignInit();
+        alignmentActivityInit();
     }
-    private void AlignInit() {
+    private void alignmentActivityInit() {
         mSharedPreference = new SharedPreference(AlignmentActivity.this);
     }
 
