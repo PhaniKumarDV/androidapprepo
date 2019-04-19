@@ -204,33 +204,6 @@ public class RouterService {
         return (byte)uniqueId;
     }
 
-    /*
-    * removed the method as it is not used.
-    */
-    //TODO remove the below commented code
-    /*@Deprecated
-    private void connectTo(String ipAddress, int port, final Callback<KeywestPacket> callback) {
-        this.mIPAdress = ipAddress;
-        this.mPort = port;
-        KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
-        wirelessLinkPacket.getHeader().setMore(getUniqueId());
-        sendRequest(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
-            @Override
-            public void onSuccess(final KeywestPacket packet) {
-                serverFound = true;
-                if (callback != null) {
-                    callback.onSuccess(packet);
-                }
-            }
-            @Override
-            public void onError(String msg, Exception e) {
-                serverFound = false;
-                if (callback != null) {
-                    callback.onError(msg, e);
-                }
-            }
-        });
-    }*/
     public boolean isServerFound() {
         return serverFound;
     }

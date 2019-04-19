@@ -1,11 +1,12 @@
 package com.hitsquadtechnologies.sifyconnect.View;
 
 import android.app.ProgressDialog;
-import android.app.VoiceInteractor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -106,12 +107,12 @@ public class ConfigurationActivity extends BaseActivity {
         mSvlanidval = findViewById(R.id.svlanid_val);
         mSvlanethertype = findViewById(R.id.config_svlan_ethertype);
         mSvlanethtypeval = findViewById(R.id.svlanethtype_val);*/
-        init();
+        configurationActivityInit();
         loadConfiguration();
     }
 
     /* Initialize the cofiguration parameters */
-    private void init() {
+    private void configurationActivityInit() {
         mDeviceMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -224,6 +225,26 @@ public class ConfigurationActivity extends BaseActivity {
         initSpinner(mVlanMode, Options.VLAN_MODE);
         /*initSpinner(mVlanTrunkOpt, Options.TRUNK_OPT);
         initSpinner(mSvlanethertype, Options.SVLAN_ETHERTYPE);*/
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                RouterService.getInstance().disconnect();
+                RouterService.getInstance().loginFailed();
+                showHome();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /* On Change of ATPC Parameter */
@@ -579,6 +600,11 @@ public class ConfigurationActivity extends BaseActivity {
     /* Redirect to the Discovery Activity */
     public void showDiscovery() {
         this.startActivity(new Intent(this, DiscoveryActivity.class));
+        this.finish();
+    }
+    /* Redirect to the Home Activity */
+    public void showHome() {
+        this.startActivity(new Intent(this, HomeActivity.class));
         this.finish();
     }
 }

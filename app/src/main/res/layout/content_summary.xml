@@ -38,14 +38,6 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/imageView3"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        app:srcCompat="@drawable/summary_down" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -418,7 +410,7 @@
                             android:id="@+id/remoteSNRLabel"
                             android:layout_width="20dp"
                             android:layout_height="wrap_content"
-                            android:text="BSU"
+                            android:text="AP"
                             android:textColor="#FFFFFF"
                             android:textSize="10sp"
                             android:textStyle="bold"
@@ -524,17 +516,10 @@
                         android:id="@+id/Remote_radio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="BSU"
+                        android:text="AP"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
                         android:textStyle="bold" />
-
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        app:srcCompat="@drawable/summary_up" />
 
                 </LinearLayout>
 
@@ -684,7 +669,7 @@
             android:id="@+id/area_graph"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_margin="0dp"/>
+            android:layout_margin="0dp" />
 
     </LinearLayout>
 </ScrollView>

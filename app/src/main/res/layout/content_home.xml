@@ -17,10 +17,33 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="goToDiscovery"
+                android:orientation="vertical"
+                android:layout_margin="16dp">
+
+                <ImageView
+                    android:id="@+id/discoveryIcon"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    app:srcCompat="@drawable/discovery" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Discovery"
+                    android:textAlignment="center"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -41,6 +64,60 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Summary"
+                    android:textAlignment="center"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="goToAlignment"
+                android:orientation="vertical"
+                android:layout_margin="16dp">
+
+                <ImageView
+                    android:id="@+id/alignmentIcon"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    app:srcCompat="@drawable/alignment" />
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Alignment"
+                    android:textAlignment="center"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="goToLogin"
+                android:orientation="vertical"
+                android:layout_margin="16dp">
+
+                <ImageView
+                    android:id="@+id/loginIcon"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    app:srcCompat="@drawable/login" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Login"
                     android:textAlignment="center"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -87,62 +164,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Link Test"
-                    android:textAlignment="center"
-                    android:textSize="18sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:onClick="goToDiscovery"
-                android:orientation="vertical"
-                android:layout_margin="16dp">
-
-                <ImageView
-                    android:id="@+id/discoveryIcon"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    app:srcCompat="@drawable/discovery" />
-
-                <TextView
-                    android:id="@+id/textView10"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Discovery"
-                    android:textAlignment="center"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:onClick="goToAlignment"
-                android:orientation="vertical"
-                android:layout_margin="16dp">
-
-                <ImageView
-                    android:id="@+id/alignmentIcon"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    app:srcCompat="@drawable/alignment" />
-
-                <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Alignment"
                     android:textAlignment="center"
                     android:textSize="18sp" />
             </LinearLayout>

@@ -4,18 +4,15 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
-import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +28,7 @@ import com.hitsquadtechnologies.sifyconnect.Adapters.WifiscannerAdapter;
 import com.hitsquadtechnologies.sifyconnect.BroadcostReceivers.WifiConnectionReceiver;
 import com.hitsquadtechnologies.sifyconnect.Model.wifiDetailsdata;
 import com.hitsquadtechnologies.sifyconnect.R;
+import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
 import com.hitsquadtechnologies.sifyconnect.utils.NetworkUtil;
 import com.hitsquadtechnologies.sifyconnect.utils.SharedPreference;
 
@@ -65,10 +63,10 @@ public class DiscoveryActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discovery);
         this.onCreate("Discovery", R.id.toolbar, true);
-        initialization();
+        discoveryActivityInit();
     }
 
-    private void initialization() {
+    private void discoveryActivityInit() {
         mSharedPreference = new SharedPreference(DiscoveryActivity.this);
         scannedWifisDetailsArrayList = new ArrayList<wifiDetailsdata>();
         mListViwProvider = (ListView) findViewById(R.id.list_view_wifi);
@@ -107,7 +105,6 @@ public class DiscoveryActivity extends BaseActivity {
         listViewOnItemclickListner();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -121,12 +118,16 @@ public class DiscoveryActivity extends BaseActivity {
             case R.id.action_add_network:
                 displayAddNetworkDialog();
                 break;
+            case R.id.action_logout:
+                RouterService.getInstance().disconnect();
+                RouterService.getInstance().loginFailed();
+                showHome();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void displayAddNetworkDialog() {
-
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.view_add_network_dialog, null);
@@ -162,7 +163,6 @@ public class DiscoveryActivity extends BaseActivity {
                 }
             }
         });
-
         alertDialog.show();
     }
 
@@ -199,8 +199,16 @@ public class DiscoveryActivity extends BaseActivity {
         });
     }
 
+    public void connectNetwork(final String ssid, final String password) {
+        if (isValidAddNetworkDetails(ssid, password)) {
+            NetworkUtil.addWPANetwork(wifiManager, ssid, password);
+            startScan();
+        } else {
+            Toast.makeText(getBaseContext(), "SSID & Password should not be empty and" +
+                    " password length must be atleast 8 charcters.", Toast.LENGTH_LONG).show();
+        }
+    }
     public void forgetNetworkConfirmation(final String ssid) {
-
         new SweetAlertDialog(DiscoveryActivity.this, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText("Are you sure?")
                 .setContentText("You want to forget  this network.")
@@ -220,7 +228,6 @@ public class DiscoveryActivity extends BaseActivity {
                 .show();
     }
 
-
     private void checkWifiConnected(View view, int position) {
         isConnected = false;
         TextView ssid = (TextView) view.findViewById(R.id.wifi_name);
@@ -228,10 +235,6 @@ public class DiscoveryActivity extends BaseActivity {
             isConnected = true;
         }
     }
-/*
-    public void forget() {
-        forgetNetwork(mSharedPreference.getSsid());
-    }*/
 
     public void wifiConnected() {
         this.startActivity(new Intent(this, LoginActivity.class));
@@ -249,7 +252,6 @@ public class DiscoveryActivity extends BaseActivity {
     public void startScan() {
         mScanStopped = false;
     }
-
 
     /* This class is called as callback on the change of ScanResults by WifiManager */
     class WifiScanReceiver extends BroadcastReceiver {
@@ -275,22 +277,21 @@ public class DiscoveryActivity extends BaseActivity {
                 scannedWifisDetailsArrayList.add(mWifiDetailsdata);
             }
             final String connectedWifiSsid = new SharedPreference(c).getWifiMac();
-            Collections.sort(scannedWifisDetailsArrayList, new Comparator<wifiDetailsdata>() {
+            Comparator<wifiDetailsdata> comparator = new Comparator<wifiDetailsdata>() {
                 @Override
                 public int compare(wifiDetailsdata o1, wifiDetailsdata o2) {
                     if (o1 == null) {
                         return 1;
                     } else if (o2 == null) {
                         return -1;
-                    } else if (o1.getBSSID().equalsIgnoreCase(connectedWifiSsid) || o2.getSSID().trim().length() == 0) {
-                        return -1;
-                    } else if (o2.getBSSID().equalsIgnoreCase(connectedWifiSsid) || o1.getSSID().trim().length() == 0) {
-                        return 1;
                     } else {
-                        return o1.getSSID().toLowerCase().compareTo(o2.getSSID().toLowerCase());
+                        Integer rss1 = o1.getRssi();
+                        Integer rss2 = o2.getRssi();
+                        return rss2.compareTo(rss1);
                     }
                 }
-            });
+            };
+            Collections.sort(scannedWifisDetailsArrayList, comparator);
             adapter = new WifiscannerAdapter(DiscoveryActivity.this, scannedWifisDetailsArrayList);
             mListViwProvider.setAdapter(adapter);
             mListViwProvider.refreshDrawableState();
@@ -304,5 +305,10 @@ public class DiscoveryActivity extends BaseActivity {
                 Toast.makeText(DiscoveryActivity.this, message, Toast.LENGTH_LONG).show();
             }
         });
+    }
+    /* Redirect to the Home Activity */
+    public void showHome() {
+        this.startActivity(new Intent(this, HomeActivity.class));
+        this.finish();
     }
 }

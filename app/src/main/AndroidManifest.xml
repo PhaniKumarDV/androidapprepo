@@ -28,9 +28,6 @@
             android:name=".View.DiscoveryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".View.signinActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".View.ConfigurationActivity"
             android:screenOrientation="portrait" />
         <activity

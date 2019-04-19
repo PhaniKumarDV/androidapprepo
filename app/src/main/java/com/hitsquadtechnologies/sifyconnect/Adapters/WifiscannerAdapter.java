@@ -83,7 +83,7 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
                         v.clearFocus();
                         WifiscannerAdapter.this.mContext.startScan();
-                        WifiscannerAdapter.this.mContext.connectToWifi(newViewHolder.wifiProvider.getText().toString(), newViewHolder.passwordInput.getText().toString());
+                        WifiscannerAdapter.this.mContext.connectNetwork(newViewHolder.wifiProvider.getText().toString(), newViewHolder.passwordInput.getText().toString());
                     }
                     return false;
                 }
@@ -92,7 +92,7 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
                 @Override
                 public void onClick(View v) {
                     WifiscannerAdapter.this.mContext.startScan();
-                    WifiscannerAdapter.this.mContext.connectToWifi(newViewHolder.wifiProvider.getText().toString(), newViewHolder.passwordInput.getText().toString());
+                    WifiscannerAdapter.this.mContext.connectNetwork(newViewHolder.wifiProvider.getText().toString(), newViewHolder.passwordInput.getText().toString());
                 }
             });
             newViewHolder.cancelBtn.setOnClickListener(new View.OnClickListener() {

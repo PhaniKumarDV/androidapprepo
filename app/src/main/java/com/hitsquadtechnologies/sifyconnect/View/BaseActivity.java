@@ -1,12 +1,9 @@
 package com.hitsquadtechnologies.sifyconnect.View;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -23,10 +20,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import com.google.firebase.auth.FirebaseAuth;
 import com.hitsquadtechnologies.sifyconnect.R;
-import com.hitsquadtechnologies.sifyconnect.ServerPrograms.RouterService;
 import com.hitsquadtechnologies.sifyconnect.utils.Options;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BaseActivity extends AppCompatActivity
@@ -73,7 +68,6 @@ public class BaseActivity extends AppCompatActivity
             mDrawerLayout.addDrawerListener(toggle);
             toggle.syncState();
         }
-        mConnectwifiManager = (WifiManager)getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     }
     public void requestPermission(String permissionCode, @NonNull PermissionCallback callback) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -151,10 +145,7 @@ public class BaseActivity extends AppCompatActivity
         return true;
     }
     private void logout() {
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+        return;
     }
     @Override
     public void onBackPressed() {
@@ -194,52 +185,5 @@ public class BaseActivity extends AppCompatActivity
             view = new View(this);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-    public void connectToWifi(String networkSSID,String pass) {
-        hideKeyboard();
-        RouterService.getInstance().loginFailed();
-        WifiConfiguration conf = new WifiConfiguration();
-        conf.SSID = "\"" + networkSSID + "\"";
-        conf.preSharedKey = "\""+ pass +"\"";
-        if (mConnectwifiManager != null) {
-            mConnectwifiManager.addNetwork(conf);
-        }
-        List<WifiConfiguration> list = null;
-        if (mConnectwifiManager != null) {
-            list = mConnectwifiManager.getConfiguredNetworks();
-        }
-        if ( list != null ) {
-            for (WifiConfiguration i : list) {
-                if (i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
-                    mConnectwifiManager.disconnect();
-                    mConnectwifiManager.enableNetwork(i.networkId, true);
-                    mConnectwifiManager.reconnect();
-                }
-            }
-        }
-    }
-
-    @Deprecated
-    protected void forgetNetwork1(String networkSSID) {
-        hideKeyboard();
-       /* WifiConfiguration conf = new WifiConfiguration();
-        conf.SSID = "\"" + networkSSID + "\"";
-        conf.preSharedKey = "\""+ pass +"\"";
-        if (mConnectwifiManager != null) {
-            mConnectwifiManager.addNetwork(conf);
-        }*/
-        List<WifiConfiguration> list = null;
-        if (mConnectwifiManager != null) {
-            list = mConnectwifiManager.getConfiguredNetworks();
-        }
-        if ( list != null ) {
-            for (WifiConfiguration i : list) {
-                if (i.SSID != null && i.SSID.equals("\"" + networkSSID + "\"")) {
-                    mConnectwifiManager.removeNetwork(i.networkId);
-               /* mConnectwifiManager.enableNetwork(i.networkId, true);
-                mConnectwifiManager.reconnect();*/
-                }
-            }
-        }
     }
 }

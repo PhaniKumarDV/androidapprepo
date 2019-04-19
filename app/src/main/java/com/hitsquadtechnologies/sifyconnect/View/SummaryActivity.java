@@ -2,9 +2,12 @@ package com.hitsquadtechnologies.sifyconnect.View;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -48,9 +51,9 @@ public class SummaryActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
         this.onCreate("Summary", R.id.toolbar, true);
-        initialization();
+        summaryActivityInit();
     }
-    private void initialization() {
+    private void summaryActivityInit() {
         mLocalIPAddress     = (TextView)findViewById(R.id.WLink_LocalIpNetwork);
         mRemoteIPaddress    = (TextView)findViewById(R.id.WLink_RemoteIpNetwork);
         mLocalMacAddress    = (TextView)findViewById(R.id.WLess_LocalMacAddress);
@@ -74,6 +77,25 @@ public class SummaryActivity extends BaseActivity {
             }
         });
         initAreaGraph();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                RouterService.getInstance().disconnect();
+                RouterService.getInstance().loginFailed();
+                showHome();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
     @Override
     protected void onResume() {
@@ -158,15 +180,15 @@ public class SummaryActivity extends BaseActivity {
         renderSNR(this, (LinearLayout) findViewById(R.id.remoteA1Rating), wirelessLinkStats.getRemoteSNRA1(), 100);
         renderSNR(this, (LinearLayout) findViewById(R.id.remoteA2Rating), wirelessLinkStats.getRemoteSNRA2(), 100);
         if( mSharedPreference.getRadioMode() == 1 ) {
-            mLocalRadio.setText("BSU");
+            mLocalRadio.setText("AP");
             mRemoteRadio.setText("SU");
-            mLocalSNRLabel.setText("BSU");
+            mLocalSNRLabel.setText("AP");
             mRemoteSNRLabel.setText("SU");
         } else {
             mLocalRadio.setText("SU");
-            mRemoteRadio.setText("BSU");
+            mRemoteRadio.setText("AP");
             mLocalSNRLabel.setText("SU");
-            mRemoteSNRLabel.setText("BSU");
+            mRemoteSNRLabel.setText("AP");
         }
     }
 
@@ -212,5 +234,10 @@ public class SummaryActivity extends BaseActivity {
         areaGraph.getViewport().setMaxY(Math.max(maxValue, 10));
         localSeries.resetData(SharedLinkSpeedGraphData.INSTANCE.getLocalData());
         remoteSeries.resetData(SharedLinkSpeedGraphData.INSTANCE.getRemoteData());
+    }
+    /* Redirect to the Home Activity */
+    public void showHome() {
+        this.startActivity(new Intent(this, HomeActivity.class));
+        this.finish();
     }
 }
