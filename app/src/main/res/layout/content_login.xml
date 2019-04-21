@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="horizontal"
-    tools:context=".View.LoginActivity"
+    tools:context="com.keywestnetworks.kwconnect.View.LoginActivity"
     tools:showIn="@layout/activity_login">
 
     <LinearLayout

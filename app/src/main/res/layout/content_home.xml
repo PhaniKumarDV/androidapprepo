@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="horizontal"
-    tools:context=".View.HomeActivity"
+    tools:context="com.keywestnetworks.kwconnect.View.HomeActivity"
     tools:showIn="@layout/activity_home">
 
     <LinearLayout

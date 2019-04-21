@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".View.StaticsActivity"
+    tools:context="com.keywestnetworks.kwconnect.View.StaticsActivity"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout

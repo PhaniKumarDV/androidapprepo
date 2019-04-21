@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.hitsquadtechnologies.sifyconnect">
+    package="com.keywestnetworks.kwconnect">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -19,44 +19,44 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+
         tools:node="replace"
         tools:replace="android:allowBackup">
         <activity
-            android:name=".View.LoginActivity"
+            android:name="com.keywestnetworks.kwconnect.View.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".View.DiscoveryActivity"
+            android:name="com.keywestnetworks.kwconnect.View.DiscoveryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".View.ConfigurationActivity"
+            android:name="com.keywestnetworks.kwconnect.View.ConfigurationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".View.SummaryActivity"
+            android:name="com.keywestnetworks.kwconnect.View.SummaryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".View.AlignmentActivity"
+            android:name="com.keywestnetworks.kwconnect.View.AlignmentActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".View.LinkTestActivity"
+            android:name="com.keywestnetworks.kwconnect.View.LinkTestActivity"
             android:screenOrientation="portrait" />
 
         <receiver
-            android:name=".BroadcostReceivers.WifiConnectionReceiver"
+            android:name="com.keywestnetworks.kwconnect.BroadcostReceivers.WifiConnectionReceiver"
             android:exported="false" />
 
         <activity
-            android:name=".View.SplashActivity"
+            android:name="com.keywestnetworks.kwconnect.View.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.StaticsActivity" />
-        <activity android:name=".View.TourActivity" />
+        <activity android:name="com.keywestnetworks.kwconnect.View.StaticsActivity" />
+        <activity android:name="com.keywestnetworks.kwconnect.View.TourActivity" />
         <activity
-            android:name=".View.HomeActivity"
+            android:name="com.keywestnetworks.kwconnect.View.HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"></activity>
     </application>

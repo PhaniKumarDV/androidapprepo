@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">@string/client_name</string>
-    <string name="client_name">SifyConnect</string>
+    <string name="client_name">KWConnect</string>
     <string name="powered_by">Powered by KeyWest Networks</string>
     <string name="login">Login</string>
     <string name="password">Password</string>

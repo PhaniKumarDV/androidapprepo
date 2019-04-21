@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".View.TourActivity">
+    tools:context="com.keywestnetworks.kwconnect.View.TourActivity">
 
     <com.synnapps.carouselview.CarouselView
         android:id="@+id/carouselView"
