@@ -2,8 +2,11 @@ package com.keywestnetworks.kwconnect.View;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -96,6 +99,24 @@ public class AlignmentActivity extends BaseActivity {
         super.onResume();
         requestToServer();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                RouterService.getInstance().disconnect();
+                RouterService.getInstance().loginFailed();
+                showHome();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @SuppressLint("SetTextI18n")
     private void updateUI(KWWirelessLinkStats wirelessLinkStats) {
         if (wirelessLinkStats.getNoOfLinks() > 0) {
@@ -126,5 +147,10 @@ public class AlignmentActivity extends BaseActivity {
         list.add(remoteA2);
         AntennaAdapter adapter = new AntennaAdapter(this, list);
         antennaList.setAdapter(adapter);
+    }
+    /* Redirect to the Home Activity */
+    public void showHome() {
+        this.startActivity(new Intent(this, HomeActivity.class));
+        this.finish();
     }
 }
