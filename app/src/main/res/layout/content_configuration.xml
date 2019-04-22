@@ -107,7 +107,7 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="15dp"
                     android:paddingLeft="15dp"
-                    android:text="SSID"
+                    android:text="@string/ssid"
                     android:textColor="@color/text_view_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
@@ -280,7 +280,83 @@
                 <TextView
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="@string/encrypt"
+                    android:textColor="@color/text_view_color"
+                    android:textSize="15sp"
+                    app:fontFamily="@font/calibril" />
 
+                <Spinner
+                    android:id="@+id/config_encrypt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    app:fontFamily="@font/calibril" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/enckey_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.25dp"
+                    android:background="@color/text_view_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="15dp"
+                        android:paddingLeft="15dp"
+                        android:text="@string/encryptkey"
+                        android:textColor="@color/text_view_color"
+                        android:textSize="15sp"
+                        app:fontFamily="@font/calibril" />
+
+                    <EditText
+                        android:id="@+id/config_encryptkey"
+                        style="@style/CustomTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginLeft="6dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:inputType="textPassword"
+                        android:textColor="@color/colorPrimary"
+                        android:textColorLink="@color/btn_login"
+                        android:textSize="15sp"
+                        app:fontFamily="@font/calibril" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.25dp"
+                android:background="@color/text_view_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
                     android:paddingStart="15dp"
                     android:paddingLeft="15dp"
                     android:text="@string/ddrs_status"
@@ -978,193 +1054,193 @@
                 android:layout_height="0.25dp"
                 android:background="@color/text_view_color" />
 
-         <!--   <LinearLayout
-                android:id="@+id/trunkopt_val"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            <!--   <LinearLayout
+                   android:id="@+id/trunkopt_val"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.25dp"
-                    android:background="@color/text_view_color" />
+                   <View
+                       android:layout_width="match_parent"
+                       android:layout_height="0.25dp"
+                       android:background="@color/text_view_color" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:paddingTop="8dp"
+                       android:paddingBottom="8dp">
 
-                    <TextView
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
+                       <TextView
+                           android:layout_width="150dp"
+                           android:layout_height="wrap_content"
 
-                        android:paddingStart="15dp"
-                        android:paddingLeft="15dp"
-                        android:text="@string/trunk_opt"
-                        android:textColor="@color/text_view_color"
-                        android:textSize="15sp"
-                        app:fontFamily="@font/calibril" />
+                           android:paddingStart="15dp"
+                           android:paddingLeft="15dp"
+                           android:text="@string/trunk_opt"
+                           android:textColor="@color/text_view_color"
+                           android:textSize="15sp"
+                           app:fontFamily="@font/calibril" />
 
-                    <Spinner
-                        android:id="@+id/config_trunk_opt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:entries="@array/Trunkopt_arrays"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15sp"
-                        app:fontFamily="@font/calibril" />
-                </LinearLayout>
-            </LinearLayout>
+                       <Spinner
+                           android:id="@+id/config_trunk_opt"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:entries="@array/Trunkopt_arrays"
+                           android:textColor="@color/colorPrimary"
+                           android:textSize="15sp"
+                           app:fontFamily="@font/calibril" />
+                   </LinearLayout>
+               </LinearLayout>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />
+               <View
+                   android:layout_width="fill_parent"
+                   android:layout_height="0.25dp"
+                   android:background="@color/text_view_color" />
 
-            <LinearLayout
-                android:id="@+id/trunkvlanid_val"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+               <LinearLayout
+                   android:id="@+id/trunkvlanid_val"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.25dp"
-                    android:background="@color/text_view_color" />
+                   <View
+                       android:layout_width="match_parent"
+                       android:layout_height="0.25dp"
+                       android:background="@color/text_view_color" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:paddingTop="8dp"
+                       android:paddingBottom="8dp">
 
-                    <TextView
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="15dp"
-                        android:paddingLeft="15dp"
-                        android:text="@string/trunk_vlanid"
-                        android:textColor="@color/text_view_color"
-                        android:textSize="15sp"
-                        app:fontFamily="@font/calibril" />
+                       <TextView
+                           android:layout_width="150dp"
+                           android:layout_height="wrap_content"
+                           android:paddingStart="15dp"
+                           android:paddingLeft="15dp"
+                           android:text="@string/trunk_vlanid"
+                           android:textColor="@color/text_view_color"
+                           android:textSize="15sp"
+                           app:fontFamily="@font/calibril" />
 
-                    <EditText
-                        android:id="@+id/config_trunk_vlanid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginLeft="6dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:maxLines="1"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15sp"
-                        app:fontFamily="@font/calibril" />
-                </LinearLayout>
-            </LinearLayout>
+                       <EditText
+                           android:id="@+id/config_trunk_vlanid"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginStart="6dp"
+                           android:layout_marginLeft="6dp"
+                           android:layout_weight="1"
+                           android:background="@android:color/transparent"
+                           android:maxLines="1"
+                           android:textColor="@color/colorPrimary"
+                           android:textSize="15sp"
+                           app:fontFamily="@font/calibril" />
+                   </LinearLayout>
+               </LinearLayout>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />
+               <View
+                   android:layout_width="fill_parent"
+                   android:layout_height="0.25dp"
+                   android:background="@color/text_view_color" />
 
-            <LinearLayout
-                android:id="@+id/svlanid_val"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+               <LinearLayout
+                   android:id="@+id/svlanid_val"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.25dp"
-                    android:background="@color/text_view_color" />
+                   <View
+                       android:layout_width="match_parent"
+                       android:layout_height="0.25dp"
+                       android:background="@color/text_view_color" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:paddingTop="8dp"
+                       android:paddingBottom="8dp">
 
-                    <TextView
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="15dp"
-                        android:paddingLeft="15dp"
-                        android:text="@string/svlanid"
-                        android:textColor="@color/text_view_color"
-                        android:textSize="15sp"
-                        app:fontFamily="@font/calibril" />
+                       <TextView
+                           android:layout_width="150dp"
+                           android:layout_height="wrap_content"
+                           android:paddingStart="15dp"
+                           android:paddingLeft="15dp"
+                           android:text="@string/svlanid"
+                           android:textColor="@color/text_view_color"
+                           android:textSize="15sp"
+                           app:fontFamily="@font/calibril" />
 
-                    <EditText
-                        android:id="@+id/config_svlanid"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginLeft="6dp"
-                        android:layout_weight="1"
-                        android:background="@android:color/transparent"
-                        android:maxLines="1"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15sp"
-                        app:fontFamily="@font/calibril" />
-                </LinearLayout>
-            </LinearLayout>
+                       <EditText
+                           android:id="@+id/config_svlanid"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginStart="6dp"
+                           android:layout_marginLeft="6dp"
+                           android:layout_weight="1"
+                           android:background="@android:color/transparent"
+                           android:maxLines="1"
+                           android:textColor="@color/colorPrimary"
+                           android:textSize="15sp"
+                           app:fontFamily="@font/calibril" />
+                   </LinearLayout>
+               </LinearLayout>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />
+               <View
+                   android:layout_width="fill_parent"
+                   android:layout_height="0.25dp"
+                   android:background="@color/text_view_color" />
 
-            <LinearLayout
-                android:id="@+id/svlanethtype_val"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+               <LinearLayout
+                   android:id="@+id/svlanethtype_val"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.25dp"
-                    android:background="@color/text_view_color" />
+                   <View
+                       android:layout_width="match_parent"
+                       android:layout_height="0.25dp"
+                       android:background="@color/text_view_color" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:paddingTop="8dp"
+                       android:paddingBottom="8dp">
 
-                    <TextView
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
+                       <TextView
+                           android:layout_width="150dp"
+                           android:layout_height="wrap_content"
 
-                        android:paddingStart="15dp"
-                        android:paddingLeft="15dp"
-                        android:text="@string/svlan_ether_type"
-                        android:textColor="@color/text_view_color"
-                        android:textSize="15sp"
-                        app:fontFamily="@font/calibril" />
+                           android:paddingStart="15dp"
+                           android:paddingLeft="15dp"
+                           android:text="@string/svlan_ether_type"
+                           android:textColor="@color/text_view_color"
+                           android:textSize="15sp"
+                           app:fontFamily="@font/calibril" />
 
-                    <Spinner
-                        android:id="@+id/config_svlan_ethertype"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:entries="@array/Svlan_ethertype_arrays"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15sp"
-                        app:fontFamily="@font/calibril" />
-                </LinearLayout>
-            </LinearLayout>
+                       <Spinner
+                           android:id="@+id/config_svlan_ethertype"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_weight="1"
+                           android:entries="@array/Svlan_ethertype_arrays"
+                           android:textColor="@color/colorPrimary"
+                           android:textSize="15sp"
+                           app:fontFamily="@font/calibril" />
+                   </LinearLayout>
+               </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />-->
+               <View
+                   android:layout_width="match_parent"
+                   android:layout_height="0.25dp"
+                   android:background="@color/text_view_color" />-->
         </LinearLayout>
     </ScrollView>
 
