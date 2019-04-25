@@ -19,6 +19,7 @@ import com.keywestnetworks.kwconnect.ServerPrograms.RouterService;
 import com.keywestnetworks.kwconnect.constants.Bandwidth;
 import com.keywestnetworks.kwconnect.constants.DeviceMode;
 import com.keywestnetworks.kwconnect.constants.EnableDisable;
+import com.keywestnetworks.kwconnect.constants.Encrypt;
 import com.keywestnetworks.kwconnect.constants.IPAddressType;
 import com.keywestnetworks.kwconnect.constants.OperationalMode;
 import com.keywestnetworks.kwconnect.constants.SpatialStream;
@@ -34,18 +35,18 @@ import com.hsq.kw.packet.vo.Configuration;
 public class ConfigurationActivity extends BaseActivity {
     Configuration mConfiguration;
     EditText mSSID, mChannelNumber, mLinkId, mCustName, mTxPower, mDistance,
-            mVlanMgmtID, mVlanAccID, mVlanTrunkID, mSvlanID;
+            mVlanMgmtID, mVlanAccID, mVlanTrunkID, mSvlanID, mEncryptKey;
     TextView mGateway, mIPAddress, mNetMask;
     Button mSetRequest;
     private RouterService.Subscription subscription;
     Spinner mDeviceMode, mChannelBandwidth, mMode, mIPAddressType, mCountryCode, mDdrsStatus,
-            mSpatialStream, mMcsIndex, mMinMcsIndex, mMaxMcsIndex, matpcStatus,
+            mSpatialStream, mMcsIndex, mMinMcsIndex, mMaxMcsIndex, matpcStatus, mEncrypt,
             mVlanStatus, mVlanMode, mVlanTrunkOpt, mSvlanethertype;
     SharedPreference mSharedPreference;
     ProgressDialog progress;
     View mMinMcsIndexRow, mMaxMcsIndexRow, mMcsIndexRow, mTxPowerRow, mOpmodeval, mBwidthval,
             mChanval, mLinkidval, mDistval, mVlanmodeval, mMgmtidval, mAccidval, mTrunkoptval,
-            mTrunkvlanidval, mSvlanidval, mSvlanethtypeval;
+            mTrunkvlanidval, mSvlanidval, mSvlanethtypeval, mEnckeyRow;
     private Options bandwidthOptions;
     private Options mcsOptions;
     public static final int ZERO = 0;
@@ -67,6 +68,9 @@ public class ConfigurationActivity extends BaseActivity {
         mOpmodeval = findViewById(R.id.opmode_val);
         mChannelNumber = (EditText) findViewById(R.id.config_channelNumber);
         mChanval = findViewById(R.id.chan_val);
+        mEncrypt = findViewById(R.id.config_encrypt);
+        mEncryptKey = (EditText) findViewById(R.id.config_encryptkey);
+        mEnckeyRow = findViewById(R.id.enckey_row);
         mIPAddressType = (Spinner) findViewById(R.id.config_ipaddressType);
         mDeviceMode = (Spinner) findViewById(R.id.config_Devicemode);
         mIPAddress = (TextView) findViewById(R.id.config_ipaddress);
@@ -211,6 +215,16 @@ public class ConfigurationActivity extends BaseActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });*/
+        mEncrypt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                setEncryptOptions();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         initSpinner(mDeviceMode, Options.DEV_MODE);
         initSpinner(mCountryCode, Options.COUNTRY_CODE_OPTIONS);
@@ -222,6 +236,7 @@ public class ConfigurationActivity extends BaseActivity {
         initSpinner(mVlanMode, Options.VLAN_MODE);
         /*initSpinner(mVlanTrunkOpt, Options.TRUNK_OPT);
         initSpinner(mSvlanethertype, Options.SVLAN_ETHERTYPE);*/
+        initSpinner(mEncrypt, Options.ENCRYPT);
     }
 
 
@@ -354,6 +369,9 @@ public class ConfigurationActivity extends BaseActivity {
         } else {
             mChannelNumber.setText(Integer.toString(mConfiguration.getChannel()));
         }
+        mEncrypt.setSelection(Options.ENCRYPT.findPositionByKey(mConfiguration.getEncryptType()));
+        mEncryptKey.setText(mConfiguration.getEncryptKey());
+        setEncryptOptions();
         mDdrsStatus.setSelection(Options.ENABLE_DISABLE.findPositionByKey(mConfiguration.getDdrsStatus()));
         mSpatialStream.setSelection(Options.SPATIAL_STREAM.findPositionByKey(mConfiguration.getSpacialStream()));
         setMCSOptions();
@@ -446,6 +464,8 @@ public class ConfigurationActivity extends BaseActivity {
         configuration.setVlanTrunkId(getTextValue(mVlanTrunkID,""));
         configuration.setVlanSvlanId(getTextValue(mSvlanID, 100));
         configuration.setVlanEtherType(String.valueOf(getSelectedOption(mSvlanethertype, Options.SVLAN_ETHERTYPE)));*/
+        configuration.setEncryptType(getSelectedOption(mEncrypt, Options.ENCRYPT));
+        configuration.setEncryptKey(getTextValue(mEncryptKey, ""));
 
         KeywestPacket setpacket = configuration.buildPacketFromUI();
         Log.i(ConfigurationActivity.class.getName(), "applying configuration setConfiguration.....");
@@ -535,6 +555,16 @@ public class ConfigurationActivity extends BaseActivity {
         }
     }
 
+    /* Set Encryption Options */
+    private void setEncryptOptions() {
+        int encryptstat = getSelectedOption(mEncrypt, Options.ENCRYPT);
+        if (encryptstat == Encrypt.NONE) {
+            mEnckeyRow.setVisibility(View.GONE);
+        } else {
+            mEnckeyRow.setVisibility(View.VISIBLE);
+        }
+    }
+
     /* Set vlan status */
     private void setVLANOptions() {
 
@@ -599,6 +629,7 @@ public class ConfigurationActivity extends BaseActivity {
         this.startActivity(new Intent(this, DiscoveryActivity.class));
         this.finish();
     }
+
     /* Redirect to the Home Activity */
     public void showHome() {
         this.startActivity(new Intent(this, HomeActivity.class));

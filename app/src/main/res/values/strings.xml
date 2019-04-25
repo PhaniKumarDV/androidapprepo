@@ -42,7 +42,10 @@
     <string name="BSU_GPS"> "17' 23' 13.7040 N \n78' 29' 30.0624 E " </string>
     <string name="SU_GPS"> "17' 23' 13.7040 N \n78' 29' 30.0624 E "</string>
 
+    <string name="ssid">SSID</string>
     <string name="channel"> "Bandwidth" </string>
+    <string name="encrypt">Encryption</string>
+    <string name="encryptkey">Key</string>
     <string name="ddrs_status">DDRS Status</string>
     <string name="spatial_stream">Spatial Stream</string>
     <string name="mcs_index">MCS Index</string>

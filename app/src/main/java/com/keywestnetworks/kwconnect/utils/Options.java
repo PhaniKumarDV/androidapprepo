@@ -3,6 +3,7 @@ package com.keywestnetworks.kwconnect.utils;
 import com.keywestnetworks.kwconnect.constants.CountryCode;
 import com.keywestnetworks.kwconnect.constants.DeviceMode;
 import com.keywestnetworks.kwconnect.constants.EnableDisable;
+import com.keywestnetworks.kwconnect.constants.Encrypt;
 import com.keywestnetworks.kwconnect.constants.IPAddressType;
 import com.keywestnetworks.kwconnect.constants.OperationalMode;
 import com.keywestnetworks.kwconnect.constants.SVlanEtherType;
@@ -24,6 +25,7 @@ public class Options {
     public static final Options VLAN_MODE = new Options();
     public static final Options TRUNK_OPT = new Options();
     public static final Options SVLAN_ETHERTYPE = new Options();
+    public static final Options ENCRYPT = new Options();
 
     static {
         DEV_MODE.add(DeviceMode.AP,"AP");
@@ -58,6 +60,9 @@ public class Options {
         SVLAN_ETHERTYPE.add(SVlanEtherType.Ox88a8,"0x88a8");
         SVLAN_ETHERTYPE.add(SVlanEtherType.Ox9100,"0x9100");
         SVLAN_ETHERTYPE.add(SVlanEtherType.Ox9200,"0x9200");
+
+        ENCRYPT.add(Encrypt.NONE, "None");
+        ENCRYPT.add(Encrypt.WPA2_PSK,"WPA2-PSK");
     }
 
     private List<UniquePair> statuses = new LinkedList<>();
