@@ -45,8 +45,9 @@ public class ConfigurationActivity extends BaseActivity {
     SharedPreference mSharedPreference;
     ProgressDialog progress;
     View mMinMcsIndexRow, mMaxMcsIndexRow, mMcsIndexRow, mTxPowerRow, mOpmodeval, mBwidthval,
-            mChanval, mLinkidval, mDistval, mVlanmodeval, mMgmtidval, mAccidval, mTrunkoptval,
-            mTrunkvlanidval, mSvlanidval, mSvlanethtypeval, mEnckeyRow;
+            mChanval, mLinkidval, mDistval, mVlanmodeval, mMgmtidval, mAccidval, mDdrsview,
+            matpcview, mSpatialview, mTrunkoptval, mTrunkvlanidval, mSvlanidval, mSvlanethtypeval,
+            mEnckeyRow;
     private Options bandwidthOptions;
     private Options mcsOptions;
     public static final int ZERO = 0;
@@ -81,7 +82,9 @@ public class ConfigurationActivity extends BaseActivity {
         mCustName = (EditText) findViewById(R.id.config_custName);
         mNetMask = (TextView) findViewById(R.id.config_netmask);
         mDdrsStatus = findViewById(R.id.config_DDRS_status);
+        mDdrsview = findViewById(R.id.ddrsstat);
         mSpatialStream = findViewById(R.id.config_spatial_stream);
+        mSpatialview = findViewById(R.id.spatial_stream);
         mMcsIndex = findViewById(R.id.config_mcs_index);
         mMcsIndexRow = findViewById(R.id.mcs_index_row);
         mMaxMcsIndex = findViewById(R.id.config_max_mcs_index);
@@ -89,6 +92,7 @@ public class ConfigurationActivity extends BaseActivity {
         mMinMcsIndex = findViewById(R.id.config_min_mcs_index);
         mMinMcsIndexRow = findViewById(R.id.min_mcs_index_row);
         matpcStatus = findViewById(R.id.config_atpc_status);
+        matpcview = findViewById(R.id.atpcstat);
         mTxPower = findViewById(R.id.config_tx_power);
         mTxPowerRow = findViewById(R.id.tx_power_row);
         mDistance = findViewById(R.id.config_dist);
@@ -237,6 +241,7 @@ public class ConfigurationActivity extends BaseActivity {
         /*initSpinner(mVlanTrunkOpt, Options.TRUNK_OPT);
         initSpinner(mSvlanethertype, Options.SVLAN_ETHERTYPE);*/
         initSpinner(mEncrypt, Options.ENCRYPT);
+        setViewOptions();
     }
 
 
@@ -390,6 +395,7 @@ public class ConfigurationActivity extends BaseActivity {
         mVlanAccID.setText(Integer.toString(mConfiguration.getVlanAccessId()));
         /*mSvlanID.setText(Integer.toString(mConfiguration.getVlanSvlanId()));
         mSvlanethertype.setSelection(Options.SVLAN_ETHERTYPE.getKeyByValue(mConfiguration.getVlanEtherType()));*/
+        setViewOptions();
     }
 
     private String getTextValue(TextView v, String defaultValue) {
@@ -482,7 +488,21 @@ public class ConfigurationActivity extends BaseActivity {
         });
     }
 
-    /* On Change Device Mode Options*/
+    /* View based on Login */
+    private void setViewOptions() {
+        String userval = mSharedPreference.getKeyUsername();
+        if (userval.equalsIgnoreCase("installer")) {
+            mDdrsview.setVisibility(View.GONE);
+            matpcview.setVisibility(View.GONE);
+            mSpatialview.setVisibility(View.GONE);
+            mMcsIndexRow.setVisibility(View.GONE);
+            mMinMcsIndexRow.setVisibility(View.GONE);
+            mMaxMcsIndexRow.setVisibility(View.GONE);
+            mTxPowerRow.setVisibility(View.GONE);
+        }
+    }
+
+    /* On Change Device Mode Options */
     private void setDevmodeOptions() {
         int device_mode = getSelectedOption(mDeviceMode, Options.DEV_MODE);
         mDistval.setVisibility(View.GONE);

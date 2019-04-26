@@ -40,7 +40,7 @@ public class LoginActivity extends BaseActivity {
         progress.setIndeterminate(true);
         progress.setCancelable(false);
 
-        if ( RouterService.getInstance().isUserAuthenticated() ) {
+        if (RouterService.getInstance().isUserAuthenticated()) {
             Toast.makeText(getBaseContext(), "User Already Authenticated", Toast.LENGTH_LONG).show();
             updateUI();
         }
@@ -54,15 +54,16 @@ public class LoginActivity extends BaseActivity {
                 progress.show();
                 final String username = mTxUserName.getText().toString();
                 final String password = mTxUserPassword.getText().toString();
+                mSharedPreference.saveLogindetails(username);
                 if (Validate()) {
-                    userAuthenticate( username, password );
+                    userAuthenticate(username, password);
                 }
             }
         });
     }
 
-    private void userAuthenticate( String username, String password ) {
-        AuthenticationPacket authPacket = new AuthenticationPacket( username, password );
+    private void userAuthenticate(String username, String password) {
+        AuthenticationPacket authPacket = new AuthenticationPacket(username, password);
         final KeywestPacket authReqPacket = authPacket.getPacket();
         RouterService.getInstance().authRequest(authReqPacket, new RouterService.Callback<KeywestPacket>() {
             @Override

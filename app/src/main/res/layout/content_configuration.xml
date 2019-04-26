@@ -342,70 +342,85 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />
-
             <LinearLayout
+                android:id="@+id/ddrsstat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="15dp"
-                    android:paddingLeft="15dp"
-                    android:text="@string/ddrs_status"
-                    android:textColor="@color/text_view_color"
-                    android:textSize="15sp"
-                    app:fontFamily="@font/calibril" />
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.25dp"
+                    android:background="@color/text_view_color" />
 
-                <Spinner
-                    android:id="@+id/config_DDRS_status"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="15sp"
-                    app:fontFamily="@font/calibril" />
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="15dp"
+                        android:paddingLeft="15dp"
+                        android:text="@string/ddrs_status"
+                        android:textColor="@color/text_view_color"
+                        android:textSize="15sp"
+                        app:fontFamily="@font/calibril" />
+
+                    <Spinner
+                        android:id="@+id/config_DDRS_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp"
+                        app:fontFamily="@font/calibril" />
+                </LinearLayout>
             </LinearLayout>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />
 
             <LinearLayout
+                android:id="@+id/spatial_stream"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="150dp"
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.25dp"
+                    android:background="@color/text_view_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
 
-                    android:paddingStart="15dp"
-                    android:paddingLeft="15dp"
-                    android:text="@string/spatial_stream"
-                    android:textColor="@color/text_view_color"
-                    android:textSize="15sp"
-                    app:fontFamily="@font/calibril" />
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
 
-                <Spinner
-                    android:id="@+id/config_spatial_stream"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/spatial_stream_arrays"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="15sp"
-                    app:fontFamily="@font/calibril" />
+                        android:paddingStart="15dp"
+                        android:paddingLeft="15dp"
+                        android:text="@string/spatial_stream"
+                        android:textColor="@color/text_view_color"
+                        android:textSize="15sp"
+                        app:fontFamily="@font/calibril" />
+
+                    <Spinner
+                        android:id="@+id/config_spatial_stream"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/spatial_stream_arrays"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp"
+                        app:fontFamily="@font/calibril" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -530,39 +545,46 @@
             </LinearLayout>
 
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />
-
-
             <LinearLayout
+                android:id="@+id/atpcstat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="150dp"
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="0.25dp"
+                    android:background="@color/text_view_color" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
 
-                    android:paddingStart="15dp"
-                    android:paddingLeft="15dp"
-                    android:text="@string/atpc_status"
-                    android:textColor="@color/text_view_color"
-                    android:textSize="15sp"
-                    app:fontFamily="@font/calibril" />
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
 
-                <Spinner
-                    android:id="@+id/config_atpc_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:entries="@array/enable_disabled_arrays"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="15sp"
-                    app:fontFamily="@font/calibril" />
+                        android:paddingStart="15dp"
+                        android:paddingLeft="15dp"
+                        android:text="@string/atpc_status"
+                        android:textColor="@color/text_view_color"
+                        android:textSize="15sp"
+                        app:fontFamily="@font/calibril" />
+
+                    <Spinner
+                        android:id="@+id/config_atpc_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/enable_disabled_arrays"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp"
+                        app:fontFamily="@font/calibril" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout

@@ -22,15 +22,15 @@ public class SharedPreference {
     private static final String KEY_ISTRUE = "StartorStop";
     private static final String KEY_WIFIMAC = "WifiMac";
     private static final String KEY_TOUR = "Tour";
+    private static final String KEY_USERNAME = "admin";
 
-    public SharedPreference(Context context)
-    {
+    public SharedPreference(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(SHARED_PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
 
-    public void saveIPAddress(String IPAddress,String ssid,String wifimac){
+    public void saveIPAddress(String IPAddress, String ssid, String wifimac) {
 
         editor.putString(KEY_SSID, ssid);
         editor.putString(KEY_IPADDRESS, IPAddress);
@@ -38,8 +38,7 @@ public class SharedPreference {
         editor.commit();
     }
 
-
-    public void resetIPAddress(){
+    public void resetIPAddress() {
 
         editor.remove(KEY_SSID);
         editor.remove(KEY_IPADDRESS);
@@ -47,73 +46,76 @@ public class SharedPreference {
         editor.commit();
     }
 
-    public void saveLocalDeviceValues(String Mac, int mode,String LocalIpaddress)
-    {
+    public void saveLocalDeviceValues(String Mac, int mode, String LocalIpaddress) {
         editor.putString(KEY_MACADDRESS, Mac);
         editor.putInt(KEY_RADIOMODE, mode);
         editor.putString(KEY_LOCALIPADDRESS, LocalIpaddress);
         editor.commit();
     }
 
-    public void saveDuractionValues(int duration)
-    {
+    public void saveLogindetails(String user) {
+        editor.putString(KEY_USERNAME, user);
+        editor.commit();
+    }
+
+    public void saveDuractionValues(int duration) {
         editor.putInt(KEY_DURATION, duration);
         editor.commit();
     }
-    public void saveDirectionValues(int direction)
-    {
+
+    public void saveDirectionValues(int direction) {
         editor.putInt(KEY_DIRECTION, direction);
         editor.commit();
     }
-    public void saveStartOrStop(boolean isTrue)
-    {
+
+    public void saveStartOrStop(boolean isTrue) {
         editor.putBoolean(KEY_ISTRUE, isTrue);
         editor.commit();
     }
 
-    public void clear()
-    {
+    public void clear() {
         editor.clear();
         editor.commit();
     }
 
-    public String getIPAddress()
-    {
-        return pref.getString(KEY_IPADDRESS,"");
-    }
-    public String getMacAddress()
-    {
-        return pref.getString(KEY_MACADDRESS,"");
-    }
-    public String getWifiMac()
-    {
-        return pref.getString(KEY_WIFIMAC,"");
+    public String getIPAddress() {
+        return pref.getString(KEY_IPADDRESS, "");
     }
 
+    public String getMacAddress() {
+        return pref.getString(KEY_MACADDRESS, "");
+    }
 
-    public int getRadioMode()
-    {
-        return pref.getInt(KEY_RADIOMODE,0);
+    public String getWifiMac() {
+        return pref.getString(KEY_WIFIMAC, "");
     }
-    public String getLocalIPAddress()
-    {
-        return pref.getString(KEY_LOCALIPADDRESS,"");
+
+    public String getKeyUsername() {
+        return pref.getString(KEY_USERNAME, "");
     }
-    public String getSsid()
-    {
-        return pref.getString(KEY_SSID,null);
+
+    public int getRadioMode() {
+        return pref.getInt(KEY_RADIOMODE, 0);
     }
-    public int getDuration()
-    {
-        return pref.getInt(KEY_DURATION,0);
+
+    public String getLocalIPAddress() {
+        return pref.getString(KEY_LOCALIPADDRESS, "");
     }
-    public int getDirection()
-    {
-        return pref.getInt(KEY_DIRECTION,0);
+
+    public String getSsid() {
+        return pref.getString(KEY_SSID, null);
     }
-    public boolean getIsTrue()
-    {
-        return pref.getBoolean(KEY_ISTRUE,false);
+
+    public int getDuration() {
+        return pref.getInt(KEY_DURATION, 0);
+    }
+
+    public int getDirection() {
+        return pref.getInt(KEY_DIRECTION, 0);
+    }
+
+    public boolean getIsTrue() {
+        return pref.getBoolean(KEY_ISTRUE, false);
     }
 
     public boolean showTour() {
@@ -124,5 +126,4 @@ public class SharedPreference {
         editor.putBoolean(KEY_TOUR, flag);
         editor.commit();
     }
-
 }
