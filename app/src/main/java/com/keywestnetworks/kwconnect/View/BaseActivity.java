@@ -108,7 +108,7 @@ public abstract class BaseActivity extends AppCompatActivity
                     self.startActivity(new Intent(self, HomeActivity.class));
                 }
             });
-            mToolbar.setNavigationIcon(R.drawable.hamburger);
+            mToolbar.setNavigationIcon(R.drawable.ic_dehaze_white_36dp);
         }
         if (!isNavEnabled && drawerLayoutId >= 0 && drawerNavId >= 0) {
             this.mDrawerLayout = findViewById(drawerLayoutId);

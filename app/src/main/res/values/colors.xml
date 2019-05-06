@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#72bbce</color>
+    <color name="discovery_line">#f2f2f2</color>
+    <color name="discovery_buttons">#f2f2f2</color>
+    <color name="discovery_pass_bg">#eeeeee</color>
+    <color name="connect_button_fill">#BBDEFB</color>
+    <color name="dis_button_text_color">#666666</color>
+    <color name="buttonstroke">#dedede</color>
+    <color name="poweredby_bg">#e0f1f8</color>
+    <color name="poweredby_text">#72bbce</color>
+    <color name="colortour">#2e295d</color>
+    <color name="activity_heading">#FFFFFF</color>
+    <color name="signal_yellow">#ffc200</color>
+    <color name="signal_yellow1">#f6960f</color>
+    <color name="signal_green">#93ce7a</color>
+    <color name="signal_green1">#b0d656</color>
+    <color name="signal_red">#d73a31</color>
+    <color name="text_color">#000000</color>
+    <color name="text_view_color">#f2f2f2</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#f2f2f2</color>
-    <color name="colorPrimary">#2e295d</color>
+    <color name="colorAccent">#76bfd2</color>
     <color name="colorBlue">#01a3c0</color>
     <color name="colorRed">#CC0000</color>
     <color name="bg_login">#26ae90</color>
@@ -22,7 +39,6 @@
     <color name="lbl_name">#333333</color>
     <color name="view_color">#444444</color>
     <color name="btn_logut_bg">#ff6861</color>
-    <color name="text_view_color">#666</color>
     <color name="text_view">#422551</color>
     <color name="text_view1">#f1d7ff</color>
     <color name="icon_bg">#f2f2f2</color>

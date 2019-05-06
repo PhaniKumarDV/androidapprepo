@@ -1,6 +1,7 @@
 package com.keywestnetworks.kwconnect.View;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,7 +51,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
    the ability to connect to the wireless networks */
 
 public class DiscoveryActivity extends BaseActivity {
-    private static final int SCAN_INTERVAL = 10000;
+    private static final int SCAN_INTERVAL = 5000;
     WifiManager wifiManager;
     WifiScanReceiver receiverWifi;
     WifiConnectionReceiver connectWifiState;
@@ -235,7 +237,19 @@ public class DiscoveryActivity extends BaseActivity {
         });
     }
 
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        /*Find the currently focused view, so we can grab the correct window token from it.*/
+        View view = this.getCurrentFocus();
+        /*If no view currently has focus, create a new one, just so we can grab a window token from it*/
+        if (view == null) {
+            view = new View(this);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     public void connectNetwork(final String ssid, final String password, final String security) {
+        hideKeyboard();
         boolean hidden = false;
         int sectype = "none".equalsIgnoreCase(security) ? Encrypt.NONE : Encrypt.WPA2_PSK;
         if (isValidAddNetworkDetails(ssid, password, sectype)) {

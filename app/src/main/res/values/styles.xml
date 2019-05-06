@@ -6,7 +6,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colortour</item>
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="android:fontFamily">@font/calibril</item>
@@ -40,6 +40,7 @@
 
     <style name="TextAppearance.TabsFont" parent="android:TextAppearance">
         <item name="android:fontFamily">@font/arial</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
     </style>
 
@@ -51,9 +52,10 @@
 
     <style name="PoweredBy" parent="TextAppearance.AppCompat">
         <item name="android:textAlignment">center</item>
-        <item name="android:textSize">8sp</item>
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:background">@color/ap_charcoal</item>
+        <item name="android:textSize">9sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/poweredby_text</item>
+        <item name="android:background">@color/poweredby_bg</item>
         <item name="android:paddingBottom">2sp</item>
         <item name="android:paddingTop">2sp</item>
     </style>

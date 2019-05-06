@@ -167,13 +167,13 @@
     <string name="mac_address_is_empty_toast">Mac address is empty</string>
 
 
-    <string name="Dashboard.SSID.header">SSID</string>
-    <string name="Dashboard.frequency.header">Frequency</string>
-    <string name="Dashboard.RSSI.header">RSSI(dB)</string>
+    <string name="SSID_header">SSID</string>
+    <string name="frequency_header">Frequency</string>
+    <string name="RSSI_header">RSSI(dB)</string>
 
-    <string name="wifiDetails.security">Security</string>
-    <string name="wifiDetails.channelWidth">Channel Width</string>
-    <string name="wifiDetails.BSSID">BSSID</string>
+    <string name="wifiDetails_security">Security</string>
+    <string name="wifiDetails_channelWidth">Channel Width</string>
+    <string name="wifiDetails_BSSID">BSSID</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="txt_ssid">SSID</string>
     <string name="txt_security">Security</string>

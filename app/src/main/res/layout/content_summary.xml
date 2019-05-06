@@ -14,7 +14,7 @@
             android:id="@+id/antenna_register_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#8a52b1"
+            android:background="@color/poweredby_bg"
             android:paddingTop="2dp"
             android:paddingBottom="2dp">
 
@@ -23,6 +23,7 @@
                 style="@style/DashboardHeader"
                 android:gravity="center"
                 android:textStyle="bold"
+                android:textColor="@color/poweredby_text"
                 android:text="Registered" />
         </LinearLayout>
 

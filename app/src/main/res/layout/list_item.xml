@@ -44,7 +44,7 @@
             android:maxLines="1"
             android:paddingTop="4dp"
             android:text="wifi"
-            android:textColor="@color/text_view_color"
+            android:textColor="@color/black"
             android:textSize="14sp"
             app:fontFamily="@font/calibri"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -163,7 +163,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:text="@string/Dashboard.SSID.header" />
+                        android:text="@string/SSID_header" />
 
                     <TextView
                         android:id="@+id/ssidValue"
@@ -193,7 +193,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:text="@string/wifiDetails.BSSID" />
+                        android:text="@string/wifiDetails_BSSID" />
 
                     <TextView
                         android:id="@+id/bssidValue"
@@ -223,7 +223,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:text="@string/wifiDetails.security" />
+                        android:text="@string/wifiDetails_security" />
 
                     <TextView
                         android:id="@+id/securityValue"
@@ -253,7 +253,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:text="@string/wifiDetails.channelWidth" />
+                        android:text="@string/wifiDetails_channelWidth" />
 
                     <TextView
                         android:id="@+id/channelWidthValue"
@@ -268,46 +268,59 @@
 
         </android.support.constraint.ConstraintLayout>
 
-
         <EditText
             android:id="@+id/wifiPassword"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#eeeeee"
+            android:background="@color/discovery_pass_bg"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:textAlignment="center"
-            android:textColor="#000000"
+            android:textColor="@color/black"
+            android:textCursorDrawable="@null"
             android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffffff"
+            android:layout_height="55dp"
+            android:background="@color/white"
             android:gravity="center"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/connectBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
+                android:layout_height="30dp"
+                android:background="@drawable/bg_rounded_discovery_connect"
                 android:text="Connect"
-                android:textSize="14sp" />
+                android:textColor="@color/dis_button_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
 
             <Button
                 android:id="@+id/cancelBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:text="Cancel" />
+                android:layout_height="30dp"
+                android:background="@drawable/bg_rounded_dis_buttons"
+                android:text="Cancel"
+                android:textColor="@color/dis_button_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
 
             <Button
                 android:id="@+id/forgetBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:text="Forget" />
+                android:layout_height="30dp"
+                android:background="@drawable/bg_rounded_dis_buttons"
+                android:text="Forget"
+                android:textColor="@color/dis_button_text_color"
+                android:textSize="14sp"
+                android:textStyle="bold"/>
         </LinearLayout>
     </LinearLayout>
 

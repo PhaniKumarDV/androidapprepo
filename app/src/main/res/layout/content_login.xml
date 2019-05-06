@@ -23,7 +23,6 @@
             android:layout_height="45dp"
             android:layout_margin="10dp"
             android:background="@drawable/bg_rounded_corner"
-            android:text="admin"
             android:hint="@string/txt_user"
             android:padding="7dp" />
 
@@ -34,7 +33,6 @@
             android:layout_margin="10dp"
             android:background="@drawable/bg_rounded_corner"
             android:hint="@string/txt_password"
-            android:text="admin"
             android:inputType="textPassword"
             android:padding="7dp" />
 
@@ -45,6 +43,7 @@
             android:layout_height="30dp"
             android:layout_marginTop="20dip"
             android:background="@drawable/custom_button"
+            android:textStyle="bold"
             android:text="@string/btn_login"
             android:textColor="@color/white" />
     </LinearLayout>

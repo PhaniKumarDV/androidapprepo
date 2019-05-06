@@ -38,7 +38,7 @@
                     android:paddingStart="15dp"
                     android:paddingLeft="15dp"
                     android:text="@string/device_mode"
-                    android:textColor="@color/text_view_color"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
@@ -50,7 +50,7 @@
                     android:layout_marginLeft="6dp"
                     android:layout_weight="1"
                     android:entries="@array/DeviceMode_arrays"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
@@ -74,7 +74,7 @@
                     android:paddingStart="15dp"
                     android:paddingLeft="15dp"
                     android:text="@string/country"
-                    android:textColor="@color/text_view_color"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
@@ -84,8 +84,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:entries="@array/CountryCode_arrays"
-                    android:textColor="@color/colorPrimary"
-                    android:textColorLink="@color/btn_login"
+                    android:textColor="@color/text_color"
+                    android:textColorLink="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
             </LinearLayout>
@@ -108,21 +108,19 @@
                     android:paddingStart="15dp"
                     android:paddingLeft="15dp"
                     android:text="@string/ssid"
-                    android:textColor="@color/text_view_color"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
                 <EditText
                     android:id="@+id/config_ssid"
-                    style="@style/CustomTheme"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
                     android:layout_marginLeft="6dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:textColor="@color/colorPrimary"
-                    android:textColorLink="@color/btn_login"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
             </LinearLayout>
@@ -145,7 +143,7 @@
                     android:paddingStart="15dp"
                     android:paddingLeft="15dp"
                     android:text="@string/opmode"
-                    android:textColor="@color/text_view_color"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
@@ -156,7 +154,7 @@
                     android:layout_marginStart="6dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
@@ -186,7 +184,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/bwidth"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -196,7 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:entries="@array/bandwidth_arrays"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -226,7 +224,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="Channel"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -238,7 +236,7 @@
                         android:layout_marginLeft="6dp"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -262,7 +260,7 @@
                     android:paddingStart="15dp"
                     android:paddingLeft="15dp"
                     android:text="@string/encrypt"
-                    android:textColor="@color/text_view_color"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
@@ -271,7 +269,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
             </LinearLayout>
@@ -300,7 +298,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/encryptkey"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -314,8 +312,8 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:inputType="textPassword"
-                        android:textColor="@color/colorPrimary"
-                        android:textColorLink="@color/btn_login"
+                        android:textColor="@color/text_color"
+                        android:textColorLink="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -345,7 +343,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/ddrs_status"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -354,7 +352,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -385,7 +383,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/spatial_stream"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -395,7 +393,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:entries="@array/spatial_stream_arrays"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -425,7 +423,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/mcs_index"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -434,7 +432,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -465,7 +463,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/min_mcs_index"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -474,7 +472,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -506,7 +504,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/max_mcs_index"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -515,7 +513,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -546,7 +544,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/atpc_status"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -556,7 +554,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:entries="@array/enable_disabled_arrays"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -585,7 +583,7 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="15dp"
                         android:text="TX power (dBm)"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -595,7 +593,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:background="@android:color/transparent"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -618,7 +616,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="15dp"
                     android:text="@string/ip_address_type"
-                    android:textColor="@color/text_view_color"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
@@ -628,7 +626,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:entries="@array/ipAddress_arrays"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
             </LinearLayout>
@@ -651,7 +649,7 @@
                     android:paddingStart="15dp"
                     android:paddingLeft="15dp"
                     android:text="IP Address"
-                    android:textColor="@color/text_view_color"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
@@ -662,7 +660,7 @@
                     android:layout_marginStart="6dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
@@ -686,7 +684,7 @@
                     android:paddingStart="15dp"
                     android:paddingLeft="15dp"
                     android:text="NetMask"
-                    android:textColor="@color/text_view_color"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
@@ -698,7 +696,7 @@
                     android:layout_marginLeft="6dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
             </LinearLayout>
@@ -721,7 +719,7 @@
                     android:paddingStart="15dp"
                     android:paddingLeft="15dp"
                     android:text="Gateway"
-                    android:textColor="@color/text_view_color"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
@@ -733,7 +731,7 @@
                     android:layout_marginLeft="6dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
             </LinearLayout>
@@ -762,7 +760,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="Link Id"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -775,7 +773,7 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:maxLines="1"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -799,7 +797,7 @@
                     android:paddingStart="15dp"
                     android:paddingLeft="15dp"
                     android:text="Customer Name"
-                    android:textColor="@color/text_view_color"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
@@ -812,7 +810,7 @@
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:maxLines="1"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
             </LinearLayout>
@@ -841,7 +839,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="Distance (KM)"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -854,7 +852,7 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:maxLines="1"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -879,7 +877,7 @@
                     android:paddingStart="15dp"
                     android:paddingLeft="15dp"
                     android:text="@string/vlan_status"
-                    android:textColor="@color/text_view_color"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
@@ -888,7 +886,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/text_color"
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
             </LinearLayout>
@@ -917,7 +915,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/vlan_mode"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -926,7 +924,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -956,7 +954,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/vlan_mgmt_id"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -969,7 +967,7 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:maxLines="1"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -999,7 +997,7 @@
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/vlan_access_id"
-                        android:textColor="@color/text_view_color"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
 
@@ -1012,7 +1010,7 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:maxLines="1"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/text_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
@@ -1048,7 +1046,7 @@
                            android:paddingStart="15dp"
                            android:paddingLeft="15dp"
                            android:text="@string/trunk_opt"
-                           android:textColor="@color/text_view_color"
+                           android:textColor="@color/text_color"
                            android:textSize="15sp"
                            app:fontFamily="@font/calibril" />
 
@@ -1058,7 +1056,7 @@
                            android:layout_height="wrap_content"
                            android:layout_weight="1"
                            android:entries="@array/Trunkopt_arrays"
-                           android:textColor="@color/colorPrimary"
+                           android:textColor="@color/text_color"
                            android:textSize="15sp"
                            app:fontFamily="@font/calibril" />
                    </LinearLayout>
@@ -1078,7 +1076,7 @@
                    <View
                        android:layout_width="match_parent"
                        android:layout_height="0.25dp"
-                       android:background="@color/text_view_color" />
+                       android:background="@color/text_color" />
 
                    <LinearLayout
                        android:layout_width="match_parent"
@@ -1093,7 +1091,7 @@
                            android:paddingStart="15dp"
                            android:paddingLeft="15dp"
                            android:text="@string/trunk_vlanid"
-                           android:textColor="@color/text_view_color"
+                           android:textColor="@color/text_color"
                            android:textSize="15sp"
                            app:fontFamily="@font/calibril" />
 
@@ -1106,7 +1104,7 @@
                            android:layout_weight="1"
                            android:background="@android:color/transparent"
                            android:maxLines="1"
-                           android:textColor="@color/colorPrimary"
+                           android:textColor="@color/text_color"
                            android:textSize="15sp"
                            app:fontFamily="@font/calibril" />
                    </LinearLayout>
@@ -1141,7 +1139,7 @@
                            android:paddingStart="15dp"
                            android:paddingLeft="15dp"
                            android:text="@string/svlanid"
-                           android:textColor="@color/text_view_color"
+                           android:textColor="@color/text_color"
                            android:textSize="15sp"
                            app:fontFamily="@font/calibril" />
 
@@ -1154,7 +1152,7 @@
                            android:layout_weight="1"
                            android:background="@android:color/transparent"
                            android:maxLines="1"
-                           android:textColor="@color/colorPrimary"
+                           android:textColor="@color/text_color"
                            android:textSize="15sp"
                            app:fontFamily="@font/calibril" />
                    </LinearLayout>
@@ -1190,7 +1188,7 @@
                            android:paddingStart="15dp"
                            android:paddingLeft="15dp"
                            android:text="@string/svlan_ether_type"
-                           android:textColor="@color/text_view_color"
+                           android:textColor="@color/text_color"
                            android:textSize="15sp"
                            app:fontFamily="@font/calibril" />
 
@@ -1200,7 +1198,7 @@
                            android:layout_height="wrap_content"
                            android:layout_weight="1"
                            android:entries="@array/Svlan_ethertype_arrays"
-                           android:textColor="@color/colorPrimary"
+                           android:textColor="@color/text_color"
                            android:textSize="15sp"
                            app:fontFamily="@font/calibril" />
                    </LinearLayout>
@@ -1216,7 +1214,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#f4f4f4"
+        android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -1225,11 +1223,12 @@
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:layout_margin="5dp"
-            android:background="@drawable/bg_rounded_corner_filled"
+            android:background="@drawable/custom_button"
             android:text="@string/txt_save"
             android:textStyle="bold"
             android:onClick="saveConfiguration"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="15sp"/>
     </LinearLayout>
 
 </LinearLayout>
