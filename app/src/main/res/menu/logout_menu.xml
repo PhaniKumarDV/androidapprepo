@@ -3,9 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_apply"
+        android:orderInCategory="100"
+        android:title="Apply"
+        android:icon="@drawable/ic_save_white_36dp"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_logout"
         android:orderInCategory="100"
         android:title="Logout"
-        android:icon="@drawable/logout"
+        android:icon="@drawable/ic_exit_to_app_white_36dp"
         app:showAsAction="always" />
+
 </menu>

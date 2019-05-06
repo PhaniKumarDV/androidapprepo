@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -18,29 +19,58 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/txt_security"
+        android:text="@string/txt_hidden"
         android:textColor="@color/ap_gray"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
+
+    <Spinner
+        android:id="@+id/config_hidden"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_weight="1"
+        android:entries="@array/hidden_arrays"
+        android:textColor="@color/colorPrimary"
+        android:textSize="8dp"
+        app:fontFamily="@font/calibril" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/txt_wpa_wpa2_psk"
-        android:textColor="@color/black"
-        android:textSize="15sp" />
+        android:layout_margin="10dp"
+        android:text="@string/txt_security"
+        android:textColor="@color/ap_gray"
+        android:textSize="16sp" />
 
-    <EditText
-        android:id="@+id/passwordEditText"
+    <Spinner
+        android:id="@+id/config_enctype"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/bg_rounded_corner"
-        android:hint="@string/txt_password"
-        android:inputType="textPassword"
-        android:padding="7dp" />
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_weight="1"
+        android:entries="@array/enctype_arrays"
+        android:textColor="@color/colorPrimary"
+        android:textSize="8dp"
+        app:fontFamily="@font/calibril" />
+
+    <LinearLayout
+        android:id="@+id/enckey_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_rounded_corner"
+            android:hint="@string/txt_password"
+            android:inputType="textPassword"
+            android:padding="7dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

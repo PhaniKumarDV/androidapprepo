@@ -65,6 +65,7 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
             convertView.findViewById(R.id.wifi_list_item).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    newViewHolder.passwordInput.requestFocus();
                     if (newViewHolder.detailsLayout.getVisibility() == View.GONE) {
                         if (lastShownWifiDetails != null) {
                             lastShownWifiDetails.setVisibility(View.GONE);
@@ -83,7 +84,8 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
                     if (keyCode == KeyEvent.KEYCODE_ENTER) {
                         v.clearFocus();
                         WifiscannerAdapter.this.mContext.startScan();
-                        WifiscannerAdapter.this.mContext.connectNetwork(newViewHolder.wifiProvider.getText().toString(), newViewHolder.passwordInput.getText().toString());
+                        WifiscannerAdapter.this.mContext.connectNetwork(newViewHolder.wifiProvider.getText().toString(), newViewHolder.passwordInput.getText().toString(),
+                                newViewHolder.security.getText().toString());
                     }
                     return false;
                 }
@@ -92,7 +94,8 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
                 @Override
                 public void onClick(View v) {
                     WifiscannerAdapter.this.mContext.startScan();
-                    WifiscannerAdapter.this.mContext.connectNetwork(newViewHolder.wifiProvider.getText().toString(), newViewHolder.passwordInput.getText().toString());
+                    WifiscannerAdapter.this.mContext.connectNetwork(newViewHolder.wifiProvider.getText().toString(), newViewHolder.passwordInput.getText().toString(),
+                            newViewHolder.security.getText().toString());
                 }
             });
             newViewHolder.cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -115,15 +118,12 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
         }
         viewHolder.wifiProvider.setText(wifiData.getSSID());
         if (wifiData.getCapabilities().contains("WPA2")) {
-            viewHolder.wifisecurity.setImageResource(R.drawable.discovery_secure_wifi);
             viewHolder.security.setText("WPA2");
             viewHolder.passwordInput.setVisibility(View.VISIBLE);
         } else if (!wifiData.getCapabilities().contains("WPA2") && wifiData.getCapabilities().contains("WPA")) {
-            viewHolder.wifisecurity.setImageResource(R.drawable.discovery_insecure_wifi);
             viewHolder.security.setText("WPA");
             viewHolder.passwordInput.setVisibility(View.GONE);
         } else {
-            viewHolder.wifisecurity.setImageResource(R.drawable.discovery_insecure_wifi);
             viewHolder.security.setText("NONE");
             viewHolder.passwordInput.setVisibility(View.GONE);
         }
@@ -140,13 +140,70 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
         if (wifiData.getRssi() >= -40) {
             int rssi = wifiData.getRssi();
             setProgressbar(viewHolder, rssi, "#29a329");
+            if (wifiData.getCapabilities().contains("WPA2")) {
+                if (wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac())) {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_4_bar_lock_blue_grey_900_24dp);
+                } else {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_4_bar_lock_blue_grey_400_24dp);
+                }
+            } else if (!wifiData.getCapabilities().contains("WPA2") && wifiData.getCapabilities().contains("WPA")) {
+                if (wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac())) {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_4_bar_blue_grey_900_24dp);
+                } else {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_4_bar_blue_grey_400_24dp);
+                }
+            } else {
+                if (wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac())) {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_4_bar_blue_grey_900_24dp);
+                } else {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_4_bar_blue_grey_400_24dp);
+                }
+            }
         } else if (wifiData.getRssi() >= -60 &&
                 wifiData.getRssi() < -40) {
             int rssi = wifiData.getRssi();
             setProgressbar(viewHolder, rssi, "#f38624");
+            if (wifiData.getCapabilities().contains("WPA2")) {
+                if (wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac())) {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_3_bar_lock_blue_grey_900_24dp);
+                } else {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_3_bar_lock_blue_grey_400_24dp);
+                }
+            } else if (!wifiData.getCapabilities().contains("WPA2") && wifiData.getCapabilities().contains("WPA")) {
+                if (wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac())) {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_3_bar_blue_grey_900_24dp);
+                } else {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_3_bar_blue_grey_400_24dp);
+                }
+            } else {
+                if (wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac())) {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_3_bar_blue_grey_900_24dp);
+                } else {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_3_bar_blue_grey_400_24dp);
+                }
+            }
         } else {
             int rssi = wifiData.getRssi();
             setProgressbar(viewHolder, rssi, "#e60000");
+            if (wifiData.getCapabilities().contains("WPA2")) {
+                if (wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac())) {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_1_bar_lock_blue_grey_900_24dp);
+                } else {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_1_bar_lock_blue_grey_400_24dp);
+                }
+            } else if (!wifiData.getCapabilities().contains("WPA2") && wifiData.getCapabilities().contains("WPA")) {
+                if (wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac())) {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_1_bar_blue_grey_900_24dp);
+                } else {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_1_bar_blue_grey_400_24dp);
+                }
+            } else {
+                if (wifiData.getBSSID().equalsIgnoreCase(this.mPreferences.getWifiMac())) {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_1_bar_blue_grey_900_24dp);
+                } else {
+                    viewHolder.wifisecurity.setImageResource(R.drawable.ic_signal_wifi_1_bar_blue_grey_400_24dp);
+                }
+            }
         }
         viewHolder.bssid.setText(wifiData.getBSSID());
         viewHolder.ssid.setText(wifiData.getSSID());

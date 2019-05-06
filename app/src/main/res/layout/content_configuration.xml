@@ -133,49 +133,34 @@
                 android:background="@color/text_view_color" />
 
             <LinearLayout
-                android:id="@+id/opmode_val"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="0.25dp"
-                    android:background="@color/text_view_color" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp">
+                    android:paddingStart="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="@string/opmode"
+                    android:textColor="@color/text_view_color"
+                    android:textSize="15sp"
+                    app:fontFamily="@font/calibril" />
 
-                    <TextView
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="15dp"
-                        android:paddingLeft="15dp"
-                        android:text="Mode"
-                        android:textColor="@color/text_view_color"
-                        android:textSize="15sp"
-                        app:fontFamily="@font/calibril" />
+                <TextView
+                    android:id="@+id/config_cmode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    app:fontFamily="@font/calibril" />
 
-                    <Spinner
-                        android:id="@+id/config_cmode"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:entries="@array/mode_arrays"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="15sp"
-                        app:fontFamily="@font/calibril" />
-                </LinearLayout>
             </LinearLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />
 
             <LinearLayout
                 android:id="@+id/bwidth_val"
@@ -198,10 +183,9 @@
                     <TextView
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
-                        android:text="@string/channel"
+                        android:text="@string/bwidth"
                         android:textColor="@color/text_view_color"
                         android:textSize="15sp"
                         app:fontFamily="@font/calibril" />
@@ -217,11 +201,6 @@
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />
 
             <LinearLayout
                 android:id="@+id/chan_val"
@@ -403,7 +382,6 @@
                     <TextView
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/spatial_stream"
@@ -484,7 +462,6 @@
                     <TextView
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/min_mcs_index"
@@ -544,7 +521,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-
             <LinearLayout
                 android:id="@+id/atpcstat"
                 android:layout_width="match_parent"
@@ -567,7 +543,6 @@
                     <TextView
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/atpc_status"
@@ -664,7 +639,6 @@
                 android:background="@color/text_view_color" />
 
             <LinearLayout
-                android:id="@+id/config_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -692,41 +666,6 @@
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
 
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
-
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="15dp"
-                    android:paddingLeft="15dp"
-                    android:text="Gateway"
-                    android:textColor="@color/text_view_color"
-                    android:textSize="15sp"
-                    app:fontFamily="@font/calibril" />
-
-                <EditText
-                    android:id="@+id/config_gateway"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginLeft="6dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="15sp"
-                    app:fontFamily="@font/calibril" />
             </LinearLayout>
 
             <View
@@ -768,6 +707,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.25dp"
                 android:background="@color/text_view_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="Gateway"
+                    android:textColor="@color/text_view_color"
+                    android:textSize="15sp"
+                    app:fontFamily="@font/calibril" />
+
+                <EditText
+                    android:id="@+id/config_gateway"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"
+                    app:fontFamily="@font/calibril" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linkid_val"
@@ -848,11 +817,6 @@
                     app:fontFamily="@font/calibril" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />
-
             <LinearLayout
                 android:id="@+id/dist_val"
                 android:layout_width="match_parent"
@@ -912,7 +876,6 @@
                 <TextView
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-
                     android:paddingStart="15dp"
                     android:paddingLeft="15dp"
                     android:text="@string/vlan_status"
@@ -929,11 +892,6 @@
                     android:textSize="15sp"
                     app:fontFamily="@font/calibril" />
             </LinearLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />
 
             <LinearLayout
                 android:id="@+id/vlanmode_val"
@@ -956,7 +914,6 @@
                     <TextView
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
-
                         android:paddingStart="15dp"
                         android:paddingLeft="15dp"
                         android:text="@string/vlan_mode"
@@ -974,11 +931,6 @@
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
             </LinearLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />
 
             <LinearLayout
                 android:id="@+id/mgmtid_val"
@@ -1022,11 +974,6 @@
                         app:fontFamily="@font/calibril" />
                 </LinearLayout>
             </LinearLayout>
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="0.25dp"
-                android:background="@color/text_view_color" />
 
             <LinearLayout
                 android:id="@+id/accid_val"
@@ -1275,17 +1222,14 @@
 
         <Button
             android:id="@+id/config_setRequestButton"
-            android:layout_width="128dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:background="@color/text_view_color"
-            android:onClick="setConfiguration"
-            android:text="APPLY"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/bg_rounded_corner_filled"
+            android:text="@string/txt_save"
             android:textStyle="bold"
-            app:fontFamily="@font/calibril" />
+            android:onClick="saveConfiguration"
+            android:textColor="@color/white" />
     </LinearLayout>
 
 </LinearLayout>

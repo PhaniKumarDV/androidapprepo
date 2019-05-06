@@ -12,6 +12,22 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/antenna_register_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#8a52b1"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp">
+
+            <TextView
+                android:id="@+id/register_label"
+                style="@style/DashboardHeader"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="Registered" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">

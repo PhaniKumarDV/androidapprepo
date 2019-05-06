@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.keywestnetworks.kwconnect.Adapters.SharedLinkSpeedGraphData;
 import com.keywestnetworks.kwconnect.R;
 import com.keywestnetworks.kwconnect.ServerPrograms.RouterService;
@@ -27,17 +28,17 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.sdsmdg.harjot.crollerTest.Croller;
 
-
 /* This class implements the Summary Activity of the BSU/SU link */
+
 public class SummaryActivity extends BaseActivity {
     private static final int MAX_DATA_POINTS = 10;
     RouterService.Subscription mSubscription;
-    TextView mLocalIPAddress,mRemoteIPaddress;
-    TextView mLocalMacAddress,mRemoteMacaddress;
-    TextView mLocalGPSAddress,mRemoteGPSaddress;
-    TextView mLocalRate,mRemoteRate;
-    TextView mLocalRadio,mRemoteRadio;
-    SharedPreference mSharedPreference;
+    TextView mLocalIPAddress, mRemoteIPaddress;
+    TextView mLocalMacAddress, mRemoteMacaddress;
+    TextView mLocalGPSAddress, mRemoteGPSaddress;
+    TextView mLocalRate, mRemoteRate;
+    TextView mLocalRadio, mRemoteRadio;
+    TextView registerLabel;
     GraphView areaGraph;
     LineGraphSeries<DataPoint> localSeries;
     LineGraphSeries<DataPoint> remoteSeries;
@@ -53,24 +54,26 @@ public class SummaryActivity extends BaseActivity {
         this.onCreate("Summary", R.id.toolbar, true);
         summaryActivityInit();
     }
-    private void summaryActivityInit() {
-        mLocalIPAddress     = (TextView)findViewById(R.id.WLink_LocalIpNetwork);
-        mRemoteIPaddress    = (TextView)findViewById(R.id.WLink_RemoteIpNetwork);
-        mLocalMacAddress    = (TextView)findViewById(R.id.WLess_LocalMacAddress);
-        mRemoteMacaddress   = (TextView)findViewById(R.id.WLess_RemoteMacAddress);
-        mLocalGPSAddress    = (TextView)findViewById(R.id.WLess_LocalGPS);
-        mRemoteGPSaddress   = (TextView)findViewById(R.id.WLess_RemoteGPS);
-        mLocalRate          = (TextView)findViewById(R.id.WLess_LocalRate);
-        mRemoteRate         = (TextView)findViewById(R.id.WLess_RemoteRate);
 
-        localRateGraph      = findViewById(R.id.localRateGraph);
-        remoteRateGraph     = findViewById(R.id.remoteRateGraph);
-        mLocalRadio         = (TextView)findViewById(R.id.Local_radio);
-        mRemoteRadio        = (TextView)findViewById(R.id.Remote_radio);
-        mSharedPreference   = new SharedPreference(SummaryActivity.this);
-        areaGraph           = findViewById(R.id.area_graph);
-        mLocalSNRLabel      = findViewById(R.id.localSNRLabel);
-        mRemoteSNRLabel     = findViewById(R.id.remoteSNRLabel);
+    private void summaryActivityInit() {
+        mLocalIPAddress = (TextView) findViewById(R.id.WLink_LocalIpNetwork);
+        mRemoteIPaddress = (TextView) findViewById(R.id.WLink_RemoteIpNetwork);
+        mLocalMacAddress = (TextView) findViewById(R.id.WLess_LocalMacAddress);
+        mRemoteMacaddress = (TextView) findViewById(R.id.WLess_RemoteMacAddress);
+        mLocalGPSAddress = (TextView) findViewById(R.id.WLess_LocalGPS);
+        mRemoteGPSaddress = (TextView) findViewById(R.id.WLess_RemoteGPS);
+        mLocalRate = (TextView) findViewById(R.id.WLess_LocalRate);
+        mRemoteRate = (TextView) findViewById(R.id.WLess_RemoteRate);
+
+        localRateGraph = findViewById(R.id.localRateGraph);
+        remoteRateGraph = findViewById(R.id.remoteRateGraph);
+        mLocalRadio = (TextView) findViewById(R.id.Local_radio);
+        mRemoteRadio = (TextView) findViewById(R.id.Remote_radio);
+        mSharedPreference = new SharedPreference(SummaryActivity.this);
+        areaGraph = findViewById(R.id.area_graph);
+        mLocalSNRLabel = findViewById(R.id.localSNRLabel);
+        mRemoteSNRLabel = findViewById(R.id.remoteSNRLabel);
+        registerLabel = findViewById(R.id.register_label);
         findViewById(R.id.mask).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +84,7 @@ public class SummaryActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        /* Inflate the menu; this adds items to the action bar if it is present. */
         getMenuInflater().inflate(R.menu.logout_menu, menu);
         return true;
     }
@@ -94,9 +97,18 @@ public class SummaryActivity extends BaseActivity {
                 RouterService.getInstance().loginFailed();
                 showHome();
                 break;
+            case R.id.action_apply:
+                displaysavedDialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void updateUI(Configuration mConfiguration) {
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -120,11 +132,11 @@ public class SummaryActivity extends BaseActivity {
                 });
             }
         });
-        KeywestPacket assocListPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
+        KeywestPacket assocListPacket = new KeywestPacket((byte) 1, (byte) 1, (byte) 2);
         mSubscription = RouterService.getInstance().observe(assocListPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
-                Log.d(SummaryActivity.class.getName(),"On success called");
+                Log.d(SummaryActivity.class.getName(), "On success called");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -149,7 +161,7 @@ public class SummaryActivity extends BaseActivity {
         double scale = max / noOfIndicators;
         strength = Double.valueOf(Math.ceil(strength / scale)).intValue();
         int w = v.getLayoutParams().width;
-        for(int i = 0; i < noOfIndicators; i++) {
+        for (int i = 0; i < noOfIndicators; i++) {
             int imageId = i < strength ? R.drawable.signal_bar_active : R.drawable.signal_bar;
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (0.07 * w), ViewGroup.LayoutParams.MATCH_PARENT);
             ImageView imageView = new ImageView(a);
@@ -163,23 +175,26 @@ public class SummaryActivity extends BaseActivity {
     @SuppressLint("SetTextI18n")
     private void updateUI(KeywestPacket testPacket) {
         KWWirelessLinkStats wirelessLinkStats = new KWWirelessLinkStats(testPacket);
+        if (wirelessLinkStats.getNoOfLinks() > 0) {
+            registerLabel.setText("Registered");
+        } else {
+            registerLabel.setText("Unregistered");
+        }
         mRemoteIPaddress.setText(wirelessLinkStats.getRemoteIP());
         mRemoteMacaddress.setText(wirelessLinkStats.getMacAddress());
         SharedLinkSpeedGraphData.INSTANCE.add(wirelessLinkStats.getTxInput(), wirelessLinkStats.getRxInput());
         renderGraph();
-        //String strLocalGPS = convertTODegress(Double.parseDouble(wirelessLinkStats.getLocalLat()),Double.parseDouble(wirelessLinkStats.getLocalLong()));
-        //String strRemoteGPS = convertTODegress(Double.parseDouble(wirelessLinkStats.getRemoteLat()),Double.parseDouble(wirelessLinkStats.getRemoteLong()));
-        mLocalGPSAddress.setText(wirelessLinkStats.getLocalLat() +"\n" + wirelessLinkStats.getLocalLong());
-        mRemoteGPSaddress.setText(wirelessLinkStats.getRemoteLat()+"\n" +wirelessLinkStats.getRemoteLong());
-        mLocalRate.setText(Integer.toString(wirelessLinkStats.getLocalRate())+ " Mbps");
-        mRemoteRate.setText(Integer.toString(wirelessLinkStats.getRemoteRate())+ " Mbps");
+        mLocalGPSAddress.setText(wirelessLinkStats.getLocalLat() + "\n" + wirelessLinkStats.getLocalLong());
+        mRemoteGPSaddress.setText(wirelessLinkStats.getRemoteLat() + "\n" + wirelessLinkStats.getRemoteLong());
+        mLocalRate.setText(Integer.toString(wirelessLinkStats.getLocalRate()) + " Mbps");
+        mRemoteRate.setText(Integer.toString(wirelessLinkStats.getRemoteRate()) + " Mbps");
         localRateGraph.setProgress(wirelessLinkStats.getLocalRate());
         remoteRateGraph.setProgress(wirelessLinkStats.getRemoteRate());
         renderSNR(this, (LinearLayout) findViewById(R.id.localA1Rating), wirelessLinkStats.getLocalSNRA1(), 100);
         renderSNR(this, (LinearLayout) findViewById(R.id.localA2Rating), wirelessLinkStats.getLocalSNRA2(), 100);
         renderSNR(this, (LinearLayout) findViewById(R.id.remoteA1Rating), wirelessLinkStats.getRemoteSNRA1(), 100);
         renderSNR(this, (LinearLayout) findViewById(R.id.remoteA2Rating), wirelessLinkStats.getRemoteSNRA2(), 100);
-        if( mSharedPreference.getRadioMode() == 1 ) {
+        if (mSharedPreference.getRadioMode() == 1) {
             mLocalRadio.setText("AP");
             mRemoteRadio.setText("SU");
             mLocalSNRLabel.setText("AP");
@@ -193,14 +208,14 @@ public class SummaryActivity extends BaseActivity {
     }
 
     private void initAreaGraph() {
-        localSeries = new LineGraphSeries<>(new DataPoint[] {});
+        localSeries = new LineGraphSeries<>(new DataPoint[]{});
         int localSeriesColor = getResources().getColor(R.color.local_line_graph_color);
         localSeries.setTitle("Local (Mbps)");
         localSeries.setColor(localSeriesColor);
         localSeries.setDrawBackground(true);
         localSeries.setBackgroundColor(Color.argb(64, Color.red(localSeriesColor), Color.green(localSeriesColor), Color.blue(localSeriesColor)));
         localSeries.setDrawDataPoints(false);
-        remoteSeries = new LineGraphSeries<>(new DataPoint[] {});
+        remoteSeries = new LineGraphSeries<>(new DataPoint[]{});
         areaGraph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
@@ -235,6 +250,7 @@ public class SummaryActivity extends BaseActivity {
         localSeries.resetData(SharedLinkSpeedGraphData.INSTANCE.getLocalData());
         remoteSeries.resetData(SharedLinkSpeedGraphData.INSTANCE.getRemoteData());
     }
+
     /* Redirect to the Home Activity */
     public void showHome() {
         this.startActivity(new Intent(this, HomeActivity.class));

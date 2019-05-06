@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.hsq.kw.packet.vo.Configuration;
 import com.keywestnetworks.kwconnect.R;
 import com.keywestnetworks.kwconnect.ServerPrograms.RouterService;
 
@@ -31,10 +33,10 @@ public class HomeActivity extends BaseActivity {
         this.loginIcon = findViewById(R.id.loginIcon);
 
         this.loginIcon.setImageResource(R.drawable.login_disabled);
-        if ( RouterService.getInstance().isServerFound() ) {
+        if (RouterService.getInstance().isServerFound()) {
             this.loginIcon.setImageResource(R.drawable.login);
         }
-        if ( RouterService.getInstance().isUserAuthenticated() ) {
+        if (RouterService.getInstance().isUserAuthenticated()) {
             this.summaryIcon.setImageResource(R.drawable.summary);
             this.configurationIcon.setImageResource(R.drawable.configuration);
             this.alignmentIcon.setImageResource(R.drawable.alignment);
@@ -50,15 +52,15 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        /* Inflate the menu; this adds items to the action bar if it is present. */
+        getMenuInflater().inflate(R.menu.home_logout, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_logout:
+            case R.id.action_home_logout:
                 RouterService.getInstance().disconnect();
                 RouterService.getInstance().loginFailed();
                 this.loginIcon.setImageResource(R.drawable.login_disabled);
@@ -71,26 +73,41 @@ public class HomeActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void updateUI(Configuration mConfiguration) {
+
+    }
+
     public void goToSummary(View v) {
+
         this.goTo(SummaryActivity.class);
     }
+
     public void goToDiscovery(View v) {
         this.startActivity(new Intent(this, DiscoveryActivity.class));
     }
+
     public void goToConfiguration(View v) {
+
         this.goTo(ConfigurationActivity.class);
     }
+
     public void goToAlignment(View v) {
+
         this.goTo(AlignmentActivity.class);
     }
+
     public void goToLinkTest(View v) {
+
         this.goTo(LinkTestActivity.class);
     }
+
     public void goToLogin(View v) {
-        if ( RouterService.getInstance().isServerFound() ) {
+        if (RouterService.getInstance().isServerFound()) {
             this.startActivity(new Intent(this, LoginActivity.class));
         }
     }
+
     private void goTo(Class<? extends Activity> activityClass) {
         if (RouterService.getInstance().isServerFound() && RouterService.getInstance().isUserAuthenticated()) {
             this.startActivity(new Intent(this, activityClass));

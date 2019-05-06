@@ -4,6 +4,8 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+import com.keywestnetworks.kwconnect.constants.Encrypt;
+
 import java.util.List;
 
 public class NetworkUtil {
@@ -48,18 +50,27 @@ public class NetworkUtil {
         return -1;
     }
 
-    public static void addWPANetwork(WifiManager wifiManager, String ssid, String password) {
+    public static void addWPANetwork(WifiManager wifiManager, String ssid, String password,
+                                     int enctype, boolean hiddentype) {
         WifiConfiguration wifiConfig = new WifiConfiguration();
+
         wifiConfig.SSID = "\"" + ssid + "\"";
         wifiConfig.preSharedKey = "\"" + password + "\"";
-        wifiConfig.hiddenSSID = true;
-        wifiConfig.status = WifiConfiguration.Status.ENABLED;
-        wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
-        wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
-        wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
-        wifiConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
-        wifiConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+        wifiConfig.hiddenSSID = hiddentype;
         wifiConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+        wifiConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+        wifiConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+        wifiConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+        wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+        wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+        wifiConfig.status = WifiConfiguration.Status.ENABLED;
+
+        if (enctype == Encrypt.NONE) {
+            wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+            wifiConfig.allowedAuthAlgorithms.clear();
+        } else {
+            wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+        }
 
         addNetwork(wifiManager, wifiConfig);
     }

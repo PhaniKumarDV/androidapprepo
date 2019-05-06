@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.hsq.kw.packet.vo.Configuration;
 import com.keywestnetworks.kwconnect.Adapters.AntennaAdapter;
 import com.keywestnetworks.kwconnect.Model.AntennaSignal;
 import com.keywestnetworks.kwconnect.R;
@@ -19,14 +21,14 @@ import com.keywestnetworks.kwconnect.ServerPrograms.RouterService;
 import com.keywestnetworks.kwconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
 import com.hsq.kw.packet.vo.KWWirelessLinkStats;
+
 import java.util.LinkedList;
 import java.util.List;
 
-/* This class implements the Alignment Activity which helps the installer
-to show the current and best SNR values
- */
+/* This class implements the Alignment Activity which helps
+   the installer to show the current and best SNR values */
+
 public class AlignmentActivity extends BaseActivity {
-    SharedPreference mSharedPreference;
     RouterService.Subscription mSubscription;
     TextView registerLabel;
     AntennaSignal localA1;
@@ -45,7 +47,7 @@ public class AlignmentActivity extends BaseActivity {
         registerLabel = findViewById(R.id.register_label);
         antennaList = findViewById(R.id.antenna_list);
         mSharedPreference = new SharedPreference(this);
-        if( mSharedPreference.getRadioMode() == 1 ) {
+        if (mSharedPreference.getRadioMode() == 1) {
             localRadio = "BSU";
             remoteRadio = "SU";
         } else {
@@ -54,11 +56,14 @@ public class AlignmentActivity extends BaseActivity {
         }
         alignmentActivityInit();
     }
+
     private void alignmentActivityInit() {
         mSharedPreference = new SharedPreference(AlignmentActivity.this);
     }
 
-    /** not required for this release **/
+    /**
+     * not required for this release
+     **/
     public void renderSignal(Activity a, LinearLayout v, int strength) {
         int height = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
@@ -66,15 +71,16 @@ public class AlignmentActivity extends BaseActivity {
                 getResources().getDisplayMetrics()
         );
         v.removeAllViews();
-        for(int i = 0; i < strength; i++) {
+        for (int i = 0; i < strength; i++) {
             ImageView imageView = new ImageView(a);
             imageView.setImageDrawable(a.getResources().getDrawable(R.drawable.signal_line));
             imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
             v.addView(imageView);
         }
     }
+
     private void requestToServer() {
-        KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
+        KeywestPacket wirelessLinkPacket = new KeywestPacket((byte) 1, (byte) 1, (byte) 2);
         mSubscription = RouterService.getInstance().observe(wirelessLinkPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
             public void onSuccess(final KeywestPacket packet) {
@@ -87,6 +93,7 @@ public class AlignmentActivity extends BaseActivity {
             }
         });
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -94,14 +101,16 @@ public class AlignmentActivity extends BaseActivity {
             mSubscription.cancel();
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         requestToServer();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        /* Inflate the menu; this adds items to the action bar if it is present. */
         getMenuInflater().inflate(R.menu.logout_menu, menu);
         return true;
     }
@@ -114,9 +123,18 @@ public class AlignmentActivity extends BaseActivity {
                 RouterService.getInstance().loginFailed();
                 showHome();
                 break;
+            case R.id.action_apply:
+                displaysavedDialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void updateUI(Configuration mConfiguration) {
+
+    }
+
     @SuppressLint("SetTextI18n")
     private void updateUI(KWWirelessLinkStats wirelessLinkStats) {
         if (wirelessLinkStats.getNoOfLinks() > 0) {
@@ -148,6 +166,7 @@ public class AlignmentActivity extends BaseActivity {
         AntennaAdapter adapter = new AntennaAdapter(this, list);
         antennaList.setAdapter(adapter);
     }
+
     /* Redirect to the Home Activity */
     public void showHome() {
         this.startActivity(new Intent(this, HomeActivity.class));

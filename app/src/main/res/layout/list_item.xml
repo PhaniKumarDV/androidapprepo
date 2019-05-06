@@ -132,7 +132,8 @@
                 android:layout_marginStart="32dp"
                 android:rotation="180"
                 android:src="@drawable/discovery_expan_indicator"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                gauge:ignore="MissingConstraints" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -166,7 +167,7 @@
 
                     <TextView
                         android:id="@+id/ssidValue"
-                        style="@style/WifiDetails.Text"
+                        style="@style/WifiDetails.Value"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="6"
@@ -196,7 +197,7 @@
 
                     <TextView
                         android:id="@+id/bssidValue"
-                        style="@style/WifiDetails.Text"
+                        style="@style/WifiDetails.Value"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="6"
@@ -256,7 +257,7 @@
 
                     <TextView
                         android:id="@+id/channelWidthValue"
-                        style="@style/WifiDetails.Text"
+                        style="@style/WifiDetails.Value"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="6"
@@ -271,7 +272,7 @@
         <EditText
             android:id="@+id/wifiPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="#eeeeee"
             android:ems="10"
             android:hint="@string/password"
@@ -280,7 +281,7 @@
             android:paddingBottom="4dp"
             android:textAlignment="center"
             android:textColor="#000000"
-            android:textSize="12sp" />
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

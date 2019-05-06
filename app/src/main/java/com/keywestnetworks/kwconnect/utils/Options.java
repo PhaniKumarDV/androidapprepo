@@ -1,10 +1,13 @@
 package com.keywestnetworks.kwconnect.utils;
 
+import com.keywestnetworks.kwconnect.constants.Bandwidth;
 import com.keywestnetworks.kwconnect.constants.CountryCode;
 import com.keywestnetworks.kwconnect.constants.DeviceMode;
 import com.keywestnetworks.kwconnect.constants.EnableDisable;
 import com.keywestnetworks.kwconnect.constants.Encrypt;
+import com.keywestnetworks.kwconnect.constants.Hidden;
 import com.keywestnetworks.kwconnect.constants.IPAddressType;
+import com.keywestnetworks.kwconnect.constants.MCSIndex;
 import com.keywestnetworks.kwconnect.constants.OperationalMode;
 import com.keywestnetworks.kwconnect.constants.SVlanEtherType;
 import com.keywestnetworks.kwconnect.constants.SpatialStream;
@@ -26,13 +29,20 @@ public class Options {
     public static final Options TRUNK_OPT = new Options();
     public static final Options SVLAN_ETHERTYPE = new Options();
     public static final Options ENCRYPT = new Options();
+    public static final Options BANDWIDTH = new Options();
+    public static final Options MCSINDEX = new Options();
+    public static final Options HIDDEN = new Options();
 
     static {
         DEV_MODE.add(DeviceMode.AP,"AP");
         DEV_MODE.add(DeviceMode.SU, "SU");
 
-        OPERATIONAL_MODE.add(OperationalMode._11A, "11A");
-        OPERATIONAL_MODE.add(OperationalMode._11NA, "11NA");
+        BANDWIDTH.add(Bandwidth._20MHZ, "20 MHz");
+        BANDWIDTH.add(Bandwidth._40MHZ, "40 MHz");
+        BANDWIDTH.add(Bandwidth._80MHZ, "80 MHz");
+
+        /*OPERATIONAL_MODE.add(OperationalMode._11A, "11A");*/
+        /*OPERATIONAL_MODE.add(OperationalMode._11NA, "11NA");*/
         OPERATIONAL_MODE.add(OperationalMode._11AC, "11AC");
 
         ENABLE_DISABLE.add(EnableDisable.DISABLE, "Disable");
@@ -63,6 +73,30 @@ public class Options {
 
         ENCRYPT.add(Encrypt.NONE, "None");
         ENCRYPT.add(Encrypt.WPA2_PSK,"WPA2-PSK");
+
+        MCSINDEX.add(MCSIndex.mcs0,"MCS0");
+        MCSINDEX.add(MCSIndex.mcs1,"MCS1");
+        MCSINDEX.add(MCSIndex.mcs2,"MCS2");
+        MCSINDEX.add(MCSIndex.mcs3,"MCS3");
+        MCSINDEX.add(MCSIndex.mcs4,"MCS4");
+        MCSINDEX.add(MCSIndex.mcs5,"MCS5");
+        MCSINDEX.add(MCSIndex.mcs6,"MCS6");
+        MCSINDEX.add(MCSIndex.mcs7,"MCS7");
+        MCSINDEX.add(MCSIndex.mcs8,"MCS8");
+        MCSINDEX.add(MCSIndex.mcs9,"MCS9");
+        MCSINDEX.add(MCSIndex.mcs10,"MCS10");
+        MCSINDEX.add(MCSIndex.mcs11,"MCS11");
+        MCSINDEX.add(MCSIndex.mcs12,"MCS12");
+        MCSINDEX.add(MCSIndex.mcs13,"MCS13");
+        MCSINDEX.add(MCSIndex.mcs14,"MCS14");
+        MCSINDEX.add(MCSIndex.mcs15,"MCS15");
+        MCSINDEX.add(MCSIndex.mcs16,"MCS16");
+        MCSINDEX.add(MCSIndex.mcs17,"MCS17");
+        MCSINDEX.add(MCSIndex.mcs18,"MCS18");
+        MCSINDEX.add(MCSIndex.mcs19,"MCS19");
+
+        HIDDEN.add(Hidden.YES, "Yes");
+        HIDDEN.add(Hidden.NO,"No");
     }
 
     private List<UniquePair> statuses = new LinkedList<>();

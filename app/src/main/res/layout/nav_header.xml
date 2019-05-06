@@ -23,7 +23,7 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="100dp"
         android:paddingTop="5dp"
-        android:text="SifyConnect"
+        android:text="KWConnect"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

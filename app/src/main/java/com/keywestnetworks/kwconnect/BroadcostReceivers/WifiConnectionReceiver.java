@@ -15,7 +15,6 @@ import com.keywestnetworks.kwconnect.ServerPrograms.RouterService;
 import com.keywestnetworks.kwconnect.View.DiscoveryActivity;
 import com.keywestnetworks.kwconnect.utils.SharedPreference;
 import com.hsq.kw.packet.KeywestPacket;
-import com.hsq.kw.packet.vo.Configuration;
 
 /* This file receives the Wireless Radio Status Events based on which
    the TCP Connection is maintained
@@ -79,26 +78,6 @@ public class WifiConnectionReceiver extends BroadcastReceiver {
                 Log.e(WifiConnectionReceiver.class.getName(), msg, e);
             }
         });
-    }
-
-
-    public void startLoginActivity() {
-        if (!RouterService.getInstance().isUserAuthenticated()) {
-            this.activity.wifiConnected();
-        }
-
-    }
-
-    public void sendConfigurationRequest() {
-        KeywestPacket configRequest = new Configuration().getPacket();
-        RouterService.getInstance().sendReq(configRequest, new RouterService.Callback<KeywestPacket>() {
-            @Override
-            public void onSuccess(final KeywestPacket packet) {
-                Configuration configuration = new Configuration(packet);
-                mSharedPreference.saveLocalDeviceValues(configuration.getDeviceMac(), configuration.getDeviceMode(), configuration.getIpAddress());
-            }
-        });
-
     }
 
     public String intToIp(int i) {

@@ -18,6 +18,7 @@
             android:id="@+id/register_label"
             style="@style/DashboardHeader"
             android:gravity="center"
+            android:textStyle="bold"
             android:text="Registered" />
     </LinearLayout>
 

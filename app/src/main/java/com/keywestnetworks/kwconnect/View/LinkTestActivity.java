@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.hsq.kw.packet.vo.Configuration;
 import com.keywestnetworks.kwconnect.Adapters.SharedLinkSpeedGraphData;
 import com.keywestnetworks.kwconnect.R;
 import com.keywestnetworks.kwconnect.ServerPrograms.RouterService;
@@ -26,15 +28,15 @@ import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class LinkTestActivity extends BaseActivity {
     private static final int MAX_DATA_POINTS = 10;
     RouterService.Subscription mSubscription;
-    SharedPreference mSharedPreference;
-    Button mStart,mStop;
-    Spinner mDirection,mDuration;
+    Button mStart, mStop;
+    Spinner mDirection, mDuration;
     TextView mMacLabel;
     TextView mSuMac;
     TextView localSnrA1;
@@ -43,8 +45,9 @@ public class LinkTestActivity extends BaseActivity {
     TextView remoteSnrA1;
     TextView remoteSnrA2;
     TextView remoteLinkQuality;
+    TextView registerLabel;
     int mStrDuration = 30;
-    int mStrDirection =1;
+    int mStrDirection = 1;
     GraphView areaGraph;
     Options directionalOptions;
     Options durationOptions = new Options();
@@ -57,24 +60,25 @@ public class LinkTestActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_link_test);
         this.onCreate("Link Test", R.id.toolbar, true);
-        mStop           = (Button)findViewById(R.id.Link_stopbutton);
-        mStart          = (Button)findViewById(R.id.Link_Startbutton);
-        mDirection      = (Spinner)findViewById(R.id.Link_Direction);
-        mDuration       = (Spinner)findViewById(R.id.Link_duration);
-        mSuMac          = (TextView)findViewById(R.id.Link_SuMac);
+        mStop = (Button) findViewById(R.id.Link_stopbutton);
+        mStart = (Button) findViewById(R.id.Link_Startbutton);
+        mDirection = (Spinner) findViewById(R.id.Link_Direction);
+        mDuration = (Spinner) findViewById(R.id.Link_duration);
+        mSuMac = (TextView) findViewById(R.id.Link_SuMac);
         mSharedPreference = new SharedPreference(LinkTestActivity.this);
-        mMacLabel       = findViewById(R.id.mac_label);
-        localSnrA1      = findViewById(R.id.localA1);
-        localSnrA2      = findViewById(R.id.localA2);
+        mMacLabel = findViewById(R.id.mac_label);
+        localSnrA1 = findViewById(R.id.localA1);
+        localSnrA2 = findViewById(R.id.localA2);
         localLinkQuality = findViewById(R.id.localLinkQuality);
-        remoteSnrA1     = findViewById(R.id.remoteA1);
-        remoteSnrA2     = findViewById(R.id.remoteA2);
+        remoteSnrA1 = findViewById(R.id.remoteA1);
+        remoteSnrA2 = findViewById(R.id.remoteA2);
         remoteLinkQuality = findViewById(R.id.remoteLinkQuality);
+        registerLabel = findViewById(R.id.register_label);
         durationOptions.add(30, "30");
         durationOptions.add(60, "60");
         durationOptions.add(120, "120");
         durationOptions.add(180, "180");
-        if(mSharedPreference.getIsTrue()){
+        if (mSharedPreference.getIsTrue()) {
             mStop.setVisibility(View.VISIBLE);
             mStart.setVisibility(View.GONE);
         }
@@ -83,15 +87,9 @@ public class LinkTestActivity extends BaseActivity {
         initAreaGraph();
     }
 
-   /* @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-*/
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        /* Inflate the menu; this adds items to the action bar if it is present. */
         getMenuInflater().inflate(R.menu.logout_menu, menu);
         return true;
     }
@@ -104,16 +102,24 @@ public class LinkTestActivity extends BaseActivity {
                 RouterService.getInstance().loginFailed();
                 showHome();
                 break;
+            case R.id.action_apply:
+                displaysavedDialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
+    protected void updateUI(Configuration mConfiguration) {
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        KeywestPacket wirelessLinkPacket = new KeywestPacket((byte)1, (byte)1, (byte)2);
+        KeywestPacket wirelessLinkPacket = new KeywestPacket((byte) 1, (byte) 1, (byte) 2);
         directionalOptions = new Options();
-        if( mSharedPreference.getRadioMode() == 1 ) {
+        if (mSharedPreference.getRadioMode() == 1) {
             mMacLabel.setText("SU MAC");
             directionalOptions.add(DirectionType.DOWN_LINK, "Downlink");
         } else {
@@ -133,9 +139,9 @@ public class LinkTestActivity extends BaseActivity {
                     }
                 });
             }
+
             @Override
             public void onError(String msg, Exception e) {
-                //super.onError(msg, e);
                 mStart.setVisibility(View.VISIBLE);
                 mStop.setVisibility(View.GONE);
                 Log.e(ConfigurationActivity.class.getName(), "Configuration request failed: " + msg, e);
@@ -144,6 +150,11 @@ public class LinkTestActivity extends BaseActivity {
     }
 
     private void updateUI(KWWirelessLinkStats wirelessLinkStats) {
+        if (wirelessLinkStats.getNoOfLinks() > 0) {
+            registerLabel.setText("Registered");
+        } else {
+            registerLabel.setText("Unregistered");
+        }
         if (mSuMac.getText().length() == 0) {
             mSuMac.setText(wirelessLinkStats.getMacAddress());
         }
@@ -151,11 +162,12 @@ public class LinkTestActivity extends BaseActivity {
         renderGraph();
         localSnrA1.setText("" + wirelessLinkStats.getLocalSignalA1());
         localSnrA2.setText("" + wirelessLinkStats.getLocalSignalA2());
-        localLinkQuality.setText(""+ wirelessLinkStats.getLocalLinkQualityIndex());
+        localLinkQuality.setText("" + wirelessLinkStats.getLocalLinkQualityIndex());
         remoteSnrA1.setText("" + wirelessLinkStats.getRemoteSignalA1());
         remoteSnrA2.setText("" + wirelessLinkStats.getRemoteSignalA2());
-        remoteLinkQuality.setText(""+wirelessLinkStats.getRemoteLinkQualityIndex());
+        remoteLinkQuality.setText("" + wirelessLinkStats.getRemoteLinkQualityIndex());
     }
+
     private int max(List<Integer> list) {
         int max = 0;
         for (int i : list) {
@@ -163,6 +175,7 @@ public class LinkTestActivity extends BaseActivity {
         }
         return max;
     }
+
     private List<Integer> addData(List<Integer> seriesData, int value) {
         if (seriesData.size() > MAX_DATA_POINTS) {
             seriesData = seriesData.subList(seriesData.size() - MAX_DATA_POINTS, seriesData.size());
@@ -170,25 +183,28 @@ public class LinkTestActivity extends BaseActivity {
         seriesData.add(value);
         return seriesData;
     }
+
     private String seriesData(List<Integer> seriesData) {
         String str = "";
         for (int i = 0; i < seriesData.size(); i++) {
             str += seriesData.get(i) + ",";
         }
-        return  str;
+        return str;
     }
+
     private DataPoint[] toDataPointArray(List<Integer> seriesData) {
         int len = seriesData.size();
         DataPoint[] dataPoints = new DataPoint[MAX_DATA_POINTS];
         for (int i = 0; i < MAX_DATA_POINTS; i++) {
             int v = 0;
-            if ( i > (MAX_DATA_POINTS - len)) {
+            if (i > (MAX_DATA_POINTS - len)) {
                 v = seriesData.get(i - (MAX_DATA_POINTS - len));
             }
             dataPoints[i] = new DataPoint(i, v);
         }
         return dataPoints;
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -196,43 +212,46 @@ public class LinkTestActivity extends BaseActivity {
             mSubscription.cancel();
         }
     }
+
     public void startTest(View view) {
         String macAddress = mSuMac.getText().toString();
         mStrDirection = getSelectedOption(this.mDirection, directionalOptions);
-        mStrDuration  = getSelectedOption(this.mDuration, durationOptions);
+        mStrDuration = getSelectedOption(this.mDuration, durationOptions);
         mSharedPreference.saveDuractionValues(mStrDuration);
         mSharedPreference.saveDirectionValues(mStrDirection);
-        if(!macAddress.isEmpty()) {
+        if (!macAddress.isEmpty()) {
             LinkTest linkTestPkt = new LinkTest(1, macAddress, mStrDirection, mStrDuration);
             KeywestPacket keywestPacket = linkTestPkt.buildPacketFromUI();
             RouterService.getInstance().sendRequest(keywestPacket, new RouterService.Callback<KeywestPacket>() {
                 @Override
-                public void onSuccess(KeywestPacket packet) {}
+                public void onSuccess(KeywestPacket packet) {
+                }
             });
             mStop.setVisibility(View.VISIBLE);
             mStart.setVisibility(View.GONE);
             stopTestTimer = new CountDownTimer(TimeUnit.SECONDS.toMillis(mStrDuration), 1000) {
-                public void onTick(long millisUntilFinished) {}
-                public  void onFinish() {
+                public void onTick(long millisUntilFinished) {
+                }
+
+                public void onFinish() {
                     stopTestTimer = null;
                     stopTest(null);
-
-                    //mStart.setText("Start");
                 }
             }.start();
             mSharedPreference.saveStartOrStop(true);
-            //mStart.setText("Stop");
-        }else {
-            Toast.makeText(LinkTestActivity.this,R.string.mac_address_is_empty_toast,Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(LinkTestActivity.this, R.string.mac_address_is_empty_toast, Toast.LENGTH_LONG).show();
         }
     }
-    public void stopTest(View view){
+
+    public void stopTest(View view) {
         String macAddress = mSuMac.getText().toString();
         LinkTest linkTestPkt = new LinkTest(0, macAddress, mStrDirection, mStrDuration);
         KeywestPacket keywestPacket = linkTestPkt.buildPacketFromUI();
         RouterService.getInstance().sendRequest(keywestPacket, new RouterService.Callback<KeywestPacket>() {
             @Override
-            public void onSuccess(KeywestPacket packet) {}
+            public void onSuccess(KeywestPacket packet) {
+            }
         });
         mSharedPreference.saveStartOrStop(false);
         mStop.setVisibility(View.GONE);
@@ -241,16 +260,17 @@ public class LinkTestActivity extends BaseActivity {
             stopTestTimer.cancel();
         }
     }
+
     private void initAreaGraph() {
         areaGraph = findViewById(R.id.area_graph);
-        localSeries = new LineGraphSeries<>(new DataPoint[] {});
+        localSeries = new LineGraphSeries<>(new DataPoint[]{});
         int localSeriesColor = getResources().getColor(R.color.local_line_graph_color);
         localSeries.setTitle("Local (Mbps)");
         localSeries.setColor(localSeriesColor);
         localSeries.setDrawBackground(true);
         localSeries.setBackgroundColor(Color.argb(64, Color.red(localSeriesColor), Color.green(localSeriesColor), Color.blue(localSeriesColor)));
         localSeries.setDrawDataPoints(false);
-        remoteSeries = new LineGraphSeries<>(new DataPoint[] {});
+        remoteSeries = new LineGraphSeries<>(new DataPoint[]{});
         areaGraph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
@@ -278,12 +298,14 @@ public class LinkTestActivity extends BaseActivity {
         areaGraph.addSeries(remoteSeries);
         renderGraph();
     }
+
     public void renderGraph() {
         int maxValue = Double.valueOf(SharedLinkSpeedGraphData.INSTANCE.max() * 1.25).intValue();
         areaGraph.getViewport().setMaxY(Math.max(maxValue, 10));
         localSeries.resetData(SharedLinkSpeedGraphData.INSTANCE.getLocalData());
         remoteSeries.resetData(SharedLinkSpeedGraphData.INSTANCE.getRemoteData());
     }
+
     /* Redirect to the Home Activity */
     public void showHome() {
         this.startActivity(new Intent(this, HomeActivity.class));

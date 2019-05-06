@@ -1,5 +1,6 @@
 package com.keywestnetworks.kwconnect.ServerPrograms;
 
+import com.hsq.kw.packet.vo.Configuration;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -25,6 +26,8 @@ public class RouterService {
     private Byte connectionByte = new Byte((byte)0);
     private ResponseHandler handler = null;
     private boolean loginState = false;
+    private Configuration oldConfiguration;
+    private Configuration newConfiguration;
 
     public static abstract class Callback<T> {
         public abstract void onSuccess(T t);
@@ -151,6 +154,8 @@ public class RouterService {
             callbackMap.clear();
             serverFound = false;
             client.setCloseClient(true);
+            setNewConfiguration(null);
+            setOldConfiguration(null);
         }
     }
     public boolean isConnecting() {
@@ -375,5 +380,21 @@ public class RouterService {
                 timer.cancel();
             }
         };
+    }
+
+    public Configuration getOldConfiguration() {
+        return oldConfiguration;
+    }
+
+    public Configuration getNewConfiguration() {
+        return newConfiguration;
+    }
+
+    public void setOldConfiguration(Configuration oldConfiguration) {
+        this.oldConfiguration = oldConfiguration;
+    }
+
+    public void setNewConfiguration(Configuration newConfiguration) {
+        this.newConfiguration = newConfiguration;
     }
 }

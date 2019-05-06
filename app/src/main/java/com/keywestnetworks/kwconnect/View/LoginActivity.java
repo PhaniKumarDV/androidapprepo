@@ -22,7 +22,6 @@ public class LoginActivity extends BaseActivity {
     Button mBtLogin;
     boolean flag = false;
     ProgressDialog progress;
-    SharedPreference mSharedPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,17 +73,11 @@ public class LoginActivity extends BaseActivity {
                     if (packet != null) {
                         byte[] status = packet.getValue();
                         if (status[0] == 1) {
-                            // call configuration Request
-                            //activity.showToast("Authentication success. sending config request");
-                            //Toast.makeText(LoginActivity.this, "Authentication Success", Toast.LENGTH_LONG).show();
                             sendConfigurationRequest();
                             RouterService.getInstance().loginSuccess();
-                            //this.startActivity( new Intent( this, LoginActivity.class ) );
                             updateUI();
                         } else {
                             RouterService.getInstance().loginFailed();
-                            //Toast.makeText(getBaseContext(), "Authentication failed", Toast.LENGTH_LONG).show();
-                            //activity.showToast("Authentication failed");
                         }
                     }
                 }
@@ -134,5 +127,10 @@ public class LoginActivity extends BaseActivity {
             return flag;
         }
         return flag;
+    }
+
+    @Override
+    protected void updateUI(Configuration mConfiguration) {
+
     }
 }

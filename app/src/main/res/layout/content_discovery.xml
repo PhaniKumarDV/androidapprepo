@@ -21,12 +21,16 @@
             android:text="@string/Dashboard.SSID.header"
             android:layout_weight="4"
             android:paddingLeft="8dp"
+            android:textStyle="bold"
+            android:textSize="14sp"
             style="@style/DashboardHeader"/>
 
         <TextView
             android:id="@+id/Tx_channel"
             style="@style/DashboardHeader"
             android:layout_weight="3"
+            android:textStyle="bold"
+            android:textSize="14sp"
             android:text="@string/Dashboard.frequency.header" />
 
         <TextView
@@ -34,6 +38,8 @@
             style="@style/DashboardHeader"
             android:text="@string/Dashboard.RSSI.header"
             android:layout_weight="3"
+            android:textStyle="bold"
+            android:textSize="14sp"
             android:textAlignment="textEnd"/>
 
     </LinearLayout>

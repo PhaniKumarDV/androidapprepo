@@ -43,7 +43,8 @@
     <string name="SU_GPS"> "17' 23' 13.7040 N \n78' 29' 30.0624 E "</string>
 
     <string name="ssid">SSID</string>
-    <string name="channel"> "Bandwidth" </string>
+    <string name="bwidth"> "Bandwidth" </string>
+    <string name="opmode"> "Operational Mode" </string>
     <string name="encrypt">Encryption</string>
     <string name="encryptkey">Key</string>
     <string name="ddrs_status">DDRS Status</string>
@@ -80,11 +81,8 @@
         <item>"120"</item>
     </string-array>
     <string-array name="bandwidth_arrays">
-        <item>"5MHz"</item>
-        <item>"10MHz"</item>
         <item>"20MHz"</item>
         <item>"40MHz"</item>
-        <item>"40MINUS"</item>
         <item>"80MHz"</item>
     </string-array>
     <string-array name="mode_arrays">
@@ -130,6 +128,16 @@
         <item>RUSSIA</item>5011
     </string-array>
 
+    <string-array name="enctype_arrays">
+        <item>"None"</item>
+        <item>"WPA2-PSK"</item>
+    </string-array>
+
+    <string-array name="hidden_arrays">
+        <item>"Yes"</item>
+        <item>"No"</item>
+    </string-array>
+
     <string-array name="VlanMode_arrays">
         <item>Transparent</item>
         <item>Access</item>
@@ -170,8 +178,12 @@
     <string name="txt_ssid">SSID</string>
     <string name="txt_security">Security</string>
     <string name="txt_wpa_wpa2_psk">WPA/WPA2 PSK</string>
+    <string name="txt_hidden">Hidden</string>
     <string name="txt_password">Password</string>
     <string name="txt_cancel">Cancel</string>
     <string name="txt_add">Add</string>
     <string name="txt_user">Username</string>
+    <string name="txt_save">Save</string>
+    <string name="txt_apply">Apply</string>
+    <string name="txt_revert">Revert</string>
 </resources>
