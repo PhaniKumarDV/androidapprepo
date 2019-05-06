@@ -14,22 +14,33 @@ public class NetworkUtil {
 
     private static void addNetwork(WifiManager wifiManager, WifiConfiguration config) {
         int existNetworkId = isNetworkExist(wifiManager, config.SSID);
+        boolean networkRemoved = false;
+
         if (existNetworkId != -1) {
             Log.i(TAG, "Removing old configuration for network " + config.SSID);
-            wifiManager.removeNetwork(existNetworkId);
+            networkRemoved = wifiManager.removeNetwork(existNetworkId);
             wifiManager.saveConfiguration();
         }
-        int networkId = wifiManager.addNetwork(config);
-        if (networkId >= 0) {
-            // Try to disable the current network and start a new one.
-            if (wifiManager.enableNetwork(networkId, true)) {
-                Log.i(TAG, "Associating to network " + config.SSID);
-                wifiManager.saveConfiguration();
-            } else {
-                Log.w(TAG, "Failed to enable network " + config.SSID);
-            }
+
+        if (existNetworkId != -1 && !networkRemoved) {
+            Log.w(TAG, "Disconnect and reconnect to ssid " + config.SSID);
+            wifiManager.disconnect();
+            wifiManager.enableNetwork(existNetworkId, true);
+            wifiManager.reconnect();
         } else {
-            Log.w(TAG, "Unable to add network " + config.SSID);
+            Log.w(TAG, "flow as usual " + config.SSID);
+            int networkId = wifiManager.addNetwork(config);
+            if (networkId >= 0) {
+                // Try to disable the current network and start a new one.
+                if (wifiManager.enableNetwork(networkId, true)) {
+                    Log.i(TAG, "Associating to network " + config.SSID);
+                    wifiManager.saveConfiguration();
+                } else {
+                    Log.w(TAG, "Failed to enable network " + config.SSID);
+                }
+            } else {
+                Log.w(TAG, "Unable to add network " + config.SSID);
+            }
         }
 
         List<WifiConfiguration> configuredNetworks = wifiManager.getConfiguredNetworks();
@@ -53,9 +64,16 @@ public class NetworkUtil {
     public static void addWPANetwork(WifiManager wifiManager, String ssid, String password,
                                      int enctype, boolean hiddentype) {
         WifiConfiguration wifiConfig = new WifiConfiguration();
-
         wifiConfig.SSID = "\"" + ssid + "\"";
-        wifiConfig.preSharedKey = "\"" + password + "\"";
+
+        if (enctype == Encrypt.NONE) {
+            wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+            wifiConfig.allowedAuthAlgorithms.clear();
+        } else {
+            wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+            wifiConfig.preSharedKey = "\"" + password + "\"";
+        }
+
         wifiConfig.hiddenSSID = hiddentype;
         wifiConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
         wifiConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
@@ -63,14 +81,6 @@ public class NetworkUtil {
         wifiConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
         wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
         wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
-        wifiConfig.status = WifiConfiguration.Status.ENABLED;
-
-        if (enctype == Encrypt.NONE) {
-            wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-            wifiConfig.allowedAuthAlgorithms.clear();
-        } else {
-            wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
-        }
 
         addNetwork(wifiManager, wifiConfig);
     }
