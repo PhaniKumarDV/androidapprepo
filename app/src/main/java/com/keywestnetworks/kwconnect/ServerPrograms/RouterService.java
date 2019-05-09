@@ -29,6 +29,8 @@ public class RouterService {
     private Configuration oldConfiguration;
     private Configuration newConfiguration;
 
+    private boolean enableSave = false;
+
     public static abstract class Callback<T> {
         public abstract void onSuccess(T t);
         public void onError(String msg, Exception e) {
@@ -397,4 +399,13 @@ public class RouterService {
     public void setNewConfiguration(Configuration newConfiguration) {
         this.newConfiguration = newConfiguration;
     }
+
+    public boolean isEnableSave() {
+        return enableSave;
+    }
+
+    public void setEnableSave(boolean enableSave) {
+        this.enableSave = enableSave;
+    }
+
 }

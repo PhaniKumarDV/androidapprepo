@@ -1,12 +1,9 @@
 package com.keywestnetworks.kwconnect.View;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -109,6 +106,7 @@ public class ConfigurationActivity extends BaseActivity {
         if (RouterService.getInstance().getNewConfiguration() == null) {
             loadConfiguration();
         } else {
+            mConfiguration = RouterService.getInstance().getOldConfiguration();
             updateUI(RouterService.getInstance().getNewConfiguration());
         }
     }
@@ -229,28 +227,6 @@ public class ConfigurationActivity extends BaseActivity {
         initSpinner(mSvlanethertype, Options.SVLAN_ETHERTYPE);*/
         initSpinner(mEncrypt, Options.ENCRYPT);
         setViewOptions();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.logout_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_logout:
-                RouterService.getInstance().disconnect();
-                RouterService.getInstance().loginFailed();
-                showHome();
-                break;
-            case R.id.action_apply:
-                displaysavedDialog();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     /* On Change of ATPC Parameter */
@@ -389,8 +365,6 @@ public class ConfigurationActivity extends BaseActivity {
     public void saveConfiguration(View v) {
         hideKeyboard();
         newConfig = new Configuration();
-        int ipAddressType = getSelectedOption(mIPAddressType, Options.IP_ADDRESS_TYPE);
-
         newConfig.setDeviceMode(getSelectedOption(mDeviceMode, Options.DEV_MODE));
         newConfig.setCountryCode(getSelectedOption(mCountryCode, Options.COUNTRY_CODE_OPTIONS));
         newConfig.setSsid(getTextValue(mSSID, ""));
@@ -411,11 +385,6 @@ public class ConfigurationActivity extends BaseActivity {
         newConfig.setTranmitPower(getTextValue(mTxPower, 0));
         newConfig.setIpAddrType(getSelectedOption(mIPAddressType, Options.IP_ADDRESS_TYPE));
         newConfig.setDhcpAddress(mConfiguration.getIpAddress());
-        /*if ( ipAddressType == IPAddressType.STATIC ) {
-            newConfig.setDhcpAddress(mConfiguration.getDhcpAddress());
-            newConfig.setDhcpMask(mConfiguration.getDhcpMask());
-            newConfig.setDhcpGateway(mConfiguration.getDhcpGateway());
-        }*/
         newConfig.setIpAddress(getTextValue(mIPAddress, ""));
         newConfig.setDhcpMask(mConfiguration.getNetMask());
         newConfig.setNetMask(getTextValue(mNetMask, ""));
@@ -434,24 +403,32 @@ public class ConfigurationActivity extends BaseActivity {
         configuration.setVlanEtherType(String.valueOf(getSelectedOption(mSvlanethertype, Options.SVLAN_ETHERTYPE)));*/
         newConfig.setEncryptType(getSelectedOption(mEncrypt, Options.ENCRYPT));
         newConfig.setEncryptKey(getTextValue(mEncryptKey, ""));
+        boolean diff = newConfig.isConfigurationSame(mConfiguration);
+        if(!diff) {
+            showProgress("Saving Configuration...", 1 * 1000, new Runnable() {
+                @Override
+                public void run() {
+                    new CountDownTimer(500, 500) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                        }
 
-        showProgress("Saving Configuration...", 1 * 1000, new Runnable() {
-            @Override
-            public void run() {
-                new CountDownTimer(500, 500) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        progress.dismiss();
-                    }
-                }.start();
-            }
-        });
-        RouterService.getInstance().setNewConfiguration(newConfig);
-        updateUI(newConfig);
+                        @Override
+                        public void onFinish() {
+                            progress.dismiss();
+                        }
+                    }.start();
+                }
+            });
+            RouterService.getInstance().setNewConfiguration(newConfig);
+            RouterService.getInstance().setEnableSave(true);
+            updateUI(newConfig);
+            enableDisableIcon(true);
+        } else {
+            RouterService.getInstance().setNewConfiguration(null);
+            enableDisableIcon(false);
+            RouterService.getInstance().setEnableSave(false);
+        }
     }
 
     /* View based on Login */
@@ -579,11 +556,5 @@ public class ConfigurationActivity extends BaseActivity {
                 }*/
             }
         }
-    }
-
-    /* Redirect to the Home Activity */
-    public void showHome() {
-        this.startActivity(new Intent(this, HomeActivity.class));
-        this.finish();
     }
 }

@@ -2,7 +2,6 @@
     <string name="app_name">@string/client_name</string>
     <string name="client_name">KWConnect</string>
     <string name="powered_by">Powered by KeyWest Networks</string>
-    <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="username">UserName</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -54,7 +53,7 @@
     <string name="max_mcs_index">Max. MCS Index</string>
     <string name="atpc_status">ATPC Status</string>
     <string name="tx_power">TX Power</string>
-    <string name="ip_address_type">IP Adress Type</string>
+    <string name="ip_address_type">IP Address Type</string>
     <string name="device_mode">Radio Mode</string>
     <string name="country">Country</string>
     <string name="vlan_status">VLAN Status</string>

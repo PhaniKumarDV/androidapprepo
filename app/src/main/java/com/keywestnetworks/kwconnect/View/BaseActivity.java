@@ -52,6 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity
     private DrawerLayout mDrawerLayout;
     protected ProgressDialog progress;
     protected SharedPreference mSharedPreference;
+    protected Menu menu = null;
 
     protected void onCreate(String title, int toolBarId) {
         this.onCreate(title, toolBarId, false, -1, -1);
@@ -154,10 +155,6 @@ public abstract class BaseActivity extends AppCompatActivity
         });
     }
 
-    public void requestPermissions(final String[] permissionCodes, @NonNull PermissionCallback callback) {
-        requestPermissions(permissionCodes, callback, 0);
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         PermissionCallback callback = this.requestBag.get(requestCode);
@@ -212,15 +209,24 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
+        /* Inflate the menu; this adds items to the action bar if it is present.*/
+        getMenuInflater().inflate(R.menu.logout_menu, menu);
+        this.menu = menu;
+        enableDisableIcon(RouterService.getInstance().isEnableSave());
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                RouterService.getInstance().disconnect();
+                RouterService.getInstance().loginFailed();
+                showHome();
+                break;
+            case R.id.action_apply:
+                displaysavedDialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -261,7 +267,7 @@ public abstract class BaseActivity extends AppCompatActivity
                     map.put("channel", "Auto");
                 }
                 for (Map.Entry<String, Object> entry : map.entrySet()) {
-                    ConfigurationActivity.DisplayMapClass displayMapClass = displayMap.get(entry.getKey());
+                    DisplayMapClass displayMapClass = displayMap.get(entry.getKey());
                     if (displayMapClass != null) {
                         if (displayMapClass.option != null) {
                             builder.append(displayMapClass.displayName + " = " + displayMapClass.option.getValueByKey((int) entry.getValue()) + "\n");
@@ -284,6 +290,8 @@ public abstract class BaseActivity extends AppCompatActivity
                 alertDialog.dismiss();
                 updateUI(oldConfiguration);
                 RouterService.getInstance().setNewConfiguration(null);
+                RouterService.getInstance().setEnableSave(false);
+                enableDisableIcon(false);
             }
         });
 
@@ -306,6 +314,7 @@ public abstract class BaseActivity extends AppCompatActivity
                                 progress.dismiss();
                                 showDiscovery();
                                 RouterService.getInstance().setNewConfiguration(null);
+                                RouterService.getInstance().setEnableSave(false);
                             }
                         }.start();
                     }
@@ -325,15 +334,27 @@ public abstract class BaseActivity extends AppCompatActivity
                 });
             }
         });
+
         if (!modified) {
             applyBtn.setVisibility(View.GONE);
             revertBtn.setVisibility(View.GONE);
         }
+
         if (mSharedPreference.getIsTrue()) {
             applyBtn.setVisibility(View.GONE);
             revertBtn.setVisibility(View.GONE);
         }
         alertDialog.show();
+    }
+
+    protected void enableDisableIcon(boolean enableDisable) {
+        if (menu != null) {
+            if (!enableDisable) {
+                menu.findItem(R.id.action_apply).setIcon(R.drawable.ic_save_white_36dp);
+            } else {
+                menu.findItem(R.id.action_apply).setIcon(R.drawable.ic_save_grey_600_36dp);
+            }
+        }
     }
 
     public class DisplayMapClass {
@@ -369,6 +390,12 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public void showDiscovery() {
         this.startActivity(new Intent(this, DiscoveryActivity.class));
+        this.finish();
+    }
+
+    /* Redirect to the Home Activity */
+    public void showHome() {
+        this.startActivity(new Intent(this, HomeActivity.class));
         this.finish();
     }
 }

@@ -2,12 +2,10 @@ package com.keywestnetworks.kwconnect.View;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -82,27 +80,12 @@ public class SummaryActivity extends BaseActivity {
         initAreaGraph();
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /* Inflate the menu; this adds items to the action bar if it is present. */
+        *//* Inflate the menu; this adds items to the action bar if it is present. *//*
         getMenuInflater().inflate(R.menu.logout_menu, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_logout:
-                RouterService.getInstance().disconnect();
-                RouterService.getInstance().loginFailed();
-                showHome();
-                break;
-            case R.id.action_apply:
-                displaysavedDialog();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     protected void updateUI(Configuration mConfiguration) {
@@ -249,11 +232,5 @@ public class SummaryActivity extends BaseActivity {
         areaGraph.getViewport().setMaxY(Math.max(maxValue, 10));
         localSeries.resetData(SharedLinkSpeedGraphData.INSTANCE.getLocalData());
         remoteSeries.resetData(SharedLinkSpeedGraphData.INSTANCE.getRemoteData());
-    }
-
-    /* Redirect to the Home Activity */
-    public void showHome() {
-        this.startActivity(new Intent(this, HomeActivity.class));
-        this.finish();
     }
 }
