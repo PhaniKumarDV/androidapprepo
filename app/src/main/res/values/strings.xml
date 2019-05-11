@@ -2,150 +2,136 @@
     <string name="app_name">@string/client_name</string>
     <string name="client_name">KWConnect</string>
     <string name="powered_by">Powered by KeyWest Networks</string>
-    <string name="password">Password</string>
-    <string name="username">UserName</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- Tour Activity -->
     <string name="skip_tour">Skip</string>
-    <string name="end_tour">End</string>
-    <string name="action_sign_in_short">Register</string>
-    <string name="email">Email</string>
-    <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
-    <string name="auth_failed">Authentication failed, check your email and password or sign up</string>
-    <string name="change_email">Change Email</string>
-    <string name="change_password">Change Password</string>
-    <string name="send_password_reset_email">Send Password reset email</string>
-    <string name="remove_user">Remove user</string>
-    <string name="new_pass">New Password</string>
-    <string name="title_activity_profile">Firebase</string>
-    <string name="title_activity_login">Sign in</string>
-    <string name="hint_email">Email</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_name">Fullname</string>
+
+    <!-- Home Activity -->
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="home_discovery">Discovery</string>
+    <string name="home_summary">Summary</string>
+    <string name="home_alignment">Alignment</string>
+    <string name="home_login">Login</string>
+    <string name="home_config">Configuration</string>
+    <string name="home_linktest">Link Test</string>
+
+    <!-- discovery activity strings -->
+    <string name="dis_SSID_header">SSID</string>
+    <string name="dis_freq_header">Frequency</string>
+    <string name="dis_rssi_header">RSSI(dB)</string>
+    <string name="dis_wifi">wifi</string>
+    <string name="dis_connected">connected</string>
+    <string name="dis_signal">-10dBm</string>
+    <string name="dis_freq">5745MHz</string>
+    <string name="dis_bssid">BSSID</string>
+    <string name="dis_security">Security</string>
+    <string name="dis_chbwidth">Channel Width</string>
+    <string name="dis_password">Password</string>
+    <string name="dis_connect">Connect</string>
+    <string name="dis_cancel">Cancel</string>
+    <string name="dis_forget">Forget</string>
+
+    <!-- Add network dialog -->
+    <string name="addnwk_ssid">SSID</string>
+    <string name="addnwk_hidden">Hidden</string>
+    <string-array name="addnwk_hidden_opts">
+        <item>"Yes"</item>
+        <item>"No"</item>
+    </string-array>
+    <string name="addnwk_sec">Security</string>
+    <string name="addnwk_wpa">WPA/WPA2 PSK</string>
+    <string-array name="addnwk_enctype_opts">
+        <item>"None"</item>
+        <item>"WPA2-PSK"</item>
+    </string-array>
+    <string name="addnwk_pass">Password</string>
+    <string name="addnwk_cancel">Cancel</string>
+    <string name="addnwk_add">Add</string>
+
+    <!-- login activity strings -->
+    <string name="login_user">Username</string>
+    <string name="login_password">Password</string>
     <string name="btn_login">LOGIN</string>
-    <string name="btn_link_to_register">"Don't have an account? sign up"</string>
-    <string name="btn_link_to_login">Already registered. Login Me!</string>
-    <string name="title_activity_reset_password">ResetPasswordActivity</string>
-    <string name="btn_forgot_password">Forgot your password?</string>
-    <string name="btn_reset_password">Reset Password</string>
-    <string name="btn_back"><![CDATA[<< Back]]></string>
-    <string name="hint_new_email">New Email</string>
-    <string name="btn_change">Change</string>
-    <string name="btn_send">Send</string>
-    <string name="btn_remove">Remove</string>
-    <string name="btn_sign_out">Sign Out</string>
-    <string name="lbl_forgot_password">Forgot password?</string>
-    <string name="forgot_password_msg">We just need your registered Email Id to sent you password reset instructions.</string>
+    
+    <!-- Registered/Unregistered -->
+    <string name="reg_unreg">Registered</string>
 
-    <string name="BSU_GPS"> "17' 23' 13.7040 N \n78' 29' 30.0624 E " </string>
-    <string name="SU_GPS"> "17' 23' 13.7040 N \n78' 29' 30.0624 E "</string>
+    <!-- summary activity strings -->
+    <string name="sum_def_dev_ap">AP</string>
+    <string name="sum_def_dev_su">SU</string>
+    <string name="sum_def_ip">192.168.1.5</string>
+    <string name="sum_def_mac">00:da:ab:2f:56:31</string>
+    <string name="sum_bsu_gps">"17' 23' 13.7040 N \n78' 29' 30.0624 E"</string>
+    <string name="sum_su_gps">"17' 23' 13.7040 N \n78' 29' 30.0624 E"</string>
+    <string name="sum_sig_qual">GOOD</string>
+    <string name="sum_local_rate">100Mbps</string>
+    <string name="sum_remote_rate">7Mbps</string>
+    <string name="sum_snr">SNR</string>
+    <string name="sum_local_a1snr">A1</string>
+    <string name="sum_local_a2snr">A2</string>
+    <string name="sum_remote_a1snr">SNR</string>
+    <string name="sum_remote_a2snr">SNR</string>
 
-    <string name="ssid">SSID</string>
-    <string name="bwidth"> "Bandwidth" </string>
-    <string name="opmode"> "Operational Mode" </string>
-    <string name="encrypt">Encryption</string>
-    <string name="encryptkey">Key</string>
-    <string name="ddrs_status">DDRS Status</string>
-    <string name="spatial_stream">Spatial Stream</string>
-    <string name="mcs_index">MCS Index</string>
-    <string name="min_mcs_index">Min. MCS Index</string>
-    <string name="max_mcs_index">Max. MCS Index</string>
-    <string name="atpc_status">ATPC Status</string>
-    <string name="tx_power">TX Power</string>
-    <string name="ip_address_type">IP Address Type</string>
-    <string name="device_mode">Radio Mode</string>
-    <string name="country">Country</string>
-    <string name="vlan_status">VLAN Status</string>
-    <string name="vlan_mode">VLAN Mode</string>
-    <string name="vlan_mgmt_id">Mgmt VLAN ID</string>
-    <string name="vlan_access_id">Access VLAN ID</string>
-    <string name="trunk_opt">Trunk Option</string>
-    <string name="trunk_vlanid">Trunk VLAN ID</string>
-    <string name="svlanid">SVLAN ID</string>
-    <string name="svlan_ether_type">SVLAN EtherType</string>
-    <string name="empty">-</string>
-
-    <string-array name="BSU_direction_arrays">
-        <item>Uplink</item>
-        <item>Bi-Di</item>
+    <!-- configuration activity strings -->
+    <string name="cfg_dev_mode">Radio Mode</string>
+    <string-array name="cfg_devmode_opts">
+        <item>AP</item>
+        <item>SU</item>
     </string-array>
-    <string-array name="SU_direction_arrays">
-        <item>Downlink</item>
-        <item>Bi-Di</item>
+    <string name="cfg_country">Country</string>
+    <string-array name="cfg_country_opts">
+        <item>INDIA</item>5018
+        <item>5GHz</item>5019
     </string-array>
-    <string-array name="duration_arrays">
-        <item>"30"</item>
-        <item>"60"</item>
-        <item>"120"</item>
-    </string-array>
-    <string-array name="bandwidth_arrays">
+    <string name="cfg_ssid">SSID</string>
+    <string name="cfg_opmode">Operational Mode</string>
+    <string name="cfg_bwidth">Bandwidth</string>
+    <string-array name="cfg_bwidth_opts">
         <item>"20MHz"</item>
         <item>"40MHz"</item>
         <item>"80MHz"</item>
     </string-array>
-    <string-array name="mode_arrays">
-        <item>"11A"</item>
-        <item>"11NA"</item>
-        <item>"11AC"</item>
-
-    </string-array>
-    <string-array name="channel_arrays">
-        <item>"32"</item>
-        <item>"44"</item>
-        <item>"59"</item>
-        <item>"61"</item>
-        <item>"74"</item>
-        <item>"87"</item>
-        <item>"93"</item>
-        <item>"107"</item>
-        <item>"166"</item>
-        <item>"135"</item>
-    </string-array>
-
-    <string-array name="enable_disabled_arrays">
-        <item>Enable</item>
-        <item>Disable</item>
-    </string-array>
-    <string-array name="spatial_stream_arrays">
+    <string name="cfg_channel">Channel</string>
+    <string name="cfg_encrypt">Encryption</string>
+    <string name="cfg_encryptkey">Key</string>
+    <string name="cfg_ddrs_status">DDRS Status</string>
+    <string name="cfg_spatial_stream">Spatial Stream</string>
+    <string-array name="cfg_spatial_stream_opts">
         <item>Single</item>
         <item>Dual</item>
     </string-array>
-    <string-array name="ipAddress_arrays">
+    <string name="cfg_mcs_index">MCS Index</string>
+    <string name="cfg_min_mcs_index">Min. MCS Index</string>
+    <string name="cfg_max_mcs_index">Max. MCS Index</string>
+    <string name="cfg_atpc_status">ATPC Status</string>
+    <string-array name="cfg_enable_disable_opts">
+        <item>Enable</item>
+        <item>Disable</item>
+    </string-array>
+    <string name="cfg_tx_power">TX power (dBm)</string>
+    <string name="cfg_ipaddr_type">IP Address Type</string>
+    <string-array name="cfg_ipaddr_opts">
         <item>Static</item>
         <item>Dynamic</item>
     </string-array>
-
-    <string-array name="DeviceMode_arrays">
-        <item>AP</item>
-        <item>SU</item>
-    </string-array>
-
-    <string-array name="CountryCode_arrays">
-        <item>INDIA_UL</item>5016
-        <item>INDIA_L</item>5017
-        <item>RUSSIA</item>5011
-    </string-array>
-
-    <string-array name="enctype_arrays">
-        <item>"None"</item>
-        <item>"WPA2-PSK"</item>
-    </string-array>
-
-    <string-array name="hidden_arrays">
-        <item>"Yes"</item>
-        <item>"No"</item>
-    </string-array>
-
-    <string-array name="VlanMode_arrays">
-        <item>Transparent</item>
-        <item>Access</item>
-        <!--<item>Trunk</item>
-        <item>Q-in-Q</item>-->
-    </string-array>
-
-    <!--
-    <string-array name="Trunkopt_arrays">
+    <string name="cfg_ipaddr">IP Address</string>
+    <string name="cfg_netmask">NetMask</string>
+    <string name="cfg_gateway">Gateway</string>
+    <string name="cfg_linkid">Link ID</string>
+    <string name="cfg_custname">Customer Name</string>
+    <string name="cfg_distance">Distance (KM)</string>
+    <string name="cfg_vlan_status">VLAN Status</string>
+    <string name="cfg_vlan_mode">VLAN Mode</string>
+    <string name="cfg_vlan_mgmtid">Mgmt VLAN ID</string>
+    <string name="cfg_vlan_accessid">Access VLAN ID</string>
+    <string name="cfg_trunk_opt">Trunk Option</string>
+    <string name="cfg_trunk_vlanid">Trunk VLAN ID</string>
+    <string name="cfg_svlanid">SVLAN ID</string>
+    <string name="cfg_svlan_ether_type">SVLAN EtherType</string>
+    <string name="cfg_txt_save">Save</string>
+    <!--<string-array name="Trunkopt_arrays">
         <item>List</item>
         <item>All</item>
     </string-array>
@@ -155,34 +141,45 @@
         <item>0x88a8</item>
         <item>0x9100</item>
         <item>0x9200</item>
-    </string-array>
-    -->
+    </string-array>-->
 
-    <string name="title_shop">Shop</string>
-    <string name="title_gifts">Gifts</string>
-    <string name="title_cart">Cart</string>
-    <string name="title_profile">Profile</string>
+    <!-- configuration apply/revert dialogue-->
+    <string name="cfg_apply">Apply</string>
+    <string name="cfg_revert">Revert</string>
 
+    <string name="empty">-</string>
+
+    <!-- Linktest activity strings -->
+    <string name="lt_sumac">SU MAC</string>
+    <string name="lt_macaddr">00.d0:41:e0:1b:fc</string>
     <string name="mac_address_is_empty_toast">Mac address is empty</string>
-
-
-    <string name="SSID_header">SSID</string>
-    <string name="frequency_header">Frequency</string>
-    <string name="RSSI_header">RSSI(dB)</string>
-
-    <string name="wifiDetails_security">Security</string>
-    <string name="wifiDetails_channelWidth">Channel Width</string>
-    <string name="wifiDetails_BSSID">BSSID</string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="txt_ssid">SSID</string>
-    <string name="txt_security">Security</string>
-    <string name="txt_wpa_wpa2_psk">WPA/WPA2 PSK</string>
-    <string name="txt_hidden">Hidden</string>
-    <string name="txt_password">Password</string>
-    <string name="txt_cancel">Cancel</string>
-    <string name="txt_add">Add</string>
-    <string name="txt_user">Username</string>
-    <string name="txt_save">Save</string>
-    <string name="txt_apply">Apply</string>
-    <string name="txt_revert">Revert</string>
+    <string name="lt_direction">Direction</string>
+    <string-array name="lt_bsu_dir_opts">
+        <item>Uplink</item>
+        <item>Bi-Di</item>
+    </string-array>
+    <string-array name="lt_su_dir_opts">
+        <item>Downlink</item>
+        <item>Bi-Di</item>
+    </string-array>
+    <string name="lt_duration">Duration</string>
+    <string-array name="lt_duration_opts">
+        <item>"30"</item>
+        <item>"60"</item>
+        <item>"120"</item>
+        <item>"180"</item>
+    </string-array>
+    <string name="lt_start">Start</string>
+    <string name="lt_stop">Stop</string>
+    <string name="lt_local">Local</string>
+    <string name="lt_remote">Remote</string>
+    <string name="lt_sig_a1">Signal A1 (dB)</string>
+    <string name="lt_sig_local_a1val">34</string>
+    <string name="lt_sig_remote_a1val">35</string>
+    <string name="lt_sig_a2">Signal A2 (dB)</string>
+    <string name="lt_sig_local_a2val">34</string>
+    <string name="lt_sig_remote_a2val">35</string>
+    <string name="lt_qual">Link Quality (%)</string>
+    <string name="lt_local_qual">50</string>
+    <string name="lt_remote_qual">50</string>
 </resources>

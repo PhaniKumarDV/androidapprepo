@@ -236,7 +236,6 @@ public class WifiscannerAdapter extends ArrayAdapter<wifiDetailsdata> {
     static class ViewHolder {
         public TextView wifiProvider;
         public TextView txsignalstgth;
-        public ImageView txlevel;
         public TextView txchannels;
         public ImageView wifisecurity;
         public TextView txConnectedStatus;

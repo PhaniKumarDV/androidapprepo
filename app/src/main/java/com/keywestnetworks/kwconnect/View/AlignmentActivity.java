@@ -45,11 +45,11 @@ public class AlignmentActivity extends BaseActivity {
         antennaList = findViewById(R.id.antenna_list);
         mSharedPreference = new SharedPreference(this);
         if (mSharedPreference.getRadioMode() == 1) {
-            localRadio = "BSU";
+            localRadio = "AP";
             remoteRadio = "SU";
         } else {
             localRadio = "SU";
-            remoteRadio = "BSU";
+            remoteRadio = "AP";
         }
         alignmentActivityInit();
 

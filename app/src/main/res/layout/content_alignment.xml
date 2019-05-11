@@ -19,7 +19,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="@color/poweredby_text"
-            android:text="Registered" />
+            android:text="@string/reg_unreg" />
     </LinearLayout>
 
     <ListView

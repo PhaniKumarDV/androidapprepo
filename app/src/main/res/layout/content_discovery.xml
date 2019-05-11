@@ -18,7 +18,7 @@
 
         <TextView
             android:id="@+id/wifi_name"
-            android:text="@string/SSID_header"
+            android:text="@string/dis_SSID_header"
             style="@style/DashboardHeader"
             android:layout_weight="4"
             android:paddingLeft="8dp"
@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/Tx_channel"
-            android:text="@string/frequency_header"
+            android:text="@string/dis_freq_header"
             style="@style/DashboardHeader"
             android:layout_weight="4"
             android:paddingLeft="15dp"
@@ -38,7 +38,7 @@
 
         <TextView
             android:id="@+id/Tx_wifi_rssi"
-            android:text="@string/RSSI_header"
+            android:text="@string/dis_rssi_header"
             style="@style/DashboardHeader"
             android:layout_weight="4"
             android:textStyle="bold"

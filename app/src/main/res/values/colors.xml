@@ -16,6 +16,8 @@
     <color name="signal_green">#93ce7a</color>
     <color name="signal_green1">#b0d656</color>
     <color name="signal_red">#d73a31</color>
+    <color name="remote_graph">#1facc5</color>
+    <color name="summary_color">#33FFFFFF</color>
     <color name="text_color">#000000</color>
     <color name="text_view_color">#f2f2f2</color>
     <color name="colorPrimaryDark">#303F9F</color>

@@ -23,7 +23,7 @@
             android:layout_height="45dp"
             android:layout_margin="10dp"
             android:background="@drawable/bg_rounded_corner"
-            android:hint="@string/txt_user"
+            android:hint="@string/login_user"
             android:padding="7dp" />
 
         <com.scottyab.showhidepasswordedittext.ShowHidePasswordEditText
@@ -32,7 +32,7 @@
             android:layout_height="45dp"
             android:layout_margin="10dp"
             android:background="@drawable/bg_rounded_corner"
-            android:hint="@string/txt_password"
+            android:hint="@string/login_password"
             android:inputType="textPassword"
             android:padding="7dp" />
 
