@@ -60,7 +60,6 @@ public abstract class BaseActivity extends AppCompatActivity
 
     protected void onCreate(String title, int toolBarId, boolean isNavEnabled) {
         this.onCreate(title, toolBarId, isNavEnabled, -1, -1);
-
     }
 
     @Override
@@ -340,10 +339,11 @@ public abstract class BaseActivity extends AppCompatActivity
             revertBtn.setVisibility(View.GONE);
         }
 
-        if (mSharedPreference.getIsTrue()) {
+        /*if (!mSharedPreference.getIsTrue()) {
             applyBtn.setVisibility(View.GONE);
             revertBtn.setVisibility(View.GONE);
-        }
+        }*/
+
         alertDialog.show();
     }
 
@@ -352,7 +352,7 @@ public abstract class BaseActivity extends AppCompatActivity
             if (!enableDisable) {
                 menu.findItem(R.id.action_apply).setIcon(R.drawable.ic_save_white_36dp);
             } else {
-                menu.findItem(R.id.action_apply).setIcon(R.drawable.ic_save_grey_600_36dp);
+                menu.findItem(R.id.action_apply).setIcon(R.drawable.ic_save_orange_400_36dp);
             }
         }
     }
@@ -397,5 +397,11 @@ public abstract class BaseActivity extends AppCompatActivity
     public void showHome() {
         this.startActivity(new Intent(this, HomeActivity.class));
         this.finish();
+    }
+
+    protected void goTo(Class<? extends Activity> activityClass) {
+        if (RouterService.getInstance().isServerFound() && RouterService.getInstance().isUserAuthenticated()) {
+            this.startActivity(new Intent(this, activityClass));
+        }
     }
 }

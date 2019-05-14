@@ -21,7 +21,7 @@ import com.hsq.kw.packet.vo.Configuration;
 
 public class LoginActivity extends BaseActivity {
     EditText mTxUserName, mTxUserPassword;
-    Button mBtLogin;
+    Button mBtLogin, mBtDefault;
     boolean flag = false;
     ProgressDialog progress;
 
@@ -61,6 +61,14 @@ public class LoginActivity extends BaseActivity {
         mTxUserName = (EditText) findViewById(R.id.Tx_UserName);
         mTxUserPassword = (EditText) findViewById(R.id.Tx_UserPassword);
         mBtLogin = (Button) findViewById(R.id.BT_SubmitButton);
+        mBtDefault = (Button) findViewById(R.id.BT_Loaddefault);
+        mBtDefault.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mTxUserName.setText("admin");
+                mTxUserPassword.setText("admin");
+            }
+        });
         mBtLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +103,11 @@ public class LoginActivity extends BaseActivity {
                         }
                     }
                 }
+            }
+
+            @Override
+            public void onError(String msg, Exception e) {
+                hideProgress();
             }
         });
     }

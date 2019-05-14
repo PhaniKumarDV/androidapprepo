@@ -3,7 +3,10 @@ package com.keywestnetworks.kwconnect.View;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,9 +54,33 @@ public class AlignmentActivity extends BaseActivity {
             localRadio = "SU";
             remoteRadio = "AP";
         }
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.align_bottom_nav);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         alignmentActivityInit();
 
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.align_summary:
+                    goTo(SummaryActivity.class);
+                    return true;
+                case R.id.align_config:
+                    goTo(ConfigurationActivity.class);
+                    return true;
+                case R.id.align_lttest:
+                    goTo(LinkTestActivity.class);
+                    return true;
+            }
+            return false;
+        }
+    };
 
     private void alignmentActivityInit() {
         mSharedPreference = new SharedPreference(AlignmentActivity.this);

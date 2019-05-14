@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/align_summary"
+        android:title="Summary"
+        android:icon="@drawable/summary" />
+
+    <item
+        android:id="@+id/align_config"
+        android:title="Configuration"
+        android:icon="@drawable/configuration" />
+
+    <item
+        android:id="@+id/align_lttest"
+        android:title="Linktest"
+        android:icon="@drawable/linktest" />
+</menu>

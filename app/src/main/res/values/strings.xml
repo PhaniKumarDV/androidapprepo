@@ -49,11 +49,13 @@
     <string name="addnwk_pass">Password</string>
     <string name="addnwk_cancel">Cancel</string>
     <string name="addnwk_add">Add</string>
+    <string name="addnwk_loaddef">Defaults</string>
 
     <!-- login activity strings -->
     <string name="login_user">Username</string>
     <string name="login_password">Password</string>
-    <string name="btn_login">LOGIN</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_default">Defaults</string>
     
     <!-- Registered/Unregistered -->
     <string name="reg_unreg">Registered</string>
@@ -151,7 +153,6 @@
 
     <!-- Linktest activity strings -->
     <string name="lt_sumac">SU MAC</string>
-    <string name="lt_macaddr">00.d0:41:e0:1b:fc</string>
     <string name="mac_address_is_empty_toast">Mac address is empty</string>
     <string name="lt_direction">Direction</string>
     <string-array name="lt_bsu_dir_opts">

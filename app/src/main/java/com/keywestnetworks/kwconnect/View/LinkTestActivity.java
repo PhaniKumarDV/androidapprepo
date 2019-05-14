@@ -3,7 +3,11 @@ package com.keywestnetworks.kwconnect.View;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -32,8 +36,9 @@ import java.util.concurrent.TimeUnit;
 public class LinkTestActivity extends BaseActivity {
     private static final int MAX_DATA_POINTS = 10;
     RouterService.Subscription mSubscription;
-    Button mStart, mStop;
-    Spinner mDirection, mDuration;
+    SharedPreference mSharedPreference;
+    Button mStart,mStop;
+    Spinner mDirection,mDuration;
     TextView mMacLabel;
     TextView mSuMac;
     TextView localSnrA1;
@@ -82,6 +87,49 @@ public class LinkTestActivity extends BaseActivity {
         initSpinner(mDuration, durationOptions);
         mDuration.setSelection(durationOptions.findPositionByKey(mSharedPreference.getDuration()));
         initAreaGraph();
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.lttest_bottom_nav);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+    }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.lttest_summary:
+                    goTo(SummaryActivity.class);
+                    return true;
+                case R.id.lttest_config:
+                    goTo(ConfigurationActivity.class);
+                    return true;
+                case R.id.lttest_alignment:
+                    goTo(AlignmentActivity.class);
+                    return true;
+            }
+            return false;
+        }
+    };
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /* Inflate the menu; this adds items to the action bar if it is present. */
+        getMenuInflater().inflate(R.menu.home_logout, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_home_logout:
+                RouterService.getInstance().disconnect();
+                RouterService.getInstance().loginFailed();
+                showHome();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

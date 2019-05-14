@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#72bbce</color>
+    <color name="colorPrimary">#2e295d</color>
+    <color name="Keywestcolor">#663399</color>
     <color name="discovery_line">#f2f2f2</color>
     <color name="discovery_buttons">#f2f2f2</color>
     <color name="discovery_pass_bg">#eeeeee</color>
     <color name="connect_button_fill">#BBDEFB</color>
     <color name="dis_button_text_color">#666666</color>
     <color name="buttonstroke">#dedede</color>
-    <color name="poweredby_bg">#e0f1f8</color>
-    <color name="poweredby_text">#72bbce</color>
+    <color name="poweredby_bg">#ffffff</color>
+    <color name="registered_bg">#72bbce</color>
+    <color name="poweredby_text">#2e295d</color>
     <color name="colortour">#2e295d</color>
     <color name="activity_heading">#FFFFFF</color>
     <color name="signal_yellow">#ffc200</color>

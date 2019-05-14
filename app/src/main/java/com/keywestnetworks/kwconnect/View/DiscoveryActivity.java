@@ -12,7 +12,9 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.BottomNavigationView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -68,8 +70,24 @@ public class DiscoveryActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discovery);
         this.onCreate("Discovery", R.id.toolbar, true);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.disc_bottom_nav);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         discoveryActivityInit();
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.disc_home:
+                    showHome();
+                    return true;
+            }
+            return false;
+        }
+    };
 
     private void discoveryActivityInit() {
         mSharedPreference = new SharedPreference(DiscoveryActivity.this);
@@ -153,10 +171,21 @@ public class DiscoveryActivity extends BaseActivity {
         final AlertDialog alertDialog = dialogBuilder.create();
 
         Button cancelBtn = dialogView.findViewById(R.id.cancelBtn);
+        Button loaddefBtn = dialogView.findViewById(R.id.load_default);
+
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
+            }
+        });
+
+        loaddefBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ssdEditText.setText("SMAC3_Wi-Fi");
+                encryptType.setSelection(1);
+                passwordEditText.setText("sify@1234");
             }
         });
 
