@@ -26,7 +26,7 @@ public class SplashActivity extends AppCompatActivity {
                 if (sharedPreference.showTour()) {
                     SplashActivity.this.startActivity(new Intent(SplashActivity.this, TourActivity.class));
                 } else {
-                    SplashActivity.this.startActivity(new Intent(SplashActivity.this, DiscoveryActivity.class));
+                    SplashActivity.this.startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                 }
                 SplashActivity.this.finish();
             }

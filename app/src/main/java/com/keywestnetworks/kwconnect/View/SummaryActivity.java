@@ -4,8 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -50,8 +53,32 @@ public class SummaryActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
         this.onCreate("Summary", R.id.toolbar, true);
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.summr_bottom_nav);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         summaryActivityInit();
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.summ_config:
+                    goTo(ConfigurationActivity.class);
+                    return true;
+                case R.id.summ_alignment:
+                    goTo(AlignmentActivity.class);
+                    return true;
+                case R.id.summ_lttest:
+                    goTo(LinkTestActivity.class);
+                    return true;
+            }
+            return false;
+        }
+    };
 
     private void summaryActivityInit() {
         mLocalIPAddress = (TextView) findViewById(R.id.WLink_LocalIpNetwork);

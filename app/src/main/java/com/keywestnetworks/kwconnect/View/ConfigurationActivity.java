@@ -1,9 +1,14 @@
 package com.keywestnetworks.kwconnect.View;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -102,6 +107,10 @@ public class ConfigurationActivity extends BaseActivity {
         mSvlanidval       = findViewById(R.id.svlanid_val);
         mSvlanethertype   = findViewById(R.id.config_svlan_ethertype);
         mSvlanethtypeval  = findViewById(R.id.svlanethtype_val);*/
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.conf_bottom_nav);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         configurationActivityInit();
         if (RouterService.getInstance().getNewConfiguration() == null) {
             loadConfiguration();
@@ -110,6 +119,26 @@ public class ConfigurationActivity extends BaseActivity {
             updateUI(RouterService.getInstance().getNewConfiguration());
         }
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.conf_summary:
+                    goTo(SummaryActivity.class);
+                    return true;
+                case R.id.conf_alignment:
+                    goTo(AlignmentActivity.class);
+                    return true;
+                case R.id.conf_lttest:
+                    goTo(LinkTestActivity.class);
+                    return true;
+            }
+            return false;
+        }
+    };
 
     /* Initialize the cofiguration parameters */
     private void configurationActivityInit() {

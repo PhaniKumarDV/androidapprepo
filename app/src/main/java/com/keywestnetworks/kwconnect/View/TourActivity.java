@@ -64,7 +64,7 @@ public class TourActivity extends AppCompatActivity {
     }
 
     public void endTour(View view) {
-        this.startActivity(new Intent(TourActivity.this, DiscoveryActivity.class));
+        this.startActivity(new Intent(TourActivity.this, HomeActivity.class));
         this.finish();
     }
 }
