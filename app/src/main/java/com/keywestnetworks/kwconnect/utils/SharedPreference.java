@@ -28,6 +28,7 @@ public class SharedPreference {
         this._context = context;
         pref = _context.getSharedPreferences(SHARED_PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
+        editor.putBoolean(KEY_ISTRUE, false);
     }
 
     public void saveIPAddress(String IPAddress, String ssid, String wifimac) {
@@ -115,6 +116,7 @@ public class SharedPreference {
     }
 
     public boolean getIsTrue() {
+
         return pref.getBoolean(KEY_ISTRUE, false);
     }
 

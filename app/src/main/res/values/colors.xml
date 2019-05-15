@@ -8,11 +8,12 @@
     <color name="connect_button_fill">#BBDEFB</color>
     <color name="dis_button_text_color">#666666</color>
     <color name="buttonstroke">#dedede</color>
-    <color name="poweredby_bg">#ffffff</color>
-    <color name="registered_bg">#72bbce</color>
-    <color name="poweredby_text">#2e295d</color>
+    <color name="poweredby_bg">#2e295d</color>
+    <color name="registered_bg">#ffffff</color>
+    <color name="poweredby_text">#ffffff</color>
+    <color name="registered_text">#2e295d</color>
     <color name="colortour">#2e295d</color>
-    <color name="activity_heading">#FFFFFF</color>
+    <color name="activity_heading">#ffffff</color>
     <color name="signal_yellow">#ffc200</color>
     <color name="signal_yellow1">#f6960f</color>
     <color name="signal_green">#93ce7a</color>

@@ -24,13 +24,12 @@ public class HomeActivity extends BaseActivity {
     private ImageView loginIcon;
 
     CarouselView carouselView;
-    int[] sampleImages = {R.drawable.intro_screen_1,
-            R.drawable.intro_screen_2,
+    int[] sampleImages = { R.drawable.intro_screen_2,
             R.drawable.intro_screen_3,
             R.drawable.intro_screen_4,
             R.drawable.intro_screen_5,
             R.drawable.intro_screen_6,
-            R.drawable.intro_screen_7};
+            R.drawable.intro_screen_7 };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

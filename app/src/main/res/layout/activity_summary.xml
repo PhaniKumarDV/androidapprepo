@@ -30,7 +30,7 @@
         layout="@layout/content_summary"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/summr_bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AppBarLayout" />
 
@@ -39,18 +39,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="?attr/colorPrimary"
-        app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="@android:color/white"
-        app:itemTextColor="@android:color/white"
+        android:background="@color/white"
+        app:elevation="0dp"
+        app:itemBackground="@color/white"
+        app:itemIconTint="@color/colorPrimary"
+        app:itemTextColor="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:menu="@menu/sum_bottom_nav"
-        app:elevation="0dp"
         tools:ignore="MissingConstraints" />
 
     <TextView
+        android:id="@+id/textView9"
         style="@style/PoweredBy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
