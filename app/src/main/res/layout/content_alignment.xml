@@ -9,17 +9,13 @@
         android:id="@+id/antenna_register_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/poweredby_bg"
+        android:background="@color/registered_bg"
         android:paddingTop="2dp"
         android:paddingBottom="2dp">
 
         <TextView
             android:id="@+id/register_label"
-            style="@style/DashboardHeader"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textColor="@color/poweredby_text"
-            android:text="@string/reg_unreg" />
+            style="@style/reg_unreg_header" />
     </LinearLayout>
 
     <ListView

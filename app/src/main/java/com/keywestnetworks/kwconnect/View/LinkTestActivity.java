@@ -36,7 +36,7 @@ import java.util.concurrent.TimeUnit;
 public class LinkTestActivity extends BaseActivity {
     private static final int MAX_DATA_POINTS = 10;
     RouterService.Subscription mSubscription;
-    SharedPreference mSharedPreference;
+    //SharedPreference mSharedPreference;
     Button mStart,mStop;
     Spinner mDirection,mDuration;
     TextView mMacLabel;
@@ -113,9 +113,9 @@ public class LinkTestActivity extends BaseActivity {
         }
     };
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        /* Inflate the menu; this adds items to the action bar if it is present. */
+        *//* Inflate the menu; this adds items to the action bar if it is present. *//*
         getMenuInflater().inflate(R.menu.home_logout, menu);
         return true;
     }
@@ -130,7 +130,7 @@ public class LinkTestActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @Override
     protected void updateUI(Configuration mConfiguration) {

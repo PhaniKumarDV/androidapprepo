@@ -338,12 +338,10 @@ public abstract class BaseActivity extends AppCompatActivity
             applyBtn.setVisibility(View.GONE);
             revertBtn.setVisibility(View.GONE);
         }
-
-        /*if (!mSharedPreference.getIsTrue()) {
+        if (mSharedPreference.getIsTrue()) {
             applyBtn.setVisibility(View.GONE);
             revertBtn.setVisibility(View.GONE);
-        }*/
-
+        }
         alertDialog.show();
     }
 

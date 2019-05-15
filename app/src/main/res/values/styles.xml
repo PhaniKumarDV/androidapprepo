@@ -44,22 +44,34 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="DashboardHeader" parent="TextAppearance.AppCompat">
+        <item name="android:layout_weight">4</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/registered_text</item>
+        <item name="android:background">@color/registered_bg</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="PoweredBy" parent="TextAppearance.AppCompat">
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">9sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/poweredby_text</item>
         <item name="android:background">@color/poweredby_bg</item>
-        <item name="android:paddingBottom">2sp</item>
-        <item name="android:paddingTop">2sp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:text">@string/powered_by</item>
     </style>
 
-    <style name="DashboardHeader" parent="TextAppearance.AppCompat">
+    <style name="reg_unreg_header" parent="TextAppearance.AppCompat">
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/poweredby_text</item>
-        <item name="android:background">@color/poweredby_bg</item>
+        <item name="android:text">@string/reg_unreg</item>
+        <item name="android:textColor">@color/registered_text</item>
+        <item name="android:background">@color/registered_bg</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>

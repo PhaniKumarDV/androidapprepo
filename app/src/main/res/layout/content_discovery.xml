@@ -20,37 +20,25 @@
             android:id="@+id/wifi_name"
             android:text="@string/dis_SSID_header"
             style="@style/DashboardHeader"
-            android:layout_weight="4"
-            android:paddingLeft="8dp"
-            android:textStyle="bold"
-            android:textSize="11sp"
-            android:textColor="@color/text_color" />
+            android:paddingLeft="15dp"/>
 
         <TextView
             android:id="@+id/Tx_channel"
             android:text="@string/dis_freq_header"
             style="@style/DashboardHeader"
-            android:layout_weight="4"
-            android:paddingLeft="15dp"
-            android:textStyle="bold"
-            android:textSize="11sp"
-            android:textColor="@color/text_color"/>
+            android:paddingLeft="20dp"/>
 
         <TextView
             android:id="@+id/Tx_wifi_rssi"
             android:text="@string/dis_rssi_header"
             style="@style/DashboardHeader"
-            android:layout_weight="4"
-            android:textStyle="bold"
-            android:textSize="11sp"
-            android:textColor="@color/text_color"
             android:textAlignment="textEnd"/>
 
     </LinearLayout>
 
     <View
         android:layout_width="wrap_content"
-        android:layout_height="0.7dp"
+        android:layout_height="1dp"
         android:layout_gravity="center"
         android:background="@color/discovery_line" />
 
